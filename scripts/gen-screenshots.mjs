@@ -21,6 +21,8 @@ const ICON = {
   theme: svg(`<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/>`),
   collapse: svg(`<path d="M4 6h16M8 12h12M8 12l-3-2v4z"/><path d="M4 18h16"/>`),
   expand: svg(`<path d="M4 6h16M8 12h12M4 12l3-2v4z"/><path d="M4 18h16"/>`),
+  export: svg(`<path d="M12 3v10.5M8.3 6.7 12 3l3.7 3.7"/><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/>`),
+  globe: svg(`<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18"/>`),
 };
 const TW = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="m9 6 6 6-6 6"/></svg>`;
 
@@ -31,23 +33,35 @@ const ind = (w) =>
 
 const S = (s) => `<span class="k-string">"${s}"</span>`;
 const N = (s) => `<span class="k-number">${s}</span>`;
-const rows = [
-  { line: 1, depth: 0, exp: true, tw: true, key: null, v: `<span class="k-punct">{</span><span class="k-count">9 keys</span>` },
-  { line: 2, depth: 1, key: "id", v: N(1) },
-  { line: 3, depth: 1, key: "uuid", v: S("u-9e3f1a7c") },
-  { line: 4, depth: 1, key: "name", v: S("Alice #42") },
-  { line: 5, depth: 1, key: "age", v: N(34) },
-  { line: 6, depth: 1, key: "active", v: `<span class="k-bool">true</span>` },
-  { line: 7, depth: 1, key: "score", v: N("843.5") },
-  { line: 8, depth: 1, key: "city", v: S("Shanghai") },
-  { line: 9, depth: 1, exp: true, tw: true, key: "tags", v: `<span class="k-punct">[</span><span class="k-count">2 items</span>` },
-  { line: 10, depth: 2, sel: true, key: null, v: S("prod") },
-  { line: 11, depth: 2, key: null, v: S("review") },
-  { line: 12, depth: 1, exp: true, tw: true, key: "meta", v: `<span class="k-punct">{</span><span class="k-count">3 keys</span>` },
-  { line: 13, depth: 2, key: "created", v: N("1600000042") },
-  { line: 14, depth: 2, key: "note", v: `<span class="k-null">null</span>` },
-  { line: 15, depth: 2, tw: true, key: "nested", v: `<span class="k-punct">{</span><span class="k-preview"> … </span><span class="k-punct">}</span><span class="k-count">1 key</span>` },
-];
+const B = (b) => `<span class="k-bool">${b}</span>`;
+const NUL = `<span class="k-null">null</span>`;
+const P = (s) => `<span class="k-punct">${s}</span>`;
+const CNT = (s) => `<span class="k-count">${s}</span>`;
+const PV = `<span class="k-preview"> … </span>`;
+
+// An array of records, expanded — a realistic full-window view.
+const cities = ["Shanghai", "Berlin", "Tokyo"];
+const names = ["Alice #42", "Bob #17", "Carol #88"];
+const uuids = ["u-9e3f1a7c", "u-4b7c2d10", "u-1f8a6e33"];
+const rows = [{ depth: 0, exp: true, tw: true, key: null, v: P("[") + CNT("6 items") }];
+for (let r = 0; r < 3; r++) {
+  rows.push({ depth: 1, exp: true, tw: true, key: null, v: P("{") + CNT("9 keys") });
+  rows.push({ depth: 2, key: "id", v: N(r + 1) });
+  rows.push({ depth: 2, key: "uuid", v: S(uuids[r]) });
+  rows.push({ depth: 2, key: "name", v: S(names[r]) });
+  rows.push({ depth: 2, key: "age", v: N(34 - r * 5) });
+  rows.push({ depth: 2, key: "active", v: B(r % 2 === 0) });
+  rows.push({ depth: 2, key: "score", v: N((843.5 - r * 128.4).toFixed(1)) });
+  rows.push({ depth: 2, key: "city", v: S(cities[r]), sel: r === 0 });
+  rows.push({ depth: 2, exp: true, tw: true, key: "tags", v: P("[") + CNT("2 items") });
+  rows.push({ depth: 3, key: null, v: S("prod") });
+  rows.push({ depth: 3, key: null, v: S("review") });
+  rows.push({ depth: 2, exp: true, tw: true, key: "meta", v: P("{") + CNT("3 keys") });
+  rows.push({ depth: 3, key: "created", v: N(1600000042 + r) });
+  rows.push({ depth: 3, key: "note", v: r === 1 ? NUL : S("ok") });
+  rows.push({ depth: 3, tw: true, key: "nested", v: P("{") + PV + P("}") + CNT("1 key") });
+}
+rows.forEach((row, i) => (row.line = i + 1));
 const rowsHTML = rows
   .map((r, i) => {
     const cls = ["row"];
@@ -67,17 +81,17 @@ ${css}
 .titlebar-lights-spacer{position:relative}
 .titlebar-lights-spacer::before{content:"";position:absolute;top:50%;left:20px;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:#ff5f57;box-shadow:20px 0 #febc2e,40px 0 #28c840}
 </style></head><body><div id="app">
-  <header class="titlebar"><div class="titlebar-lights-spacer"></div><div class="titlebar-title">big.json</div><div class="titlebar-actions"><button class="btn btn-ghost btn-icon"><span class="ico">${ICON.theme}</span></button></div></header>
+  <header class="titlebar"><div class="titlebar-lights-spacer"></div><div class="titlebar-title">big.json</div><div class="titlebar-actions"><button class="btn btn-ghost btn-icon"><span class="ico">${ICON.globe}</span></button><button class="btn btn-ghost btn-icon"><span class="ico">${ICON.theme}</span></button></div></header>
   <div class="toolbar">
     <button class="btn btn-primary"><span class="ico">${ICON.open}</span><span>Open…</span></button>
     <div class="search"><span class="ico ico-search">${ICON.search}</span><input class="search-input" placeholder="Search keys and values…"><div class="search-count"></div>
       <div class="search-toggles"><button class="tgl" data-on="true">Key</button><button class="tgl" data-on="true">Val</button><button class="tgl" data-on="false">Aa</button><button class="tgl mono" data-on="false">.*</button></div>
       <div class="search-nav"><button class="btn btn-ghost btn-icon"><span class="ico">${ICON.up}</span></button><button class="btn btn-ghost btn-icon"><span class="ico">${ICON.down}</span></button></div>
     </div>
-    <div class="toolbar-right"><button class="btn btn-ghost btn-icon"><span class="ico">${ICON.collapse}</span></button><button class="btn btn-ghost btn-icon"><span class="ico">${ICON.expand}</span></button></div>
+    <div class="toolbar-right"><button class="btn btn-ghost btn-icon"><span class="ico">${ICON.collapse}</span></button><button class="btn btn-ghost btn-icon"><span class="ico">${ICON.expand}</span></button><button class="btn btn-ghost"><span class="ico">${ICON.export}</span><span>Export</span></button></div>
   </div>
   <main class="viewport"><div class="tree"><div class="tree-spacer" style="height:${rows.length * 22}px"></div><div class="tree-rows">${rowsHTML}</div></div></main>
-  <footer class="statusbar"><div class="status-seg status-path">$<span class="sep"> › </span>tags<span class="sep"> › </span>[0]</div><div class="status-spacer"></div><div class="status-seg">28,000,001 nodes</div><div class="status-seg">2.7 GB</div><div class="status-seg">indexed in 2.9 s</div></footer>
+  <footer class="statusbar"><div class="status-seg status-path">$<span class="sep"> › </span>[0]<span class="sep"> › </span>city</div><div class="status-spacer"></div><div class="status-seg">28,000,001 nodes</div><div class="status-seg">2.7 GB</div><div class="status-seg">indexed in 2.9 s</div></footer>
 </div></body></html>`;
 
 for (const theme of ["dark", "light"]) {
