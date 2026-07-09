@@ -9,7 +9,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Platform](https://img.shields.io/badge/macOS-Apple%20Silicon%20%2B%20Intel-black?logo=apple)
 
-### [⬇️ Download the latest DMG](https://github.com/bandusix/huge-json-viewer/releases/latest)
+### [⬇️ Download the latest DMG](https://github.com/bandusix/huge-json-viewer/releases/latest) · [Changelog](CHANGELOG.md)
 
 ![Huge JSON Viewer](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
 
