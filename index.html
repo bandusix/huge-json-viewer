@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Huge JSON Viewer</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Title bar (drag region; leaves room for macOS traffic lights) -->
+      <header class="titlebar" data-tauri-drag-region>
+        <div class="titlebar-lights-spacer"></div>
+        <div class="titlebar-title" id="titlebar-title" data-tauri-drag-region>Huge JSON Viewer</div>
+        <div class="titlebar-actions">
+          <button class="btn btn-ghost btn-icon" id="btn-lang" data-i18n-title="tooltip.language" title="Language">
+            <span class="ico" data-ico="globe"></span>
+          </button>
+          <button class="btn btn-ghost btn-icon" id="btn-theme" data-i18n-title="tooltip.theme" title="Toggle theme">
+            <span class="ico" data-ico="theme"></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Language menu (populated by JS) -->
+      <div class="lang-menu" id="lang-menu" hidden></div>
+
+      <!-- Toolbar: open + search + filters + match nav -->
+      <div class="toolbar" id="toolbar">
+        <button class="btn btn-primary" id="btn-open">
+          <span class="ico" data-ico="open"></span>
+          <span data-i18n="toolbar.open">Open…</span>
+        </button>
+
+        <div class="search" id="search">
+          <span class="ico ico-search" data-ico="search"></span>
+          <input
+            id="search-input"
+            class="search-input"
+            type="text"
+            spellcheck="false"
+            autocomplete="off"
+            data-i18n-placeholder="search.placeholder"
+            placeholder="Search keys and values…"
+            disabled
+          />
+          <div class="search-count" id="search-count"></div>
+          <div class="search-toggles">
+            <button class="tgl" id="tgl-keys" data-i18n-title="tooltip.matchKeys" title="Match keys" data-on="true" data-i18n="search.keys">Key</button>
+            <button class="tgl" id="tgl-values" data-i18n-title="tooltip.matchValues" title="Match values" data-on="true" data-i18n="search.values">Val</button>
+            <button class="tgl" id="tgl-case" data-i18n-title="tooltip.caseSensitive" title="Case-sensitive" data-on="false">Aa</button>
+            <button class="tgl mono" id="tgl-regex" data-i18n-title="tooltip.regex" title="Regular expression" data-on="false">.*</button>
+          </div>
+          <div class="search-nav">
+            <button class="btn btn-ghost btn-icon" id="btn-prev" data-i18n-title="tooltip.prev" title="Previous match" disabled>
+              <span class="ico" data-ico="up"></span>
+            </button>
+            <button class="btn btn-ghost btn-icon" id="btn-next" data-i18n-title="tooltip.next" title="Next match" disabled>
+              <span class="ico" data-ico="down"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="toolbar-right">
+          <button class="btn btn-ghost btn-icon" id="btn-collapse" data-i18n-title="tooltip.collapseAll" title="Collapse all" disabled>
+            <span class="ico" data-ico="collapse"></span>
+          </button>
+          <button class="btn btn-ghost btn-icon" id="btn-expand" data-i18n-title="tooltip.expand" title="Expand selection" disabled>
+            <span class="ico" data-ico="expand"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Indexing progress -->
+      <div class="progress" id="progress" hidden>
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <!-- Main viewport -->
+      <main class="viewport" id="viewport" tabindex="0">
+        <!-- Empty state -->
+        <div class="empty" id="empty">
+          <div class="empty-icon ico" data-ico="file-big"></div>
+          <h1 class="empty-title" data-i18n="empty.title">Open a large JSON file</h1>
+          <p class="empty-sub" data-i18n="empty.sub">
+            Handles multi‑gigabyte files. Drag a JSON file here, or
+          </p>
+          <button class="btn btn-primary btn-lg" id="btn-open-2">
+            <span class="ico" data-ico="open"></span>
+            <span data-i18n="empty.choose">Choose File…</span>
+          </button>
+          <p class="empty-hint"><kbd>⌘</kbd><kbd>O</kbd>&nbsp;<span data-i18n="empty.hintOpen">to open</span></p>
+        </div>
+
+        <!-- Virtual tree (populated by JS) -->
+        <div class="tree" id="tree" hidden>
+          <div class="tree-spacer" id="tree-spacer"></div>
+          <div class="tree-rows" id="tree-rows"></div>
+        </div>
+
+        <!-- Drop overlay -->
+        <div class="drop-overlay" id="drop-overlay" hidden>
+          <div class="drop-card">
+            <div class="ico ico-lg" data-ico="download"></div>
+            <div data-i18n="drop.title">Drop JSON to open</div>
+          </div>
+        </div>
+
+        <!-- Loading / indexing overlay -->
+        <div class="loading" id="loading" hidden>
+          <div class="loading-card">
+            <div class="spinner"></div>
+            <div class="loading-title" id="loading-title">Indexing…</div>
+            <div class="loading-sub" id="loading-sub"></div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Status bar -->
+      <footer class="statusbar" id="statusbar">
+        <div class="status-seg status-path" id="status-path"></div>
+        <div class="status-spacer"></div>
+        <div class="status-seg" id="status-nodes"></div>
+        <div class="status-seg" id="status-size"></div>
+        <div class="status-seg" id="status-time"></div>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

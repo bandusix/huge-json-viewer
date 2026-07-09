@@ -1,0 +1,58 @@
+name: Release
+
+# Build a universal (Intel + Apple Silicon) macOS DMG and attach it to a
+# GitHub Release whenever a version tag is pushed, e.g.:
+#   git tag v0.1.0 && git push origin v0.1.0
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: macos-14 # Apple Silicon runner
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Cache cargo
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build, bundle, and release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # --- Optional: set these repo secrets to ship a SIGNED + NOTARIZED build ---
+          # Requires an Apple Developer Program membership ($99/yr). Without them the
+          # DMG is unsigned (users open it once via right-click → Open).
+          # APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          # APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          # APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          # APPLE_ID: ${{ secrets.APPLE_ID }}
+          # APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        with:
+          args: --target universal-apple-darwin --bundles dmg
+          tagName: ${{ github.ref_name }}
+          releaseName: "Huge JSON Viewer ${{ github.ref_name }}"
+          releaseBody: |
+            Universal macOS build (Intel + Apple Silicon).
+
+            The DMG is **unsigned**: on first launch, right-click the app → **Open**,
+            then confirm. See the README for details.
+          releaseDraft: true
+          prerelease: false

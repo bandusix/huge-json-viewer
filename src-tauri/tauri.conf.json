@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Huge JSON Viewer",
+  "version": "0.1.0",
+  "identifier": "com.hugejson.viewer",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "title": "Huge JSON Viewer",
+        "width": 1180,
+        "height": 780,
+        "minWidth": 760,
+        "minHeight": 480,
+        "dragDropEnabled": true,
+        "titleBarStyle": "Transparent",
+        "hiddenTitle": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["dmg", "app"],
+    "category": "DeveloperTool",
+    "copyright": "",
+    "shortDescription": "Open and search multi-gigabyte JSON files",
+    "longDescription": "A fast native viewer for very large JSON files (multiple gigabytes). Memory-maps the file, builds a compact structural index, and renders a virtualized tree with instant search.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}
