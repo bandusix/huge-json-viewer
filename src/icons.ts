@@ -30,6 +30,7 @@ export const ICONS: Record<string, string> = {
     `<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18"/>`
   ),
   check: S(`<path d="m5 12.5 4.5 4.5L19 6.5"/>`),
+  export: S(`<path d="M12 3v10.5M8.3 6.7 12 3l3.7 3.7"/><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/>`),
 };
 
 /** Replace every [data-ico] host in the DOM with its inline SVG. */

@@ -11,7 +11,10 @@
 //! `val_start` is strictly increasing in pre-order, so the visible list is
 //! always sorted ascending by id, enabling O(log n) reveal.
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
+use std::fs::File;
+use std::io::Write;
+use std::path::Path;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
 
@@ -152,7 +155,7 @@ fn skip_ws(bytes: &[u8], mut i: usize) -> usize {
 }
 
 /// `pos` at the opening quote; returns position just after the closing quote.
-fn scan_string_end(bytes: &[u8], pos: usize) -> Result<usize, ParseError> {
+pub(crate) fn scan_string_end(bytes: &[u8], pos: usize) -> Result<usize, ParseError> {
     let n = bytes.len();
     let mut i = pos + 1;
     while i < n {
@@ -166,7 +169,7 @@ fn scan_string_end(bytes: &[u8], pos: usize) -> Result<usize, ParseError> {
 }
 
 /// `pos` at first byte of a number; returns first byte after the number span.
-fn scan_number_end(bytes: &[u8], mut i: usize) -> usize {
+pub(crate) fn scan_number_end(bytes: &[u8], mut i: usize) -> usize {
     let n = bytes.len();
     while i < n {
         match bytes[i] {
@@ -377,6 +380,173 @@ pub fn build_index(bytes: &[u8], progress: &AtomicU64) -> Result<(Nodes, bool), 
     Err(perr(trailing, "unexpected trailing characters after JSON value"))
 }
 
+// ---- Union of multiple files ---------------------------------------------
+
+/// One successfully merged file.
+pub struct FileEntry {
+    pub name: String,
+    pub start: u64, // byte offset of the file's bytes within the scratch buffer
+    pub end: u64,
+}
+
+/// A file that could not be opened/parsed and was skipped.
+pub struct SkippedFile {
+    pub name: String,
+    pub error: String,
+}
+
+pub struct UnionBuild {
+    pub nodes: Nodes,
+    pub byte_len: u64,
+    pub files: Vec<FileEntry>,
+    pub skipped: Vec<SkippedFile>,
+}
+
+/// Minimal JSON-string escape for a filename used as a synthetic object key.
+fn escape_label(s: &str) -> String {
+    let mut out = String::with_capacity(s.len() + 2);
+    for ch in s.chars() {
+        match ch {
+            '"' => out.push_str("\\\""),
+            '\\' => out.push_str("\\\\"),
+            '\n' => out.push_str("\\n"),
+            '\r' => out.push_str("\\r"),
+            '\t' => out.push_str("\\t"),
+            c if (c as u32) < 0x20 => out.push(' '),
+            c => out.push(c),
+        }
+    }
+    out
+}
+
+/// Merge several JSON files into one synthetic root object whose members are the
+/// files (keyed by filename). Each file is indexed independently with
+/// `build_index` (so NDJSON files stay correct), its raw bytes are copied into
+/// `scratch`, and its node arrays are rebased into one merged `Nodes`. The
+/// result is a single contiguous byte buffer with strictly-increasing
+/// `val_start`, so every downstream feature (tree, search, export) works as-is.
+pub fn build_union(
+    paths: &[String],
+    scratch: &mut File,
+    progress: &AtomicU64,
+) -> Result<UnionBuild, String> {
+    let est_bytes: u64 = paths
+        .iter()
+        .map(|p| std::fs::metadata(p).map(|m| m.len()).unwrap_or(0))
+        .sum();
+    let mut nodes = Nodes::with_capacity(est_bytes as usize);
+
+    // Synthetic root object at node 0, byte 0 = '{'.
+    scratch
+        .write_all(b"{")
+        .map_err(|e| format!("Cannot write scratch file: {e}"))?;
+    let _root = nodes.push(K_OBJECT, 0, NONE, 0, NONE);
+    let mut offset: u64 = 1;
+
+    let mut files: Vec<FileEntry> = Vec::new();
+    let mut skipped: Vec<SkippedFile> = Vec::new();
+    let mut used_labels: HashMap<String, u32> = HashMap::new();
+
+    for path in paths {
+        let base_name = Path::new(path)
+            .file_name()
+            .map(|s| s.to_string_lossy().into_owned())
+            .unwrap_or_else(|| path.clone());
+        // Deduplicate display labels (dup filename -> "name (2)").
+        let label_name = match used_labels.get_mut(&base_name) {
+            Some(n) => {
+                *n += 1;
+                format!("{} ({})", base_name, n)
+            }
+            None => {
+                used_labels.insert(base_name.clone(), 1);
+                base_name.clone()
+            }
+        };
+
+        let src_file = match File::open(path) {
+            Ok(f) => f,
+            Err(e) => {
+                skipped.push(SkippedFile { name: label_name, error: format!("cannot open: {e}") });
+                continue;
+            }
+        };
+        let src = match unsafe { Mmap::map(&src_file) } {
+            Ok(m) => m,
+            Err(e) => {
+                skipped.push(SkippedFile { name: label_name, error: format!("cannot map: {e}") });
+                continue;
+            }
+        };
+
+        let local_progress = AtomicU64::new(0);
+        let (local, _ndjson) = match build_index(&src, &local_progress) {
+            Ok(x) => x,
+            Err(pe) => {
+                let (line, col) = line_col(&src, pe.offset);
+                skipped.push(SkippedFile {
+                    name: label_name,
+                    error: format!("{} (line {}, column {})", pe.msg, line, col),
+                });
+                continue;
+            }
+        };
+
+        // Capacity guards (fail before committing this file).
+        if nodes.len() + local.len() > MAX_NODES {
+            return Err("The combined files have too many JSON nodes for this version.".into());
+        }
+        let label = escape_label(&label_name);
+        let projected = offset + 2 + label.len() as u64 + src.len() as u64;
+        if projected >= u32::MAX as u64 {
+            return Err("The combined size exceeds 4 GB (the current limit for multi-file union).".into());
+        }
+
+        // Write the label:  "name"
+        scratch.write_all(b"\"").map_err(|e| e.to_string())?;
+        let label_content = offset + 1;
+        scratch.write_all(label.as_bytes()).map_err(|e| e.to_string())?;
+        scratch.write_all(b"\"").map_err(|e| e.to_string())?;
+        offset += 2 + label.len() as u64;
+
+        // Copy the file's raw bytes verbatim.
+        let byte_base = offset;
+        scratch.write_all(&src).map_err(|e| e.to_string())?;
+        offset += src.len() as u64;
+        progress.store(offset, Ordering::Relaxed);
+
+        // Rebase the file's nodes into the merged arrays.
+        let n_base = nodes.len() as u32;
+        let base_off = byte_base as u32;
+        let lc = label_content as u32;
+        for j in 0..local.len() {
+            nodes.kind.push(local.kind[j]);
+            nodes.depth.push(local.depth[j] + 1);
+            nodes.key_start.push(if j == 0 {
+                lc
+            } else if local.key_start[j] == NONE {
+                NONE
+            } else {
+                local.key_start[j] + base_off
+            });
+            nodes.val_start.push(local.val_start[j] + base_off);
+            nodes.parent.push(if j == 0 { 0 } else { local.parent[j] + n_base });
+            nodes.child_count.push(local.child_count[j]);
+            nodes.subtree_end.push(local.subtree_end[j] + n_base);
+        }
+        nodes.child_count[0] += 1;
+        files.push(FileEntry { name: label_name, start: byte_base, end: offset });
+    }
+
+    if files.is_empty() {
+        return Err("None of the selected files could be opened as JSON.".into());
+    }
+    nodes.subtree_end[0] = nodes.len() as u32;
+    scratch.flush().map_err(|e| e.to_string())?;
+
+    Ok(UnionBuild { nodes, byte_len: offset, files, skipped })
+}
+
 // ---- Decoders (for rendering visible rows only) ---------------------------
 
 #[inline]
@@ -478,7 +648,7 @@ pub fn decode_string(bytes: &[u8], content_start: u32, max_bytes: usize) -> (Str
     (String::from_utf8_lossy(&out).into_owned(), truncated)
 }
 
-fn scalar_end(bytes: &[u8], val_start: usize, kind: u8) -> usize {
+pub(crate) fn scalar_end(bytes: &[u8], val_start: usize, kind: u8) -> usize {
     match kind {
         K_STRING => scan_string_end(bytes, val_start).unwrap_or(val_start + 1),
         K_NUMBER => scan_number_end(bytes, val_start),
@@ -618,7 +788,7 @@ impl Index {
     }
 }
 
-fn direct_children(nodes: &Nodes, id: u32) -> Vec<u32> {
+pub(crate) fn direct_children(nodes: &Nodes, id: u32) -> Vec<u32> {
     let end = nodes.subtree_end[id as usize];
     let mut v = Vec::with_capacity(nodes.child_count[id as usize] as usize);
     let mut c = id + 1;
@@ -780,6 +950,9 @@ impl Doc {
     pub fn path_of(&self, id: u32) -> Vec<crate::model::PathSeg> {
         use crate::model::PathSeg;
         let nodes = &self.index.nodes;
+        if (id as usize) >= nodes.len() {
+            return Vec::new();
+        }
         let bytes = self.index.bytes();
         let mut chain: Vec<u32> = Vec::new();
         let mut cur = id;
@@ -1072,5 +1245,74 @@ mod tests {
         doc.collapse_all();
         // root + a + b
         assert_eq!(doc.visible_count(), 3);
+    }
+
+    fn write_temp_file(content: &str) -> String {
+        let n = COUNTER.fetch_add(1, Ordering::Relaxed);
+        let path = std::env::temp_dir().join(format!("hjv_u_{}_{}.json", std::process::id(), n));
+        std::fs::write(&path, content).unwrap();
+        path.to_string_lossy().into_owned()
+    }
+
+    #[test]
+    fn union_merge_and_invariants() {
+        let f1 = write_temp_file(r#"[1,2,3]"#); //          array(1)+3 = 4 nodes
+        let f2 = write_temp_file(r#"{"a":1,"b":{"c":2}}"#); // obj+a+b(obj)+c = 4
+        let f3 = write_temp_file("{\"x\":1}\n{\"y\":2}\n"); // NDJSON -> array(1)+obj+x+obj+y = 5
+        let paths = vec![f1.clone(), f2.clone(), f3.clone()];
+
+        let n = COUNTER.fetch_add(1, Ordering::Relaxed);
+        let scratch_path =
+            std::env::temp_dir().join(format!("hjv_scratch_{}_{}.bin", std::process::id(), n));
+        let mut scratch = std::fs::File::create(&scratch_path).unwrap();
+        let progress = AtomicU64::new(0);
+        let ub = build_union(&paths, &mut scratch, &progress).unwrap();
+        drop(scratch);
+
+        assert_eq!(ub.nodes.len(), 1 + 4 + 4 + 5);
+        assert_eq!(ub.nodes.child_count[0], 3);
+        assert!(ub.skipped.is_empty());
+        assert_eq!(ub.files.len(), 3);
+
+        // Merge invariants — the fast guard against off-by-one rebasing.
+        let n = &ub.nodes;
+        for i in 1..n.len() {
+            // Non-decreasing (an NDJSON synthetic-array root shares val_start with
+            // its first child); that is all partition_point search requires.
+            assert!(n.val_start[i] >= n.val_start[i - 1], "val_start decreased at {i}");
+            let p = n.parent[i];
+            assert!(p == NONE || (p as usize) < i, "parent not before child at {i}");
+            assert!(n.subtree_end[i] as usize > i && n.subtree_end[i] as usize <= n.len());
+        }
+
+        // Render the merged index; filenames must appear as the member keys.
+        let file = std::fs::File::open(&scratch_path).unwrap();
+        let mmap = unsafe { Mmap::map(&file) }.unwrap();
+        let idx = Arc::new(Index {
+            mmap,
+            nodes: ub.nodes,
+            file_len: ub.byte_len,
+            ndjson: false,
+        });
+        let doc = Doc::new("u".into(), "u".into(), idx.clone(), 0);
+        assert_eq!(doc.visible_count(), 4); // root + 3 files
+        let rows = doc.rows(0, 10);
+        assert_eq!(rows[1].key.as_deref(), Path::new(&f1).file_name().unwrap().to_str());
+        assert_eq!(rows[1].kind, "array");
+        assert_eq!(rows[1].child_count, 3);
+
+        // Filename search hits the file-root key.
+        let fname2 = Path::new(&f2).file_name().unwrap().to_str().unwrap();
+        let (mk, _) = run_search(&idx, fname2, true, false, true, false, 100).unwrap();
+        assert!(mk.iter().any(|x| x.is_key), "filename search should hit a key");
+
+        // Value "2" appears in all three files.
+        let (mv, _) = run_search(&idx, "2", false, true, true, false, 100).unwrap();
+        assert!(mv.len() >= 3, "expected >=3 value hits, got {}", mv.len());
+
+        let _ = std::fs::remove_file(&scratch_path);
+        for p in [f1, f2, f3] {
+            let _ = std::fs::remove_file(p);
+        }
     }
 }

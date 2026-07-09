@@ -1,9 +1,12 @@
 //! Release benchmark for the index engine on a real large file.
 //! Usage: cargo run --release --example bench -- /path/to/big.json [search-term]
 
+use huge_json_viewer_lib::export::{export_csv, export_xml};
 use huge_json_viewer_lib::index::{build_index, run_search, Doc, Index};
+use huge_json_viewer_lib::model::{CsvOptions, XmlOptions};
 use memmap2::Mmap;
-use std::sync::atomic::AtomicU64;
+use std::io::{BufWriter, Write};
+use std::sync::atomic::{AtomicBool, AtomicU64};
 use std::sync::Arc;
 use std::time::Instant;
 
@@ -65,4 +68,52 @@ fn main() {
             println!("reveal match  : row {} in {} ms", vi, t.elapsed().as_millis());
         }
     }
+
+    // CSV export of the whole document.
+    let csv_path = format!("{}.export.csv", path);
+    let t = Instant::now();
+    {
+        let f = std::fs::File::create(&csv_path).unwrap();
+        let mut w = BufWriter::with_capacity(1 << 20, f);
+        let stats = export_csv(
+            &idx,
+            0,
+            &mut w,
+            &CsvOptions::default(),
+            &AtomicU64::new(0),
+            &AtomicBool::new(false),
+        )
+        .unwrap();
+        w.flush().unwrap();
+        let sz = std::fs::metadata(&csv_path).unwrap().len();
+        println!(
+            "csv export    : {} rows, {} cols → {:.1} MB in {} ms",
+            stats.rows,
+            stats.columns,
+            sz as f64 / 1_048_576.0,
+            t.elapsed().as_millis()
+        );
+    }
+    std::fs::remove_file(&csv_path).ok();
+
+    // XML export of the whole document.
+    let xml_path = format!("{}.export.xml", path);
+    let t = Instant::now();
+    {
+        let f = std::fs::File::create(&xml_path).unwrap();
+        let mut w = BufWriter::with_capacity(1 << 20, f);
+        export_xml(
+            &idx,
+            0,
+            &mut w,
+            &XmlOptions { pretty: false, ..Default::default() },
+            &AtomicU64::new(0),
+            &AtomicBool::new(false),
+        )
+        .unwrap();
+        w.flush().unwrap();
+        let sz = std::fs::metadata(&xml_path).unwrap().len();
+        println!("xml export    : {:.1} MB in {} ms", sz as f64 / 1_048_576.0, t.elapsed().as_millis());
+    }
+    std::fs::remove_file(&xml_path).ok();
 }

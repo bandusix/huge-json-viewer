@@ -29,6 +29,8 @@ If you've searched for *"how to open a large JSON file"*, *"JSON file too big to
 
 - ⚡ **Opens 2–3 GB JSON in ~3 seconds** — memory‑mapped, streaming index, virtualized tree
 - 🔍 **Search keys and values** — case‑sensitive or not, plain or **regex**, live match count, next/prev with jump‑to‑match that auto‑expands the path
+- 📤 **Convert JSON → CSV or XML** — streaming export that works on multi‑GB files (a huge array of objects becomes a spreadsheet)
+- 🔗 **Union multiple files** — open several JSON files at once as one combined, searchable tree
 - 🌳 **Syntax‑highlighted collapsible tree** with line numbers, indent guides, type colors and child counts (Dadroit / jsonviewer.app style)
 - 📄 Opens `.json`, `.ndjson` / `.jsonl` (auto‑detected), `.geojson`, `.txt`
 - 🖱️ Drag‑and‑drop, ⌘O to open, ⌘F to search, full keyboard navigation
@@ -60,10 +62,13 @@ Built with **Tauri v2** (Rust backend + web frontend), packaged as a ~2 MB `.dmg
 
 | | Huge JSON Viewer | Dadroit | Text editors (VS Code, etc.) |
 | --- | --- | --- | --- |
-| Price | **Free & open source (MIT)** | Free + paid Pro | Free |
-| Opens 2–3 GB JSON | ✅ ~3 s | ✅ | ❌ crashes / freezes |
+| Price | **Free & open source (MIT)** | Free + $98–198/yr Pro | Free |
+| Opens 2–3 GB JSON | ✅ ~3 s | ✅ (2 GB Standard) | ❌ crashes / freezes |
 | RAM for a 3 GB file | **~1.5–2×** | low | often out‑of‑memory |
 | Search keys **and** values | ✅ regex | ✅ | limited |
+| Convert JSON → CSV / XML | ✅ streaming | ✅ | ❌ |
+| Union multiple files | ✅ | ✅ (Advanced tier) | ❌ |
+| Commercial use | ✅ **free** | 💲 paid license | ✅ |
 | Native macOS (Apple Silicon + Intel) | ✅ universal | ✅ | ✅ |
 | UI languages | **20 (RTL aware)** | few | many |
 | Offline / no telemetry | ✅ | ✅ | ✅ |

@@ -1,6 +1,6 @@
 //! Serde types shared with the frontend over Tauri IPC.
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 /// Summary returned after a file is opened and indexed.
 #[derive(Serialize, Clone)]
@@ -14,6 +14,121 @@ pub struct OpenSummary {
     pub root_kind: String,
     pub load_ms: u64,
     pub ndjson: bool,
+    /// Present when several files were unioned into one view.
+    pub union: Option<UnionInfo>,
+}
+
+/// Info about a multi-file union open.
+#[derive(Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct UnionInfo {
+    pub file_count: u32,
+    pub skipped: Vec<SkippedFileInfo>,
+}
+
+#[derive(Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct SkippedFileInfo {
+    pub name: String,
+    pub error: String,
+}
+
+// ---- Export (JSON -> CSV / XML) ------------------------------------------
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct CsvOptions {
+    /// "comma" | "semicolon" | "tab"
+    pub delimiter: String,
+    pub bom: bool,
+    pub crlf: bool,
+    pub null_as_empty: bool,
+    pub sanitize_formulas: bool,
+    pub max_columns: usize,
+    /// Per-cell byte cap (0 = unlimited).
+    pub cell_cap: usize,
+    pub nested_as_json: bool,
+}
+
+impl Default for CsvOptions {
+    fn default() -> Self {
+        Self {
+            delimiter: "comma".into(),
+            bom: true,
+            crlf: true,
+            null_as_empty: true,
+            sanitize_formulas: true,
+            max_columns: 4096,
+            cell_cap: 32767,
+            nested_as_json: true,
+        }
+    }
+}
+
+impl CsvOptions {
+    pub fn delimiter_byte(&self) -> u8 {
+        match self.delimiter.as_str() {
+            "semicolon" => b';',
+            "tab" => b'\t',
+            _ => b',',
+        }
+    }
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct XmlOptions {
+    pub pretty: bool,
+    pub declaration: bool,
+    pub root_name: String,
+    pub item_name: String,
+    pub cell_cap: usize,
+    pub preserve_keys_attr: bool,
+}
+
+impl Default for XmlOptions {
+    fn default() -> Self {
+        Self {
+            pretty: true,
+            declaration: true,
+            root_name: "root".into(),
+            item_name: "item".into(),
+            cell_cap: 1_048_576,
+            preserve_keys_attr: true,
+        }
+    }
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ExportRequest {
+    pub node_id: u32,
+    /// "csv" | "xml"
+    pub format: String,
+    pub dest: String,
+    #[serde(default)]
+    pub csv: CsvOptions,
+    #[serde(default)]
+    pub xml: XmlOptions,
+}
+
+#[derive(Serialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct ExportStats {
+    pub rows: u64,
+    pub columns: u32,
+    pub bytes_written: u64,
+    pub cells_truncated: u64,
+    pub canceled: bool,
+}
+
+/// Streaming export progress (emitted on the `export-progress` channel).
+#[derive(Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct ExportProgress {
+    pub bytes_done: u64,
+    pub bytes_total: u64,
+    pub rows: u64,
 }
 
 /// A single rendered tree row (only visible rows are ever materialized).

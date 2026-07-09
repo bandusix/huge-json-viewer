@@ -4,6 +4,15 @@ import { listen, type UnlistenFn } from "@tauri-apps/api/event";
 
 export type Kind = "object" | "array" | "string" | "number" | "bool" | "null";
 
+export interface SkippedFile {
+  name: string;
+  error: string;
+}
+export interface UnionInfo {
+  fileCount: number;
+  skipped: SkippedFile[];
+}
+
 export interface OpenSummary {
   path: string;
   fileName: string;
@@ -13,6 +22,45 @@ export interface OpenSummary {
   rootKind: Kind;
   loadMs: number;
   ndjson: boolean;
+  union?: UnionInfo | null;
+}
+
+export interface CsvOptions {
+  delimiter?: "comma" | "semicolon" | "tab";
+  bom?: boolean;
+  crlf?: boolean;
+  nullAsEmpty?: boolean;
+  sanitizeFormulas?: boolean;
+  maxColumns?: number;
+  cellCap?: number;
+  nestedAsJson?: boolean;
+}
+export interface XmlOptions {
+  pretty?: boolean;
+  declaration?: boolean;
+  rootName?: string;
+  itemName?: string;
+  cellCap?: number;
+  preserveKeysAttr?: boolean;
+}
+export interface ExportRequest {
+  nodeId: number;
+  format: "csv" | "xml";
+  dest: string;
+  csv?: CsvOptions;
+  xml?: XmlOptions;
+}
+export interface ExportStats {
+  rows: number;
+  columns: number;
+  bytesWritten: number;
+  cellsTruncated: number;
+  canceled: boolean;
+}
+export interface ExportProgress {
+  bytesDone: number;
+  bytesTotal: number;
+  rows: number;
 }
 
 export interface RowView {
@@ -90,8 +138,15 @@ export const api = {
       caseSensitive: o.caseSensitive,
       regex: o.regex,
     }),
+  openUnion: (paths: string[]) => invoke<OpenSummary>("open_union", { paths }),
+  export: (req: ExportRequest) => invoke<ExportStats>("export", { req }),
+  cancelExport: () => invoke<void>("cancel_export"),
 };
 
 export function onProgress(cb: (p: ProgressEvent) => void): Promise<UnlistenFn> {
   return listen<ProgressEvent>("index-progress", (e) => cb(e.payload));
+}
+
+export function onExportProgress(cb: (p: ExportProgress) => void): Promise<UnlistenFn> {
+  return listen<ExportProgress>("export-progress", (e) => cb(e.payload));
 }

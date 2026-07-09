@@ -25,6 +25,12 @@
       <!-- Language menu (populated by JS) -->
       <div class="lang-menu" id="lang-menu" hidden></div>
 
+      <!-- Export menu (populated by JS) -->
+      <div class="lang-menu export-menu" id="export-menu" hidden></div>
+
+      <!-- Toast -->
+      <div class="toast" id="toast" hidden></div>
+
       <!-- Toolbar: open + search + filters + match nav -->
       <div class="toolbar" id="toolbar">
         <button class="btn btn-primary" id="btn-open">
@@ -68,6 +74,10 @@
           <button class="btn btn-ghost btn-icon" id="btn-expand" data-i18n-title="tooltip.expand" title="Expand selection" disabled>
             <span class="ico" data-ico="expand"></span>
           </button>
+          <button class="btn btn-ghost" id="btn-export" data-i18n-title="tooltip.export" title="Export" disabled>
+            <span class="ico" data-ico="export"></span>
+            <span data-i18n="toolbar.export">Export</span>
+          </button>
         </div>
       </div>
 
@@ -90,6 +100,7 @@
             <span data-i18n="empty.choose">Choose File…</span>
           </button>
           <p class="empty-hint"><kbd>⌘</kbd><kbd>O</kbd>&nbsp;<span data-i18n="empty.hintOpen">to open</span></p>
+          <p class="empty-note" data-i18n="empty.free">Free · open source · commercial use OK (MIT) — nothing to license</p>
         </div>
 
         <!-- Virtual tree (populated by JS) -->
@@ -112,6 +123,9 @@
             <div class="spinner"></div>
             <div class="loading-title" id="loading-title">Indexing…</div>
             <div class="loading-sub" id="loading-sub"></div>
+            <button class="btn btn-ghost" id="btn-cancel-export" data-i18n="action.cancel" hidden>
+              Cancel
+            </button>
           </div>
         </div>
       </main>

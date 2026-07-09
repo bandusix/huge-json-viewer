@@ -1,3 +1,4 @@
+pub mod export;
 pub mod index;
 pub mod model;
 
@@ -5,6 +6,7 @@ use index::{build_index, kind_str, run_search, Doc, Index};
 use model::*;
 
 use parking_lot::Mutex;
+use std::io::{BufWriter, Write};
 use std::path::Path;
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::Arc;
@@ -13,10 +15,13 @@ use tauri::{AppHandle, Emitter, State};
 
 /// Cap on stored match locations (bounds memory; UI shows "N+").
 const SEARCH_CAP: usize = 200_000;
+/// Uniquifies scratch temp-file names for multi-file union.
+static UNION_CTR: AtomicU64 = AtomicU64::new(0);
 
 #[derive(Default)]
 struct AppState {
     doc: Mutex<Option<Doc>>,
+    export_cancel: Arc<AtomicBool>,
 }
 
 fn fmt_perr(bytes: &[u8], pe: index::ParseError) -> String {
@@ -100,6 +105,7 @@ async fn open_file(
         root_kind,
         load_ms,
         ndjson,
+        union: None,
     };
     *state.doc.lock() = Some(doc);
     Ok(summary)
@@ -207,6 +213,205 @@ async fn search(
     Ok(SearchResult { total, capped, query_ms })
 }
 
+#[tauri::command]
+fn cancel_export(state: State<'_, AppState>) {
+    state.export_cancel.store(true, Ordering::Relaxed);
+}
+
+/// Stream a node's subtree to a CSV or XML file on disk.
+#[tauri::command]
+async fn export(
+    app: AppHandle,
+    state: State<'_, AppState>,
+    req: ExportRequest,
+) -> Result<ExportStats, String> {
+    let index = {
+        let g = state.doc.lock();
+        g.as_ref().ok_or("No file is open.")?.index.clone()
+    };
+    let node_id = req.node_id;
+    if node_id as usize >= index.nodes.len() {
+        return Err("Invalid node.".into());
+    }
+
+    // Byte span of the exported subtree → progress denominator.
+    let start_byte = index.nodes.val_start[node_id as usize] as u64;
+    let end_node = index.nodes.subtree_end[node_id as usize] as usize;
+    let end_byte = if end_node < index.nodes.len() {
+        index.nodes.val_start[end_node] as u64
+    } else {
+        index.file_len
+    };
+    let total = end_byte.saturating_sub(start_byte).max(1);
+
+    state.export_cancel.store(false, Ordering::Relaxed);
+    let cancel = state.export_cancel.clone();
+
+    let progress = Arc::new(AtomicU64::new(0));
+    let done = Arc::new(AtomicBool::new(false));
+    {
+        let p = progress.clone();
+        let d = done.clone();
+        let app2 = app.clone();
+        std::thread::spawn(move || loop {
+            let bytes_done = p.load(Ordering::Relaxed);
+            let _ = app2.emit(
+                "export-progress",
+                ExportProgress { bytes_done, bytes_total: total, rows: 0 },
+            );
+            if d.load(Ordering::Relaxed) {
+                break;
+            }
+            std::thread::sleep(Duration::from_millis(90));
+        });
+    }
+
+    let progress_job = progress.clone();
+    let job = tauri::async_runtime::spawn_blocking(move || -> Result<ExportStats, String> {
+        let dest = req.dest.clone();
+        let file =
+            std::fs::File::create(&dest).map_err(|e| format!("Cannot create file: {e}"))?;
+        let mut w = BufWriter::with_capacity(1 << 20, file);
+        let result = match req.format.as_str() {
+            "xml" => export::export_xml(&index, node_id, &mut w, &req.xml, &progress_job, &cancel),
+            _ => export::export_csv(&index, node_id, &mut w, &req.csv, &progress_job, &cancel),
+        };
+        match result {
+            Ok(mut stats) => {
+                if let Err(e) = w.flush() {
+                    drop(w);
+                    let _ = std::fs::remove_file(&dest);
+                    return Err(e.to_string());
+                }
+                let f = match w.into_inner() {
+                    Ok(f) => f,
+                    Err(e) => {
+                        let _ = std::fs::remove_file(&dest);
+                        return Err(e.to_string());
+                    }
+                };
+                stats.bytes_written = f.metadata().map(|m| m.len()).unwrap_or(0);
+                drop(f);
+                if stats.canceled {
+                    let _ = std::fs::remove_file(&dest);
+                }
+                Ok(stats)
+            }
+            Err(e) => {
+                drop(w);
+                let _ = std::fs::remove_file(&dest);
+                Err(e)
+            }
+        }
+    })
+    .await;
+
+    done.store(true, Ordering::Relaxed);
+    job.map_err(|e| format!("Export task failed: {e}"))?
+}
+
+/// Open several JSON files unioned into one tree (one file → normal open).
+#[tauri::command]
+async fn open_union(
+    app: AppHandle,
+    state: State<'_, AppState>,
+    paths: Vec<String>,
+) -> Result<OpenSummary, String> {
+    if paths.is_empty() {
+        return Err("No files selected.".into());
+    }
+    if paths.len() == 1 {
+        return open_file(app, state, paths.into_iter().next().unwrap()).await;
+    }
+
+    let total_size: u64 = paths
+        .iter()
+        .map(|p| std::fs::metadata(p).map(|m| m.len()).unwrap_or(0))
+        .sum();
+    if total_size >= u32::MAX as u64 {
+        return Err("The combined files exceed 4 GB (the multi-file union limit).".into());
+    }
+
+    let progress = Arc::new(AtomicU64::new(0));
+    let done = Arc::new(AtomicBool::new(false));
+    {
+        let p = progress.clone();
+        let d = done.clone();
+        let app2 = app.clone();
+        std::thread::spawn(move || loop {
+            let bytes_done = p.load(Ordering::Relaxed);
+            let _ = app2.emit(
+                "index-progress",
+                ProgressEvent { bytes_done, bytes_total: total_size, nodes: 0 },
+            );
+            if d.load(Ordering::Relaxed) {
+                break;
+            }
+            std::thread::sleep(Duration::from_millis(90));
+        });
+    }
+
+    let t0 = Instant::now();
+    let paths_job = paths.clone();
+    let progress_job = progress.clone();
+    let job = tauri::async_runtime::spawn_blocking(
+        move || -> Result<(index::Index, u32, Vec<SkippedFileInfo>), String> {
+            let ctr = UNION_CTR.fetch_add(1, Ordering::Relaxed);
+            let scratch_path = std::env::temp_dir()
+                .join(format!("hjv_union_{}_{}.bin", std::process::id(), ctr));
+            let mut scratch = std::fs::File::options()
+                .read(true)
+                .write(true)
+                .create(true)
+                .truncate(true)
+                .open(&scratch_path)
+                .map_err(|e| format!("Cannot create scratch file: {e}"))?;
+            // Unlink immediately: the open fd (and the later mmap) keep the inode
+            // alive on macOS/Linux, so every error path auto-cleans — no leak.
+            let _ = std::fs::remove_file(&scratch_path);
+            let ub = index::build_union(&paths_job, &mut scratch, &progress_job)?;
+            scratch.flush().map_err(|e| e.to_string())?;
+            let index::UnionBuild { nodes, byte_len, files, skipped } = ub;
+            let mmap = unsafe { memmap2::Mmap::map(&scratch) }
+                .map_err(|e| format!("Cannot memory-map union: {e}"))?;
+            drop(scratch);
+            let index = index::Index { mmap, nodes, file_len: byte_len, ndjson: false };
+            let skipped_info = skipped
+                .into_iter()
+                .map(|s| SkippedFileInfo { name: s.name, error: s.error })
+                .collect();
+            Ok((index, files.len() as u32, skipped_info))
+        },
+    )
+    .await;
+
+    done.store(true, Ordering::Relaxed);
+    let (index_data, file_count, skipped) = job.map_err(|e| format!("Union task failed: {e}"))??;
+
+    let index = Arc::new(index_data);
+    let load_ms = t0.elapsed().as_millis() as u64;
+    let root_kind = kind_str(index.nodes.kind[0]).to_string();
+    let doc = Doc::new(
+        "(union)".into(),
+        format!("Union of {file_count} files"),
+        index,
+        load_ms,
+    );
+    let summary = OpenSummary {
+        path: "(union)".into(),
+        file_name: format!("Union of {file_count} files"),
+        file_size: total_size,
+        node_count: doc.node_count(),
+        visible_count: doc.visible_count(),
+        root_kind,
+        load_ms,
+        ndjson: false,
+        union: Some(UnionInfo { file_count, skipped }),
+    };
+    *state.doc.lock() = Some(doc);
+    Ok(summary)
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -222,7 +427,10 @@ pub fn run() {
             breadcrumb,
             reveal_node,
             reveal_match,
-            search
+            search,
+            export,
+            cancel_export,
+            open_union
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

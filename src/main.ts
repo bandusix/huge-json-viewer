@@ -1,4 +1,4 @@
-import { api, onProgress, type OpenSummary, type RowView, type SearchOpts } from "./ipc";
+import { api, onProgress, onExportProgress, type OpenSummary, type RowView, type SearchOpts } from "./ipc";
 import { mountIcons, TWISTY_SVG, ICONS } from "./icons";
 import {
   t,
@@ -9,7 +9,8 @@ import {
   currentLocale,
   LOCALES,
 } from "./i18n";
-import { open as openDialog } from "@tauri-apps/plugin-dialog";
+import { open as openDialog, save as saveDialog } from "@tauri-apps/plugin-dialog";
+import { revealItemInDir } from "@tauri-apps/plugin-opener";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
 
 // ---- layout constants (keep in sync with styles.css) ----
@@ -31,6 +32,10 @@ const els = {
   btnTheme: $("btn-theme"),
   btnCollapse: $("btn-collapse"),
   btnExpand: $("btn-expand"),
+  btnExport: $("btn-export"),
+  exportMenu: $("export-menu"),
+  toast: $("toast"),
+  btnCancelExport: $("btn-cancel-export"),
   btnPrev: $("btn-prev"),
   btnNext: $("btn-next"),
   search: $("search"),
@@ -525,37 +530,67 @@ els.btnNext.addEventListener("click", () => gotoMatch(searchCurrent + 1));
 els.btnPrev.addEventListener("click", () => gotoMatch(searchCurrent - 1));
 
 // ---- open file ----
-async function openPath(path: string) {
+function showLoading(title: string) {
   els.loading.hidden = false;
-  els.loadingTitle.textContent = t("loading.title");
+  els.loadingTitle.textContent = title;
   els.loadingSub.textContent = "";
+  els.btnCancelExport.hidden = true;
   els.progress.hidden = false;
   els.progressBar.style.width = "0%";
+}
+function hideLoading() {
+  els.loading.hidden = true;
+  els.progress.hidden = true;
+  els.btnCancelExport.hidden = true;
+}
+
+function applyOpened(sum: OpenSummary) {
+  summary = sum;
+  invalidate(sum.visibleCount);
+  selectedId = -1;
+  selectedVi = -1;
+  currentMatchNodeId = -1;
+  activeQuery = "";
+  els.searchInput.value = "";
+  els.searchInput.toggleAttribute("disabled", false);
+  els.btnCollapse.toggleAttribute("disabled", false);
+  els.btnExport.toggleAttribute("disabled", false);
+  els.empty.hidden = true;
+  els.tree.hidden = false;
+  els.tree.scrollTop = 0;
+  els.titleBar.textContent = sum.fileName;
+  document.title = `${sum.fileName} — Huge JSON Viewer`;
+  updateStatus();
+  updateSearchCount();
+  scheduleRender();
+  els.viewport.focus();
+  if (sum.union && sum.union.skipped.length) {
+    showToast(t("union.skipped").replace("{n}", String(sum.union.skipped.length)), null, true);
+  }
+}
+
+async function openPath(path: string) {
+  if (exporting) return;
+  showLoading(t("loading.title"));
   try {
-    const sum = await api.openFile(path);
-    summary = sum;
-    invalidate(sum.visibleCount);
-    selectedId = -1;
-    selectedVi = -1;
-    currentMatchNodeId = -1;
-    activeQuery = "";
-    els.searchInput.value = "";
-    els.searchInput.toggleAttribute("disabled", false);
-    els.btnCollapse.toggleAttribute("disabled", false);
-    els.empty.hidden = true;
-    els.tree.hidden = false;
-    els.tree.scrollTop = 0;
-    els.titleBar.textContent = sum.fileName;
-    document.title = `${sum.fileName} — Huge JSON Viewer`;
-    updateStatus();
-    updateSearchCount();
-    scheduleRender();
-    els.viewport.focus();
+    applyOpened(await api.openFile(path));
   } catch (e) {
     alert(`${t("error.openFailed")}\n\n${e}`);
   } finally {
-    els.loading.hidden = true;
-    els.progress.hidden = true;
+    hideLoading();
+  }
+}
+
+async function openUnionPaths(paths: string[]) {
+  if (exporting) return;
+  if (paths.length === 1) return openPath(paths[0]);
+  showLoading(t("loading.union"));
+  try {
+    applyOpened(await api.openUnion(paths));
+  } catch (e) {
+    alert(`${t("error.openFailed")}\n\n${e}`);
+  } finally {
+    hideLoading();
   }
 }
 
@@ -572,11 +607,16 @@ function updateStatus() {
 
 async function chooseFile() {
   const picked = await openDialog({
-    multiple: false,
+    multiple: true,
     directory: false,
     filters: [{ name: "JSON", extensions: ["json", "ndjson", "jsonl", "txt", "geojson"] }],
   });
-  if (typeof picked === "string") openPath(picked);
+  if (Array.isArray(picked)) {
+    if (picked.length === 1) openPath(picked[0]);
+    else if (picked.length > 1) openUnionPaths(picked);
+  } else if (typeof picked === "string") {
+    openPath(picked);
+  }
 }
 
 els.btnOpen.addEventListener("click", chooseFile);
@@ -616,18 +656,26 @@ try {
       } else if (p.type === "drop") {
         els.dropOverlay.hidden = true;
         const paths = p.paths ?? [];
-        if (paths.length) openPath(paths[0]);
+        if (paths.length === 1) openPath(paths[0]);
+        else if (paths.length > 1) openUnionPaths(paths);
       }
     })
     .catch((e) => console.error("dragdrop", e));
 
   // ---- indexing progress ----
   onProgress((p) => {
-    if (els.loading.hidden) return;
+    if (els.loading.hidden || exporting) return;
     const pct = p.bytesTotal > 0 ? (p.bytesDone / p.bytesTotal) * 100 : 0;
     els.progressBar.style.width = `${Math.min(100, pct).toFixed(1)}%`;
     els.loadingSub.textContent = `${fmtBytes(p.bytesDone)} / ${fmtBytes(p.bytesTotal)} · ${pct.toFixed(0)}%`;
   }).catch((e) => console.error("progress listen", e));
+
+  onExportProgress((p) => {
+    if (els.loading.hidden || !exporting) return;
+    const pct = p.bytesTotal > 0 ? (p.bytesDone / p.bytesTotal) * 100 : 0;
+    els.progressBar.style.width = `${Math.min(100, pct).toFixed(1)}%`;
+    els.loadingSub.textContent = `${Math.min(100, pct).toFixed(0)}%`;
+  }).catch((e) => console.error("export progress listen", e));
 } catch (e) {
   console.warn("Tauri webview APIs unavailable (running outside the app?)", e);
 }
@@ -688,6 +736,120 @@ document.addEventListener("click", (e) => {
 });
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !langMenu.hidden) toggleLangMenu(false);
+});
+
+// ---- export ----
+let exporting = false;
+let toastTimer: number | undefined;
+
+function showToast(
+  msg: string,
+  action: { label: string; fn: () => void } | null,
+  isError: boolean,
+) {
+  clearTimeout(toastTimer);
+  els.toast.className = "toast" + (isError ? " error" : "");
+  els.toast.textContent = "";
+  const m = document.createElement("span");
+  m.className = "toast-msg";
+  m.textContent = msg;
+  els.toast.appendChild(m);
+  if (action) {
+    const a = document.createElement("span");
+    a.className = "toast-action";
+    a.textContent = action.label;
+    a.addEventListener("click", () => {
+      action.fn();
+      hideToast();
+    });
+    els.toast.appendChild(a);
+  }
+  els.toast.hidden = false;
+  toastTimer = setTimeout(hideToast, action ? 9000 : 5000) as unknown as number;
+}
+function hideToast() {
+  els.toast.hidden = true;
+}
+
+function buildExportMenu() {
+  const mk = (fmt: string, node: number, label: string) =>
+    `<button class="menu-item" data-fmt="${fmt}" data-node="${node}">` +
+    `<span class="mi-ico">${ICONS.export}</span><span>${escapeHtml(label)}</span></button>`;
+  let html = `<div class="menu-label">${escapeHtml(t("export.whole"))}</div>`;
+  html += mk("csv", 0, t("export.asCsv"));
+  html += mk("xml", 0, t("export.asXml"));
+  if (selectedId >= 0) {
+    html += `<div class="menu-sep"></div><div class="menu-label">${escapeHtml(t("export.selection"))}</div>`;
+    html += mk("csv", selectedId, t("export.asCsv"));
+    html += mk("xml", selectedId, t("export.asXml"));
+  }
+  els.exportMenu.innerHTML = html;
+}
+function toggleExportMenu(show?: boolean) {
+  const willShow = show ?? els.exportMenu.hidden;
+  if (willShow) buildExportMenu();
+  els.exportMenu.hidden = !willShow;
+}
+
+async function runExport(format: "csv" | "xml", nodeId: number) {
+  if (!summary || exporting) return;
+  const base = summary.fileName.replace(/\.[^.]*$/, "") || "export";
+  let dest: string | null;
+  try {
+    dest = await saveDialog({
+      defaultPath: `${base}.${format}`,
+      filters: [{ name: format.toUpperCase(), extensions: [format] }],
+    });
+  } catch {
+    return;
+  }
+  if (!dest) return;
+  exporting = true;
+  showLoading(t("export.running"));
+  els.btnCancelExport.hidden = false;
+  els.loadingSub.textContent = "0%";
+  try {
+    const stats = await api.export({ nodeId, format, dest });
+    if (stats.canceled) {
+      showToast(t("export.canceled"), null, false);
+    } else {
+      const msg = t("export.done")
+        .replace("{rows}", fmtInt(stats.rows))
+        .replace("{cols}", fmtInt(stats.columns))
+        .replace("{size}", fmtBytes(stats.bytesWritten));
+      const d = dest;
+      showToast(msg, { label: t("action.reveal"), fn: () => revealItemInDir(d).catch(() => {}) }, false);
+    }
+  } catch (e) {
+    showToast(`${t("export.failed")} ${e}`, null, true);
+  } finally {
+    exporting = false;
+    hideLoading();
+  }
+}
+
+els.btnExport.addEventListener("click", (e) => {
+  e.stopPropagation();
+  if (!summary) return;
+  toggleExportMenu();
+});
+els.exportMenu.addEventListener("click", (e) => {
+  const item = (e.target as HTMLElement).closest<HTMLElement>(".menu-item");
+  if (!item) return;
+  toggleExportMenu(false);
+  runExport(item.dataset.fmt as "csv" | "xml", Number(item.dataset.node));
+});
+document.addEventListener("click", (e) => {
+  if (
+    !els.exportMenu.hidden &&
+    !els.exportMenu.contains(e.target as Node) &&
+    !els.btnExport.contains(e.target as Node)
+  ) {
+    toggleExportMenu(false);
+  }
+});
+els.btnCancelExport.addEventListener("click", () => {
+  api.cancelExport().catch(() => {});
 });
 
 // ---- boot ----
