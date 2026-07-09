@@ -1,4 +1,6 @@
-# Huge JSON Viewer
+# BigJSON
+
+**Huge-size JSON Viewer GUI** · _formerly Huge JSON Viewer_
 
 > **Çok büyük JSON dosyalarını (2–3 GB ve üzeri)** **macOS** üzerinde saniyeler içinde açın ve içinde arama yapın — **ücretsiz, açık kaynak bir Dadroit alternatifi**. Metin düzenleyiciniz veya tarayıcınız büyük bir JSON dosyasında çökerken, bu uygulama onu anında açar.
 
@@ -11,17 +13,17 @@
 
 ### [⬇️ En son DMG'yi indir](https://github.com/bandusix/huge-json-viewer/releases/latest)
 
-![Huge JSON Viewer](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
+![BigJSON](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
 
 <details><summary>Açık tema</summary>
 
-![Huge JSON Viewer — açık tema](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-light.png)
+![BigJSON — açık tema](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-light.png)
 
 </details>
 
 ## Bu uygulama neden var
 
-Çoğu metin düzenleyici ve çevrimiçi JSON görüntüleyici, **büyük bir JSON dosyasını açtığınızda çöker veya donar**, çünkü dosyanın tamamını belleğe ayrıştırırlar — 2–3 GB'lık bir dosya 15–30 GB RAM'e şişer. **Huge JSON Viewer** bunu asla yapmaz. Dosyayı belleğe eşler (memory‑map), tek bir akışlı geçişte kompakt bir dizin oluşturur ve yalnızca ekrandaki satırları çizer. Bu akışlı JSON görüntüleyici sayesinde **gigabaytlık JSON dosyalarını saniyeler içinde açar** ve tüm dosya içinde anında arama yapar, RAM'de dosya boyutunun ~1.5–2 katının altında kalır.
+Çoğu metin düzenleyici ve çevrimiçi JSON görüntüleyici, **büyük bir JSON dosyasını açtığınızda çöker veya donar**, çünkü dosyanın tamamını belleğe ayrıştırırlar — 2–3 GB'lık bir dosya 15–30 GB RAM'e şişer. **BigJSON** bunu asla yapmaz. Dosyayı belleğe eşler (memory‑map), tek bir akışlı geçişte kompakt bir dizin oluşturur ve yalnızca ekrandaki satırları çizer. Bu akışlı JSON görüntüleyici sayesinde **gigabaytlık JSON dosyalarını saniyeler içinde açar** ve tüm dosya içinde anında arama yapar, RAM'de dosya boyutunun ~1.5–2 katının altında kalır.
 
 *"büyük JSON dosyası nasıl açılır"*, *"JSON dosyası çok büyük açılmıyor"* veya *"Mac için ücretsiz Dadroit alternatifi"* aradıysanız, bu tam da bunun için yapıldı.
 
@@ -40,7 +42,7 @@
 ## Kurulum
 
 1. **[En son `.dmg` dosyasını indirin](https://github.com/bandusix/huge-json-viewer/releases/latest)** ve açın.
-2. **Huge JSON Viewer**'ı Applications (Uygulamalar) klasörüne sürükleyin.
+2. **BigJSON**'ı Applications (Uygulamalar) klasörüne sürükleyin.
 3. İlk açılış: uygulama imzasızdır, bu yüzden **uygulamaya sağ tıklayın → Aç**, ardından onaylayın (yalnızca bir kez gerekir).
 
 Gereksinimler: macOS 11 (Big Sur) veya üzeri. 4 GB'a kadar JSON dosyalarını işler.
@@ -56,9 +58,9 @@ Gereksinimler: macOS 11 (Big Sur) veya üzeri. 4 GB'a kadar JSON dosyalarını i
 
 **Tauri v2** (Rust arka uç + web ön uç) ile geliştirildi, ~2 MB'lık bir `.dmg` olarak paketlendi.
 
-## Huge JSON Viewer ile diğer büyük JSON araçlarının karşılaştırması
+## BigJSON ile diğer büyük JSON araçlarının karşılaştırması
 
-| | Huge JSON Viewer | Dadroit | Metin düzenleyiciler (VS Code vb.) |
+| | BigJSON | Dadroit | Metin düzenleyiciler (VS Code vb.) |
 | --- | --- | --- | --- |
 | Fiyat | **Ücretsiz ve açık kaynak (MIT)** | Ücretsiz + ücretli Pro | Ücretsiz |
 | 2–3 GB JSON açar | ✅ ~3 sn | ✅ | ❌ çöker / donar |

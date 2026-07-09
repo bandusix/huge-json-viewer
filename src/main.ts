@@ -559,7 +559,7 @@ function applyOpened(sum: OpenSummary) {
   els.tree.hidden = false;
   els.tree.scrollTop = 0;
   els.titleBar.textContent = sum.fileName;
-  document.title = `${sum.fileName} — Huge JSON Viewer`;
+  document.title = `${sum.fileName} — BigJSON`;
   updateStatus();
   updateSearchCount();
   scheduleRender();

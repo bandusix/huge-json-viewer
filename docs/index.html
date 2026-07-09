@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Huge JSON Viewer — Free Large JSON File Viewer for macOS · Dadroit Alternative</title>
+    <title>BigJSON — Free Large JSON File Viewer for macOS · Dadroit Alternative</title>
     <meta
       name="description"
       content="Open and search multi-gigabyte (2–3 GB) JSON files on macOS in seconds. A free, open-source alternative to Dadroit: tree viewer, key & value RegEx search, JSON to CSV/XML export, and multi-file union. No cost, no limits, commercial use free."
@@ -19,13 +19,13 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Huge JSON Viewer" />
-    <meta property="og:title" content="Huge JSON Viewer — Free Large JSON Viewer for macOS (Dadroit Alternative)" />
+    <meta property="og:site_name" content="BigJSON" />
+    <meta property="og:title" content="BigJSON — Free Large JSON Viewer for macOS (Dadroit Alternative)" />
     <meta property="og:description" content="Open & search 2–3 GB JSON files on macOS in seconds. Free & open source: tree viewer, RegEx search, JSON→CSV/XML, multi-file union." />
     <meta property="og:url" content="https://bandusix.github.io/huge-json-viewer/" />
     <meta property="og:image" content="https://bandusix.github.io/huge-json-viewer/screenshot-dark.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Huge JSON Viewer — Free Large JSON Viewer for macOS" />
+    <meta name="twitter:title" content="BigJSON — Free Large JSON Viewer for macOS" />
     <meta name="twitter:description" content="Open & search 2–3 GB JSON files in seconds. Free, open-source Dadroit alternative." />
     <meta name="twitter:image" content="https://bandusix.github.io/huge-json-viewer/screenshot-dark.png" />
 
@@ -33,7 +33,8 @@
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "Huge JSON Viewer",
+        "name": "BigJSON",
+        "alternateName": "Huge JSON Viewer",
         "operatingSystem": "macOS 11+",
         "applicationCategory": "DeveloperApplication",
         "description": "A free, open-source native macOS viewer for very large JSON files (2–3 GB). Tree viewer, key & value RegEx search, JSON to CSV/XML export, and multi-file union.",
@@ -51,12 +52,12 @@
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": [
-          { "@type": "Question", "name": "How do I open a large JSON file on Mac?", "acceptedAnswer": { "@type": "Answer", "text": "Download Huge JSON Viewer (free), then drag your .json file onto the window or press Cmd+O. It memory-maps the file and builds a streaming index, so a 2–3 GB JSON opens in a few seconds without your editor crashing." } },
-          { "@type": "Question", "name": "Is Huge JSON Viewer really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is 100% free and open source under the MIT license, including commercial use. There are no paid tiers and no sign-up." } },
+          { "@type": "Question", "name": "How do I open a large JSON file on Mac?", "acceptedAnswer": { "@type": "Answer", "text": "Download BigJSON (free), then drag your .json file onto the window or press Cmd+O. It memory-maps the file and builds a streaming index, so a 2–3 GB JSON opens in a few seconds without your editor crashing." } },
+          { "@type": "Question", "name": "Is BigJSON really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is 100% free and open source under the MIT license, including commercial use. There are no paid tiers and no sign-up." } },
           { "@type": "Question", "name": "How large a JSON file can it open?", "acceptedAnswer": { "@type": "Answer", "text": "Up to 4 GB per file (and 4 GB combined for a multi-file union). It uses roughly 1.5–2× the file size in RAM for its index; a 16 GB Mac handles 2–3 GB files comfortably." } },
           { "@type": "Question", "name": "Is it a good free alternative to Dadroit?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It covers the same essentials as Dadroit — a collapsible tree viewer, key and value RegEx search, JSON to CSV or XML export, and unioning multiple files — for free and open source, on Apple Silicon and Intel." } },
           { "@type": "Question", "name": "Can it convert JSON to CSV or XML?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It streams JSON to CSV (an array of objects becomes a spreadsheet) or to XML, and works on multi-gigabyte files with bounded memory." } },
-          { "@type": "Question", "name": "Is my data uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. Huge JSON Viewer is 100% offline. There is no server, no upload, and no telemetry — your JSON never leaves your Mac." } }
+          { "@type": "Question", "name": "Is my data uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. BigJSON is 100% offline. There is no server, no upload, and no telemetry — your JSON never leaves your Mac." } }
         ]
       }
     </script>
@@ -211,7 +212,7 @@
   <body>
     <header class="nav">
       <div class="wrap nav-in">
-        <a class="brand" href="/huge-json-viewer/"><span class="logo">{}</span> Huge JSON Viewer</a>
+        <a class="brand" href="/huge-json-viewer/"><span class="logo">{}</span> BigJSON</a>
         <nav class="nav-links">
           <a href="#features">Features</a>
           <a href="#compare">vs Dadroit</a>
@@ -226,6 +227,9 @@
       <!-- HERO -->
       <section class="hero">
         <div class="wrap">
+          <p style="text-align:center;color:#9aa3c0;font-size:13.5px;font-weight:600;letter-spacing:.04em;margin-bottom:16px">
+            Huge‑size JSON Viewer GUI <span style="color:#6b7590;font-weight:500">· formerly Huge JSON Viewer</span>
+          </p>
           <h1>Open <span class="grad">huge JSON files</span> in a blink — for free.</h1>
           <p class="sub">
             A fast, native macOS viewer for <strong>multi‑gigabyte JSON</strong>. Browse, search,
@@ -237,7 +241,7 @@
           </div>
           <p class="plat">Universal · Apple Silicon + Intel · macOS 11+ · 2 MB · MIT licensed</p>
           <div class="hero-shot">
-            <img src="hero.webp" alt="Huge JSON Viewer on macOS showing a 1.41 GB JSON file with 94 million nodes opened in 2.3 seconds as a syntax-highlighted collapsible tree" width="2360" height="1722" loading="eager" />
+            <img src="hero.webp" alt="BigJSON on macOS showing a 1.41 GB JSON file with 94 million nodes opened in 2.3 seconds as a syntax-highlighted collapsible tree" width="2360" height="1722" loading="eager" />
           </div>
         </div>
       </section>
@@ -313,14 +317,14 @@
       <section id="compare" class="compare">
         <div class="wrap">
           <p class="eyebrow">Free vs. paid</p>
-          <h2 class="title">Huge JSON Viewer vs. Dadroit</h2>
-          <p class="lead">A direct, feature‑by‑feature comparison. Dadroit’s free tier caps files at 50 MB and its bigger limits, union and commercial use are paid — Huge JSON Viewer gives it all away.</p>
+          <h2 class="title">BigJSON vs. Dadroit</h2>
+          <p class="lead">A direct, feature‑by‑feature comparison. Dadroit’s free tier caps files at 50 MB and its bigger limits, union and commercial use are paid — BigJSON gives it all away.</p>
           <div class="cmp-scroll">
             <table class="cmp">
               <thead>
                 <tr>
                   <th>Feature</th>
-                  <th class="us">Huge JSON Viewer</th>
+                  <th class="us">BigJSON</th>
                   <th>Dadroit Free</th>
                   <th>Dadroit Standard</th>
                   <th>Dadroit Advanced</th>
@@ -363,7 +367,7 @@
       <section class="download">
         <div class="wrap">
           <div class="dl">
-            <h2>Download Huge JSON Viewer</h2>
+            <h2>Download BigJSON</h2>
             <p>Free, open source, and universal — for Apple Silicon and Intel Macs.</p>
             <div class="cta">
               <a class="btn btn-primary" href="https://github.com/bandusix/huge-json-viewer/releases/latest">⬇ Download the latest DMG</a>
@@ -380,8 +384,8 @@
           <p class="eyebrow">FAQ</p>
           <h2 class="title">Opening large JSON files, answered</h2>
           <div style="margin-top: 30px">
-            <details open><summary>How do I open a large JSON file on Mac?</summary><p>Download Huge JSON Viewer (free), then drag your <code>.json</code> file onto the window or press ⌘O. It memory‑maps the file and builds a streaming index, so a 2–3 GB JSON opens in a few seconds — no crashing, no splitting.</p></details>
-            <details><summary>Is Huge JSON Viewer really free?</summary><p>Yes — 100% free and open source under the MIT license, including commercial use. No paid tiers, no sign‑up, no trial.</p></details>
+            <details open><summary>How do I open a large JSON file on Mac?</summary><p>Download BigJSON (free), then drag your <code>.json</code> file onto the window or press ⌘O. It memory‑maps the file and builds a streaming index, so a 2–3 GB JSON opens in a few seconds — no crashing, no splitting.</p></details>
+            <details><summary>Is BigJSON really free?</summary><p>Yes — 100% free and open source under the MIT license, including commercial use. No paid tiers, no sign‑up, no trial.</p></details>
             <details><summary>How large a JSON file can it open?</summary><p>Up to 4 GB per file (and 4 GB combined for a multi‑file union). The index uses roughly 1.5–2× the file size in RAM; a 16 GB Mac handles 2–3 GB files comfortably.</p></details>
             <details><summary>Is it a good free alternative to Dadroit?</summary><p>Yes. It covers the same essentials — a collapsible tree viewer, key and value RegEx search, JSON → CSV / XML export, and unioning multiple files — for free and open source, on Apple Silicon and Intel.</p></details>
             <details><summary>Can it convert JSON to CSV or XML?</summary><p>Yes. It streams JSON to CSV (an array of objects becomes a spreadsheet) or to XML, and works on multi‑gigabyte files with bounded memory.</p></details>
@@ -395,8 +399,8 @@
       <div class="wrap">
         <div class="fcols">
           <div>
-            <div class="fbrand"><span class="logo" style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#2f6bff,#5b8cff);display:grid;place-items:center;font-family:ui-monospace,monospace;font-weight:800;font-size:13px;color:#fff">{}</span> Huge JSON Viewer</div>
-            <p style="max-width: 340px; color:#8b93ad">The free, open‑source large JSON file viewer for macOS. Open, search and convert multi‑gigabyte JSON in seconds.</p>
+            <div class="fbrand"><span class="logo" style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#2f6bff,#5b8cff);display:grid;place-items:center;font-family:ui-monospace,monospace;font-weight:800;font-size:13px;color:#fff">{}</span> BigJSON</div>
+            <p style="max-width: 340px; color:#8b93ad">BigJSON — Huge‑size JSON Viewer GUI (formerly Huge JSON Viewer). The free, open‑source large JSON file viewer for macOS. Open, search and convert multi‑gigabyte JSON in seconds.</p>
           </div>
           <div>
             <h4>Product</h4>

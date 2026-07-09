@@ -1,4 +1,6 @@
-# Huge JSON Viewer
+# BigJSON
+
+**Huge-size JSON Viewer GUI** · _formerly Huge JSON Viewer_
 
 > افتح وابحث داخل **ملفات JSON الضخمة (2–3 جيجابايت فما فوق)** على **macOS** في ثوانٍ — **بديل مجاني ومفتوح المصدر لـ Dadroit**. حين ينهار محرر النصوص أو المتصفح عند فتح ملف JSON كبير، يفتحه هذا التطبيق فورًا.
 
@@ -11,17 +13,17 @@
 
 ### [⬇️ نزّل أحدث ملف DMG](https://github.com/bandusix/huge-json-viewer/releases/latest)
 
-![عارض JSON للملفات الكبيرة — Huge JSON Viewer](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
+![عارض JSON للملفات الكبيرة — BigJSON](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
 
 <details><summary>الوضع الفاتح</summary>
 
-![Huge JSON Viewer — الوضع الفاتح](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-light.png)
+![BigJSON — الوضع الفاتح](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-light.png)
 
 </details>
 
 ## لماذا وُجد هذا التطبيق
 
-معظم محررات النصوص وعارضات JSON على الإنترنت **تنهار أو تتجمد عند فتح ملف JSON كبير**، لأنها تحلّل الملف بأكمله داخل الذاكرة — فملف بحجم 2–3 جيجابايت يتضخم إلى 15–30 جيجابايت من ذاكرة RAM. أما **Huge JSON Viewer** فلا يفعل ذلك أبدًا. إنه يربط الملف بالذاكرة (memory-map)، ويبني فهرسًا مضغوطًا في تمريرة تدفّق واحدة، ولا يعرض سوى الصفوف الظاهرة على الشاشة. لذلك فهو **يفتح JSON بحجم عدة جيجابايت في ثوانٍ**، ويبحث في الملف كاملًا فورًا، مع بقاء استهلاك الذاكرة تحت نحو 1.5–2 ضعف حجم الملف.
+معظم محررات النصوص وعارضات JSON على الإنترنت **تنهار أو تتجمد عند فتح ملف JSON كبير**، لأنها تحلّل الملف بأكمله داخل الذاكرة — فملف بحجم 2–3 جيجابايت يتضخم إلى 15–30 جيجابايت من ذاكرة RAM. أما **BigJSON** فلا يفعل ذلك أبدًا. إنه يربط الملف بالذاكرة (memory-map)، ويبني فهرسًا مضغوطًا في تمريرة تدفّق واحدة، ولا يعرض سوى الصفوف الظاهرة على الشاشة. لذلك فهو **يفتح JSON بحجم عدة جيجابايت في ثوانٍ**، ويبحث في الملف كاملًا فورًا، مع بقاء استهلاك الذاكرة تحت نحو 1.5–2 ضعف حجم الملف.
 
 إن كنت قد بحثت من قبل عن *«كيفية فتح ملف JSON كبير»* أو *«ملف JSON كبير جدًا لا يمكن فتحه»* أو عن **بديل مجاني لـ Dadroit على Mac**، فهذا التطبيق مصنوع لهذا الغرض تحديدًا.
 
@@ -40,7 +42,7 @@
 ## التثبيت
 
 1. **[نزّل أحدث ملف `.dmg`](https://github.com/bandusix/huge-json-viewer/releases/latest)** ثم افتحه.
-2. اسحب **Huge JSON Viewer** إلى مجلد Applications.
+2. اسحب **BigJSON** إلى مجلد Applications.
 3. عند التشغيل الأول: التطبيق غير موقّع، لذا **انقر عليه بزر الفأرة الأيمن ← Open**، ثم أكّد (مطلوب مرة واحدة فقط).
 
 المتطلبات: macOS 11 (Big Sur) أو أحدث. يتعامل مع ملفات JSON حتى 4 جيجابايت.
@@ -56,9 +58,9 @@
 
 مبنيّ باستخدام **Tauri v2** (خلفية Rust + واجهة ويب)، ومُحزّم كملف `.dmg` بحجم ~2 ميجابايت.
 
-## مقارنة Huge JSON Viewer بأدوات JSON الكبيرة الأخرى
+## مقارنة BigJSON بأدوات JSON الكبيرة الأخرى
 
-| | Huge JSON Viewer | Dadroit | محررات النصوص (VS Code وغيرها) |
+| | BigJSON | Dadroit | محررات النصوص (VS Code وغيرها) |
 | --- | --- | --- | --- |
 | السعر | **مجاني ومفتوح المصدر (MIT)** | مجاني + نسخة Pro مدفوعة | مجاني |
 | فتح JSON بحجم 2–3 جيجابايت | ✅ ~3 ثوانٍ | ✅ | ❌ ينهار / يتجمد |

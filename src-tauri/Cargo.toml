@@ -1,7 +1,7 @@
 [package]
 name = "huge-json-viewer"
-version = "0.2.0"
-description = "Huge JSON Viewer — open and search multi-gigabyte JSON files"
+version = "0.3.0"
+description = "BigJSON — open and search multi-gigabyte JSON files"
 authors = ["bandusix"]
 edition = "2021"
 license = "MIT"

@@ -1,8 +1,17 @@
 # Changelog
 
-All notable changes to **Huge JSON Viewer** are documented here. The format
-follows [Keep a Changelog](https://keepachangelog.com/), and the project adheres
-to [Semantic Versioning](https://semver.org/).
+All notable changes to **BigJSON** (formerly Huge JSON Viewer) are documented
+here. The format follows [Keep a Changelog](https://keepachangelog.com/), and the
+project adheres to [Semantic Versioning](https://semver.org/).
+
+## [0.3.0] — 2026-07-10
+
+### Changed
+- **Renamed to BigJSON** (full name: *BigJSON — Huge-size JSON Viewer GUI*),
+  formerly **Huge JSON Viewer**, to avoid a name clash with other tools. The
+  window title, app name, website and docs now read **BigJSON**; the app bundle
+  identifier is `com.bigjson.viewer`. The GitHub repository slug and Rust/npm
+  package names stay `huge-json-viewer` so existing links keep working.
 
 ## [0.2.0] — 2026-07-09
 

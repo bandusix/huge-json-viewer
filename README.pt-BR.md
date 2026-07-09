@@ -1,4 +1,6 @@
-# Huge JSON Viewer
+# BigJSON
+
+**Huge-size JSON Viewer GUI** · _formerly Huge JSON Viewer_
 
 > Abra e pesquise **arquivos JSON muito grandes (2–3 GB ou mais)** no **macOS** em segundos — uma **alternativa gratuita e open source ao Dadroit**. Quando seu editor de texto ou navegador trava ao abrir um arquivo JSON grande, este visualizador de JSON grande o abre na hora.
 
@@ -11,17 +13,17 @@
 
 ### [⬇️ Baixe o DMG mais recente](https://github.com/bandusix/huge-json-viewer/releases/latest)
 
-![Huge JSON Viewer](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
+![BigJSON](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
 
 <details><summary>Tema claro</summary>
 
-![Huge JSON Viewer — tema claro](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-light.png)
+![BigJSON — tema claro](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-light.png)
 
 </details>
 
 ## Por que este projeto existe
 
-A maioria dos editores de texto e visualizadores de JSON online **trava ou congela quando você abre um arquivo JSON grande**, porque faz o parsing de tudo na memória — um arquivo de 2–3 GB infla para 15–30 GB de RAM. O **Huge JSON Viewer** nunca faz isso. Ele mapeia o arquivo na memória (memory‑map), constrói um índice compacto em uma única passagem em streaming e renderiza apenas as linhas visíveis na tela. Assim ele **abre JSON de vários gigabytes em segundos** e pesquisa o arquivo inteiro instantaneamente, mantendo o uso de RAM em torno de ~1,5–2× o tamanho do arquivo.
+A maioria dos editores de texto e visualizadores de JSON online **trava ou congela quando você abre um arquivo JSON grande**, porque faz o parsing de tudo na memória — um arquivo de 2–3 GB infla para 15–30 GB de RAM. O **BigJSON** nunca faz isso. Ele mapeia o arquivo na memória (memory‑map), constrói um índice compacto em uma única passagem em streaming e renderiza apenas as linhas visíveis na tela. Assim ele **abre JSON de vários gigabytes em segundos** e pesquisa o arquivo inteiro instantaneamente, mantendo o uso de RAM em torno de ~1,5–2× o tamanho do arquivo.
 
 Se você já pesquisou por *"como abrir um arquivo JSON grande"*, *"arquivo JSON muito grande para abrir"* ou uma **alternativa gratuita ao Dadroit para Mac**, este visualizador foi feito exatamente para isso.
 
@@ -40,7 +42,7 @@ Se você já pesquisou por *"como abrir um arquivo JSON grande"*, *"arquivo JSON
 ## Instalação
 
 1. **[Baixe o `.dmg` mais recente](https://github.com/bandusix/huge-json-viewer/releases/latest)** e abra-o.
-2. Arraste o **Huge JSON Viewer** para a pasta Aplicativos.
+2. Arraste o **BigJSON** para a pasta Aplicativos.
 3. Primeira execução: o app não é assinado, então **clique com o botão direito no app → Abrir** e confirme (necessário apenas uma vez).
 
 Requisitos: macOS 11 (Big Sur) ou mais recente. Lida com arquivos JSON de até 4 GB.
@@ -56,9 +58,9 @@ Um arquivo JSON de 2–3 GB não pode ter seu parsing feito em objetos na memór
 
 Construído com **Tauri v2** (backend em Rust + frontend web), empacotado como um `.dmg` de ~2 MB.
 
-## Huge JSON Viewer vs. outras ferramentas para JSON grande
+## BigJSON vs. outras ferramentas para JSON grande
 
-| | Huge JSON Viewer | Dadroit | Editores de texto (VS Code etc.) |
+| | BigJSON | Dadroit | Editores de texto (VS Code etc.) |
 | --- | --- | --- | --- |
 | Preço | **Gratuito e open source (MIT)** | Grátis + Pro pago | Grátis |
 | Abre JSON de 2–3 GB | ✅ ~3 s | ✅ | ❌ trava / congela |

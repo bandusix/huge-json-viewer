@@ -48,7 +48,7 @@ jobs:
         with:
           args: --target universal-apple-darwin --bundles dmg
           tagName: ${{ github.ref_name }}
-          releaseName: "Huge JSON Viewer ${{ github.ref_name }}"
+          releaseName: "BigJSON ${{ github.ref_name }}"
           releaseBody: |
             Universal macOS build (Intel + Apple Silicon).
 

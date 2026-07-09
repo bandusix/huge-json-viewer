@@ -1,4 +1,6 @@
-# Huge JSON Viewer
+# BigJSON
+
+**Huge-size JSON Viewer GUI** · _formerly Huge JSON Viewer_
 
 > 在 **macOS** 上几秒钟打开并搜索**超大 JSON 文件（2–3 GB 甚至更大）**——一款**免费、开源的 Dadroit 替代方案**。当文本编辑器或浏览器一打开大 JSON 文件就崩溃时，它能瞬间打开。
 
@@ -11,17 +13,17 @@
 
 ### [⬇️ 下载最新 DMG](https://github.com/bandusix/huge-json-viewer/releases/latest)
 
-![Huge JSON Viewer——大 JSON 文件查看器](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
+![BigJSON——大 JSON 文件查看器](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
 
 <details><summary>浅色主题</summary>
 
-![Huge JSON Viewer——浅色主题](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-light.png)
+![BigJSON——浅色主题](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-light.png)
 
 </details>
 
 ## 为什么要做这款工具
 
-大多数文本编辑器和在线 JSON 查看器**一打开大 JSON 文件就崩溃或卡死**，因为它们会把整个文件解析进内存——一个 2–3 GB 的文件会膨胀到 15–30 GB 内存。**Huge JSON Viewer** 绝不这样做。它把文件做内存映射，用一次流式扫描建立紧凑索引，只渲染屏幕上可见的行。所以它能**几秒钟打开 2GB/3GB 甚至千兆级 JSON**，并瞬间搜索整个文件，内存占用始终控制在文件大小的 ~1.5–2 倍以内。
+大多数文本编辑器和在线 JSON 查看器**一打开大 JSON 文件就崩溃或卡死**，因为它们会把整个文件解析进内存——一个 2–3 GB 的文件会膨胀到 15–30 GB 内存。**BigJSON** 绝不这样做。它把文件做内存映射，用一次流式扫描建立紧凑索引，只渲染屏幕上可见的行。所以它能**几秒钟打开 2GB/3GB 甚至千兆级 JSON**，并瞬间搜索整个文件，内存占用始终控制在文件大小的 ~1.5–2 倍以内。
 
 如果你曾搜过 *"大 JSON 文件查看器"*、*"JSON 文件太大打不开怎么办"*、*"怎么打开 2GB JSON"*，或者在找 **Mac 上免费的 Dadroit 替代品**，那么它正是为你而做。
 
@@ -40,7 +42,7 @@
 ## 安装
 
 1. **[下载最新的 `.dmg`](https://github.com/bandusix/huge-json-viewer/releases/latest)** 并打开它。
-2. 把 **Huge JSON Viewer** 拖入"应用程序"文件夹。
+2. 把 **BigJSON** 拖入"应用程序"文件夹。
 3. 首次启动：应用未签名，因此请**右键点击应用 → 打开**，然后确认（只需操作一次）。
 
 系统要求：macOS 11（Big Sur）或更高版本。可处理最大 4 GB 的 JSON 文件。
@@ -56,9 +58,9 @@
 
 采用 **Tauri v2**（Rust 后端 + Web 前端）构建，打包为约 2 MB 的 `.dmg`。
 
-## Huge JSON Viewer 与其他大 JSON 工具对比
+## BigJSON 与其他大 JSON 工具对比
 
-| | Huge JSON Viewer | Dadroit | 文本编辑器（VS Code 等） |
+| | BigJSON | Dadroit | 文本编辑器（VS Code 等） |
 | --- | --- | --- | --- |
 | 价格 | **免费且开源（MIT）** | 免费 + 付费 Pro | 免费 |
 | 打开 2–3 GB JSON | ✅ 约 3 秒 | ✅ | ❌ 崩溃 / 卡死 |

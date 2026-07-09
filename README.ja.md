@@ -1,4 +1,6 @@
-# Huge JSON Viewer
+# BigJSON
+
+**Huge-size JSON Viewer GUI** · _formerly Huge JSON Viewer_
 
 > **大きいJSONファイル（2〜3 GB以上）**を **macOS** で数秒で開いて検索。**無料・オープンソースの Dadroit 代替**です。テキストエディタやブラウザが巨大なJSONファイルでクラッシュするとき、これなら一瞬で開けます。
 
@@ -11,17 +13,17 @@
 
 ### [⬇️ 最新版DMGをダウンロード](https://github.com/bandusix/huge-json-viewer/releases/latest)
 
-![Huge JSON Viewer — 大容量JSONファイルを開いた画面（ダークテーマ）](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
+![BigJSON — 大容量JSONファイルを開いた画面（ダークテーマ）](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
 
 <details><summary>ライトテーマ</summary>
 
-![Huge JSON Viewer — ライトテーマ](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-light.png)
+![BigJSON — ライトテーマ](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-light.png)
 
 </details>
 
 ## なぜこのアプリを作ったのか
 
-多くのテキストエディタやオンラインのJSONビューアは、**大容量JSONファイルを開こうとするとクラッシュしたりフリーズしたり**します。ファイル全体をメモリに読み込んでパースするため、2〜3 GBのファイルが15〜30 GBのRAMに膨れ上がってしまうのです。**Huge JSON Viewer** はそんなことをしません。ファイルをメモリマップし、ストリーミングで一度だけ走査してコンパクトなインデックスを構築し、画面に表示される行だけを描画します。だから**ギガバイト級のJSONを数秒で開き**、ファイル全体を瞬時に検索でき、RAM使用量はファイルサイズの約1.5〜2倍に収まります。
+多くのテキストエディタやオンラインのJSONビューアは、**大容量JSONファイルを開こうとするとクラッシュしたりフリーズしたり**します。ファイル全体をメモリに読み込んでパースするため、2〜3 GBのファイルが15〜30 GBのRAMに膨れ上がってしまうのです。**BigJSON** はそんなことをしません。ファイルをメモリマップし、ストリーミングで一度だけ走査してコンパクトなインデックスを構築し、画面に表示される行だけを描画します。だから**ギガバイト級のJSONを数秒で開き**、ファイル全体を瞬時に検索でき、RAM使用量はファイルサイズの約1.5〜2倍に収まります。
 
 「**大きいJSONファイル 開く**」「**JSONファイルが大きすぎて開けない**」「**Mac向けの無料 Dadroit 代替**」といったキーワードで検索したことがあるなら、まさにそのために作られたアプリです。
 
@@ -40,7 +42,7 @@
 ## インストール
 
 1. **[最新版の `.dmg` をダウンロード](https://github.com/bandusix/huge-json-viewer/releases/latest)** して開きます。
-2. **Huge JSON Viewer** をアプリケーションフォルダにドラッグします。
+2. **BigJSON** をアプリケーションフォルダにドラッグします。
 3. 初回起動時：このアプリは未署名のため、**アプリを右クリック → 開く** を選び、確認してください（初回のみ）。
 
 動作環境：macOS 11（Big Sur）以降。最大4 GBまでのJSONファイルに対応します。
@@ -56,9 +58,9 @@
 
 **Tauri v2**（Rustバックエンド + Webフロントエンド）で構築し、約2 MBの `.dmg` としてパッケージ化しています。
 
-## Huge JSON Viewer と他の大容量JSONツールの比較
+## BigJSON と他の大容量JSONツールの比較
 
-| | Huge JSON Viewer | Dadroit | テキストエディタ（VS Code など） |
+| | BigJSON | Dadroit | テキストエディタ（VS Code など） |
 | --- | --- | --- | --- |
 | 価格 | **無料・オープンソース（MIT）** | 無料 + 有料Pro版 | 無料 |
 | 2〜3 GBのJSONを開く | ✅ 約3秒 | ✅ | ❌ クラッシュ／フリーズ |
