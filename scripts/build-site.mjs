@@ -98,7 +98,7 @@ for (const l of LOCALES) {
     operatingSystem: "macOS 11+, Windows 10+", applicationCategory: "DeveloperApplication",
     description: stripTags(d["meta.desc"]), url: urlFor(l.code),
     downloadUrl: "https://github.com/bandusix/huge-json-viewer/releases/latest",
-    softwareVersion: "0.3.0", license: "https://opensource.org/licenses/MIT",
+    softwareVersion: "0.4.0", license: "https://opensource.org/licenses/MIT",
     author: { "@type": "Person", name: "bandusix" },
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     screenshot: BASE + "screenshot-dark.png",

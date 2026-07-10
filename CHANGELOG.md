@@ -4,6 +4,32 @@ All notable changes to **BigJSON** (formerly Huge JSON Viewer) are documented
 here. The format follows [Keep a Changelog](https://keepachangelog.com/), and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] — 2026-07-10
+
+**Windows support** — BigJSON now ships for **Windows 10/11 (x64)** alongside
+macOS, with the same engine, UI and features.
+
+### Added
+- **Windows build** — a per-user NSIS installer (`.exe`, no admin required),
+  built in CI on a Windows runner. Same tree viewer, key & value RegEx search,
+  JSON → CSV / XML export, and multi-file union as the macOS build.
+- The release workflow now produces both the macOS universal DMG and the
+  Windows installer for each tag, and CI builds & tests on macOS **and** Windows.
+
+### Changed
+- **Per-OS window chrome** — Windows uses its native title bar (the macOS
+  transparent title bar and traffic-light spacing are macOS-only); the open
+  shortcut hint shows `Ctrl` on Windows and `⌘` on macOS.
+- Website and all READMEs updated to cover macOS **and** Windows (dual download
+  buttons, Windows install notes, a Windows FAQ).
+
+### Fixed
+- **Multi-file union on Windows** — the temporary scratch file is now created
+  with `FILE_FLAG_DELETE_ON_CLOSE` so it auto-cleans after its memory-map closes
+  (Windows cannot delete an open file the way Unix can).
+- Gated the Unix-only `mmap.advise()` prefetch hints behind `#[cfg(unix)]` so
+  the Windows build compiles.
+
 ## [0.3.0] — 2026-07-10
 
 ### Changed

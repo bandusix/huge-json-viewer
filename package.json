@@ -1,9 +1,9 @@
 {
   "name": "huge-json-viewer",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
-  "description": "A fast native macOS viewer for multi-gigabyte JSON files",
+  "description": "A fast native viewer for multi-gigabyte JSON files on macOS and Windows",
   "license": "MIT",
   "repository": {
     "type": "git",
