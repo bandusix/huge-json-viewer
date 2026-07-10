@@ -1,9 +1,263 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://bandusix.github.io/huge-json-viewer/</loc>
-    <lastmod>2026-07-09</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/zh-CN/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/zh-TW/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/ja/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/pt-BR/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/de/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/ru/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/hi/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/ar/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/tr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bandusix.github.io/huge-json-viewer/id/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://bandusix.github.io/huge-json-viewer/zh-CN/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://bandusix.github.io/huge-json-viewer/zh-TW/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://bandusix.github.io/huge-json-viewer/ja/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://bandusix.github.io/huge-json-viewer/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://bandusix.github.io/huge-json-viewer/pt-BR/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://bandusix.github.io/huge-json-viewer/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://bandusix.github.io/huge-json-viewer/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://bandusix.github.io/huge-json-viewer/ru/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://bandusix.github.io/huge-json-viewer/hi/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bandusix.github.io/huge-json-viewer/ar/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://bandusix.github.io/huge-json-viewer/tr/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://bandusix.github.io/huge-json-viewer/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://bandusix.github.io/huge-json-viewer/"/>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
