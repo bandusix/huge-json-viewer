@@ -95,7 +95,7 @@ for (const l of LOCALES) {
   const app = {
     "@context": "https://schema.org", "@type": "SoftwareApplication",
     name: "BigJSON", alternateName: "Huge JSON Viewer",
-    operatingSystem: "macOS 11+", applicationCategory: "DeveloperApplication",
+    operatingSystem: "macOS 11+, Windows 10+", applicationCategory: "DeveloperApplication",
     description: stripTags(d["meta.desc"]), url: urlFor(l.code),
     downloadUrl: "https://github.com/bandusix/huge-json-viewer/releases/latest",
     softwareVersion: "0.3.0", license: "https://opensource.org/licenses/MIT",
@@ -106,7 +106,7 @@ for (const l of LOCALES) {
   };
   const faq = {
     "@context": "https://schema.org", "@type": "FAQPage",
-    mainEntity: [1, 2, 3, 4, 5, 6].map((i) => ({
+    mainEntity: [1, 2, 3, 4, 5, 6, 7].map((i) => ({
       "@type": "Question", name: stripTags(d["faq.q" + i]),
       acceptedAnswer: { "@type": "Answer", text: stripTags(d["faq.a" + i]) },
     })),

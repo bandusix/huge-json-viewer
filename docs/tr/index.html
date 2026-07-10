@@ -1,8 +1,8 @@
 <!DOCTYPE html><html lang="tr" dir="ltr"><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BigJSON — macOS için Ücretsiz Büyük JSON Dosyası Görüntüleyici · Dadroit Alternatifi</title>
-    <meta name="description" content="Çok gigabaytlık (2–3 GB) JSON dosyalarını macOS'ta saniyeler içinde açın ve arayın. Dadroit'e ücretsiz, açık kaynaklı bir alternatif: ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON'dan CSV/XML dışa aktarma ve çoklu dosya birleştirme. Ücretsiz, sınırsız, ticari kullanım serbest.">
+    <title>BigJSON — macOS ve Windows için Ücretsiz Büyük JSON Dosyası Görüntüleyici · Dadroit Alternatifi</title>
+    <meta name="description" content="Çok gigabaytlık (2–3 GB) JSON dosyalarını macOS ve Windows'ta saniyeler içinde açın ve arayın. Dadroit'e ücretsiz, açık kaynaklı bir alternatif: ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON'dan CSV/XML dışa aktarma ve çoklu dosya birleştirme. Ücretsiz, sınırsız, ticari kullanım serbest.">
     <meta name="keywords" content="large JSON viewer, open large JSON file, big JSON viewer, JSON file too big to open, view 2GB 3GB JSON, macOS JSON viewer, native Mac JSON viewer, Dadroit alternative, free Dadroit, JSON to CSV, JSON to XML, open source JSON viewer, gigabyte JSON, JSON tree viewer, search large JSON">
     <meta name="author" content="bandusix">
     <meta name="robots" content="index,follow">
@@ -27,13 +27,13 @@
     <meta property="og:locale" content="tr_TR">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="BigJSON">
-    <meta property="og:title" content="BigJSON — macOS için Ücretsiz Büyük JSON Dosyası Görüntüleyici · Dadroit Alternatifi">
-    <meta property="og:description" content="Çok gigabaytlık (2–3 GB) JSON dosyalarını macOS'ta saniyeler içinde açın ve arayın. Dadroit'e ücretsiz, açık kaynaklı bir alternatif: ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON'dan CSV/XML dışa aktarma ve çoklu dosya birleştirme. Ücretsiz, sınırsız, ticari kullanım serbest.">
+    <meta property="og:title" content="BigJSON — macOS ve Windows için Ücretsiz Büyük JSON Dosyası Görüntüleyici · Dadroit Alternatifi">
+    <meta property="og:description" content="Çok gigabaytlık (2–3 GB) JSON dosyalarını macOS ve Windows'ta saniyeler içinde açın ve arayın. Dadroit'e ücretsiz, açık kaynaklı bir alternatif: ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON'dan CSV/XML dışa aktarma ve çoklu dosya birleştirme. Ücretsiz, sınırsız, ticari kullanım serbest.">
     <meta property="og:url" content="https://bandusix.github.io/huge-json-viewer/tr/">
     <meta property="og:image" content="https://bandusix.github.io/huge-json-viewer/screenshot-dark.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="BigJSON — macOS için Ücretsiz Büyük JSON Dosyası Görüntüleyici · Dadroit Alternatifi">
-    <meta name="twitter:description" content="Çok gigabaytlık (2–3 GB) JSON dosyalarını macOS'ta saniyeler içinde açın ve arayın. Dadroit'e ücretsiz, açık kaynaklı bir alternatif: ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON'dan CSV/XML dışa aktarma ve çoklu dosya birleştirme. Ücretsiz, sınırsız, ticari kullanım serbest.">
+    <meta name="twitter:title" content="BigJSON — macOS ve Windows için Ücretsiz Büyük JSON Dosyası Görüntüleyici · Dadroit Alternatifi">
+    <meta name="twitter:description" content="Çok gigabaytlık (2–3 GB) JSON dosyalarını macOS ve Windows'ta saniyeler içinde açın ve arayın. Dadroit'e ücretsiz, açık kaynaklı bir alternatif: ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON'dan CSV/XML dışa aktarma ve çoklu dosya birleştirme. Ücretsiz, sınırsız, ticari kullanım serbest.">
     <meta name="twitter:image" content="https://bandusix.github.io/huge-json-viewer/screenshot-dark.png">
 
     <script type="application/ld+json">
@@ -42,9 +42,9 @@
         "@type": "SoftwareApplication",
         "name": "BigJSON",
         "alternateName": "Huge JSON Viewer",
-        "operatingSystem": "macOS 11+",
+        "operatingSystem": "macOS 11+, Windows 10+",
         "applicationCategory": "DeveloperApplication",
-        "description": "Çok gigabaytlık (2–3 GB) JSON dosyalarını macOS'ta saniyeler içinde açın ve arayın. Dadroit'e ücretsiz, açık kaynaklı bir alternatif: ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON'dan CSV/XML dışa aktarma ve çoklu dosya birleştirme. Ücretsiz, sınırsız, ticari kullanım serbest.",
+        "description": "Çok gigabaytlık (2–3 GB) JSON dosyalarını macOS ve Windows'ta saniyeler içinde açın ve arayın. Dadroit'e ücretsiz, açık kaynaklı bir alternatif: ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON'dan CSV/XML dışa aktarma ve çoklu dosya birleştirme. Ücretsiz, sınırsız, ticari kullanım serbest.",
         "url": "https://bandusix.github.io/huge-json-viewer/tr/",
         "downloadUrl": "https://github.com/bandusix/huge-json-viewer/releases/latest",
         "softwareVersion": "0.3.0",
@@ -102,7 +102,7 @@
             "name": "Ne kadar büyük bir JSON dosyası açabilir?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Dosya başına 4 GB'a kadar (ve çoklu dosya birleştirmesi için birleşik 4 GB). Dizin, RAM'de dosya boyutunun kabaca 1.5–2× kadarını kullanır; 16 GB'lık bir Mac, 2–3 GB'lık dosyaları rahatça işler."
+              "text": "Dosya başına 4 GB'a kadar (ve çoklu dosya birleştirmesi için birleşik 4 GB). Dizin, RAM'de dosya boyutunun kabaca 1.5–2× kadarını kullanır; 16 GB'lık bir makine, 2–3 GB'lık dosyaları rahatça işler."
             }
           },
           {
@@ -110,7 +110,7 @@
             "name": "Dadroit'e iyi bir ücretsiz alternatif mi?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Evet. Aynı temel özellikleri kapsar — katlanabilir bir ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON → CSV / XML dışa aktarma ve birden çok dosyayı birleştirme — hem de Apple Silicon ve Intel üzerinde ücretsiz ve açık kaynak olarak."
+              "text": "Evet. Aynı temel özellikleri kapsar — katlanabilir bir ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON → CSV / XML dışa aktarma ve birden çok dosyayı birleştirme — hem de macOS ve Windows üzerinde ücretsiz ve açık kaynak olarak."
             }
           },
           {
@@ -126,7 +126,15 @@
             "name": "Verilerim herhangi bir yere yükleniyor mu?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Hayır. %100 çevrimdışıdır — sunucu yok, yükleme yok, telemetri yok. JSON'unuz Mac'inizden asla dışarı çıkmaz."
+              "text": "Hayır. %100 çevrimdışıdır — sunucu yok, yükleme yok, telemetri yok. JSON'unuz bilgisayarınızdan asla dışarı çıkmaz."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Windows'ta çalışıyor mu?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Evet. BigJSON, Mac derlemesiyle aynı ağaç görüntüleyici, anahtar ve değer araması ve JSON → CSV / XML dışa aktarma özellikleriyle Windows 10 ve 11'de (64 bit) yerel olarak çalışır. Windows yükleyicisini sürümler sayfasından indirin ve SmartScreen görünürse Ek bilgi → Yine de çalıştır seçeneğini seçin."
             }
           }
         ]
@@ -338,12 +346,13 @@
         <div class="wrap">
           <p class="kicker"><span data-i18n="hero.eyebrow">Devasa boyutlu JSON Görüntüleyici arayüzü</span> <span data-i18n="hero.formerly">· eski adıyla Huge JSON Viewer</span></p>
           <h1 data-i18n-html="hero.h1"><span class="grad">Devasa JSON dosyalarını</span> göz açıp kapayana kadar açın — üstelik ücretsiz.</h1>
-          <p class="sub" data-i18n-html="hero.sub"><strong>Çok gigabaytlık JSON</strong> için hızlı, yerel bir macOS görüntüleyici. 2–3 GB dosyaları saniyeler içinde görüntüleyin, arayın ve dönüştürün — Dadroit'e ücretsiz, açık kaynaklı alternatif.</p>
+          <p class="sub" data-i18n-html="hero.sub"><strong>Çok gigabaytlık JSON</strong> için macOS ve Windows'ta hızlı, yerel bir görüntüleyici. 2–3 GB dosyaları saniyeler içinde görüntüleyin, arayın ve dönüştürün — Dadroit'e ücretsiz, açık kaynaklı alternatif.</p>
           <div class="cta">
             <a class="btn btn-primary" href="https://github.com/bandusix/huge-json-viewer/releases/latest"><span aria-hidden="true">⬇&nbsp;</span><span data-i18n="hero.download">macOS için indir</span></a>
+            <a class="btn btn-primary" href="https://github.com/bandusix/huge-json-viewer/releases/latest"><span aria-hidden="true">⬇&nbsp;</span><span data-i18n="hero.downloadWin">Windows için indir</span></a>
             <a class="btn btn-ghost" href="https://github.com/bandusix/huge-json-viewer"><span aria-hidden="true">★&nbsp;</span><span data-i18n="hero.github">GitHub'da görüntüle</span></a>
           </div>
-          <p class="plat" data-i18n="hero.platform">Evrensel · Apple Silicon + Intel · macOS 11+ · 2 MB · MIT lisanslı</p>
+          <p class="plat" data-i18n="hero.platform">macOS 11+ (Apple Silicon + Intel) · Windows 10+ · ücretsiz · MIT lisanslı</p>
           <div class="hero-shot">
             <img src="../hero.webp" alt="BigJSON on macOS showing a 1.41 GB JSON file with 94 million nodes opened in 2.3 seconds as a syntax-highlighted collapsible tree" width="2360" height="1722" loading="eager">
           </div>
@@ -411,7 +420,7 @@
             <article class="card">
               <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 5-3 7-7 9-4-2-7-4-7-9V6z"></path></svg></div>
               <h3 data-i18n="f9.t">Gizli ve çevrimdışı</h3>
-              <p data-i18n="f9.d">Sunucu yok, yükleme yok, telemetri yok. JSON'unuz Mac'inizden asla dışarı çıkmaz.</p>
+              <p data-i18n="f9.d">Sunucu yok, yükleme yok, telemetri yok. JSON'unuz bilgisayarınızdan asla dışarı çıkmaz.</p>
             </article>
           </div>
         </div>
@@ -445,7 +454,7 @@
                 <tr><td data-i18n="cmp.r.union">Birden çok dosyayı birleştir</td><td class="us yes">✓</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td></tr>
                 <tr><td data-i18n="cmp.r.commercial">Ticari kullanım</td><td class="us yes">✓</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
                 <tr><td data-i18n="cmp.r.langs">20 dilli arayüz (RTL)</td><td class="us yes">✓</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td></tr>
-                <tr><td data-i18n="cmp.r.arch">Apple Silicon + Intel</td><td class="us yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+                <tr><td data-i18n="cmp.r.arch">macOS + Windows</td><td class="us yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
                 <tr><td data-i18n="cmp.r.offline">Çevrimdışı · telemetri yok</td><td class="us yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
               </tbody>
             </table>
@@ -472,12 +481,13 @@
         <div class="wrap">
           <div class="dl">
             <h2 data-i18n="dl.title">BigJSON'u indir</h2>
-            <p data-i18n="dl.lead">Ücretsiz, açık kaynaklı ve evrensel — Apple Silicon ve Intel Mac'ler için.</p>
+            <p data-i18n="dl.lead">Ücretsiz, açık kaynaklı ve yerel — macOS (Apple Silicon + Intel) ve Windows 10/11 için.</p>
             <div class="cta">
-              <a class="btn btn-primary" href="https://github.com/bandusix/huge-json-viewer/releases/latest"><span aria-hidden="true">⬇&nbsp;</span><span data-i18n="dl.download">En son DMG'yi indir</span></a>
+              <a class="btn btn-primary" href="https://github.com/bandusix/huge-json-viewer/releases/latest"><span aria-hidden="true">⬇&nbsp;</span><span data-i18n="dl.download">macOS için indir</span></a>
+              <a class="btn btn-primary" href="https://github.com/bandusix/huge-json-viewer/releases/latest"><span aria-hidden="true">⬇&nbsp;</span><span data-i18n="dl.downloadWin">Windows için indir</span></a>
               <a class="btn btn-ghost" href="https://github.com/bandusix/huge-json-viewer" data-i18n="dl.source">Kaynağı GitHub'da görüntüle</a>
             </div>
-            <small data-i18n-html="dl.note">macOS 11+ · imzasız derleme → ilk açılış: uygulamaya sağ tıklayın → Aç. <a href="https://github.com/bandusix/huge-json-viewer/blob/main/CHANGELOG.md" style="color:#9fb0e0">değişiklik günlüğüne</a> bakın.</small>
+            <small data-i18n-html="dl.note">macOS 11+ veya Windows 10+ · imzasız derleme. macOS: ilk açılış → uygulamaya sağ tıklayın → Aç. Windows: SmartScreen görünürse → Ek bilgi → Yine de çalıştır. <a href="https://github.com/bandusix/huge-json-viewer/blob/main/CHANGELOG.md" style="color:#9fb0e0">değişiklik günlüğüne</a> bakın.</small>
           </div>
         </div>
       </section>
@@ -490,10 +500,11 @@
           <div style="margin-top: 30px">
             <details open=""><summary data-i18n="faq.q1">Mac'te büyük bir JSON dosyasını nasıl açarım?</summary><p data-i18n-html="faq.a1">BigJSON'u (ücretsiz) indirin, ardından <code>.json</code> dosyanızı pencereye sürükleyin veya ⌘O tuşlarına basın. Dosyayı belleğe eşler ve akışlı bir dizin oluşturur; böylece 2–3 GB'lık bir JSON birkaç saniyede açılır — çökme yok, bölme yok.</p></details>
             <details><summary data-i18n="faq.q2">BigJSON gerçekten ücretsiz mi?</summary><p data-i18n="faq.a2">Evet — ticari kullanım dahil, MIT lisansı altında %100 ücretsiz ve açık kaynak. Ücretli sürüm yok, kayıt yok, deneme yok.</p></details>
-            <details><summary data-i18n="faq.q3">Ne kadar büyük bir JSON dosyası açabilir?</summary><p data-i18n="faq.a3">Dosya başına 4 GB'a kadar (ve çoklu dosya birleştirmesi için birleşik 4 GB). Dizin, RAM'de dosya boyutunun kabaca 1.5–2× kadarını kullanır; 16 GB'lık bir Mac, 2–3 GB'lık dosyaları rahatça işler.</p></details>
-            <details><summary data-i18n="faq.q4">Dadroit'e iyi bir ücretsiz alternatif mi?</summary><p data-i18n="faq.a4">Evet. Aynı temel özellikleri kapsar — katlanabilir bir ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON → CSV / XML dışa aktarma ve birden çok dosyayı birleştirme — hem de Apple Silicon ve Intel üzerinde ücretsiz ve açık kaynak olarak.</p></details>
+            <details><summary data-i18n="faq.q3">Ne kadar büyük bir JSON dosyası açabilir?</summary><p data-i18n="faq.a3">Dosya başına 4 GB'a kadar (ve çoklu dosya birleştirmesi için birleşik 4 GB). Dizin, RAM'de dosya boyutunun kabaca 1.5–2× kadarını kullanır; 16 GB'lık bir makine, 2–3 GB'lık dosyaları rahatça işler.</p></details>
+            <details><summary data-i18n="faq.q4">Dadroit'e iyi bir ücretsiz alternatif mi?</summary><p data-i18n="faq.a4">Evet. Aynı temel özellikleri kapsar — katlanabilir bir ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON → CSV / XML dışa aktarma ve birden çok dosyayı birleştirme — hem de macOS ve Windows üzerinde ücretsiz ve açık kaynak olarak.</p></details>
             <details><summary data-i18n="faq.q5">JSON'u CSV veya XML'e dönüştürebilir mi?</summary><p data-i18n="faq.a5">Evet. JSON'u CSV'ye (nesnelerden oluşan bir dizi bir elektronik tabloya dönüşür) veya XML'e akıtır ve çok gigabaytlık dosyalarda sınırlı bellek kullanarak çalışır.</p></details>
-            <details><summary data-i18n="faq.q6">Verilerim herhangi bir yere yükleniyor mu?</summary><p data-i18n="faq.a6">Hayır. %100 çevrimdışıdır — sunucu yok, yükleme yok, telemetri yok. JSON'unuz Mac'inizden asla dışarı çıkmaz.</p></details>
+            <details><summary data-i18n="faq.q6">Verilerim herhangi bir yere yükleniyor mu?</summary><p data-i18n="faq.a6">Hayır. %100 çevrimdışıdır — sunucu yok, yükleme yok, telemetri yok. JSON'unuz bilgisayarınızdan asla dışarı çıkmaz.</p></details>
+            <details><summary data-i18n="faq.q7">Windows'ta çalışıyor mu?</summary><p data-i18n="faq.a7">Evet. BigJSON, Mac derlemesiyle aynı ağaç görüntüleyici, anahtar ve değer araması ve JSON → CSV / XML dışa aktarma özellikleriyle Windows 10 ve 11'de (64 bit) yerel olarak çalışır. Windows yükleyicisini sürümler sayfasından indirin ve SmartScreen görünürse Ek bilgi → Yine de çalıştır seçeneğini seçin.</p></details>
           </div>
         </div>
       </section>
@@ -504,7 +515,7 @@
         <div class="fcols">
           <div>
             <div class="fbrand"><span class="logo" style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#2f6bff,#5b8cff);display:grid;place-items:center;font-family:ui-monospace,monospace;font-weight:800;font-size:13px;color:#fff">{}</span> BigJSON</div>
-            <p style="max-width: 340px; color:#8b93ad" data-i18n="foot.tagline">BigJSON — Devasa boyutlu JSON Görüntüleyici arayüzü (eski adıyla Huge JSON Viewer). macOS için ücretsiz, açık kaynaklı büyük JSON dosyası görüntüleyici. Çok gigabaytlık JSON'u saniyeler içinde açın, arayın ve dönüştürün.</p>
+            <p style="max-width: 340px; color:#8b93ad" data-i18n="foot.tagline">BigJSON — Devasa boyutlu JSON Görüntüleyici arayüzü (eski adıyla Huge JSON Viewer). macOS ve Windows için ücretsiz, açık kaynaklı büyük JSON dosyası görüntüleyici. Çok gigabaytlık JSON'u saniyeler içinde açın, arayın ve dönüştürün.</p>
           </div>
           <div>
             <h4 data-i18n="foot.product">Ürün</h4>

@@ -13,6 +13,16 @@ import { open as openDialog, save as saveDialog } from "@tauri-apps/plugin-dialo
 import { revealItemInDir } from "@tauri-apps/plugin-opener";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
 
+// ---- host platform ----
+// data-platform is set on <html> by an inline <head> script (before first paint)
+// so the title-bar CSS has no flash. Here we only do the DOM-dependent tweak:
+// swap the ⌘ open-hint to Ctrl on Windows.
+const IS_WINDOWS = document.documentElement.dataset.platform === "windows";
+if (IS_WINDOWS) {
+  const kbdMod = document.getElementById("kbd-mod");
+  if (kbdMod) kbdMod.textContent = "Ctrl";
+}
+
 // ---- layout constants (keep in sync with styles.css) ----
 const ROW_H = 22;
 const INDENT = 15;

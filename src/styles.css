@@ -12,7 +12,7 @@
   --toolbar-h: 46px;
   --statusbar-h: 24px;
 
-  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Inter", system-ui, sans-serif;
   --font-mono: "SF Mono", ui-monospace, "JetBrains Mono", "Menlo", "Consolas", monospace;
 
   /* Light theme */
@@ -157,6 +157,17 @@ body {
   display: flex;
   justify-content: flex-end;
   gap: 4px;
+}
+
+/* On Windows the OS draws the native title bar (with the window controls), so
+   there are no traffic lights to clear — drop the left gap, and hide the in-app
+   title since the native bar already shows "BigJSON" (avoids a duplicate). The
+   title keeps its flex slot so the language/theme buttons stay pinned right. */
+:root[data-platform="windows"] .titlebar-lights-spacer {
+  display: none;
+}
+:root[data-platform="windows"] .titlebar-title {
+  visibility: hidden;
 }
 
 /* ---------------- Toolbar ---------------- */

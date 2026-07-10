@@ -29,7 +29,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["dmg", "app"],
+    "targets": "all",
     "category": "DeveloperTool",
     "copyright": "Copyright © 2018-2026, bandusix, All Rights Reserved",
     "shortDescription": "BigJSON — open and search multi-gigabyte JSON files",
@@ -40,6 +40,11 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "windows": {
+      "nsis": {
+        "installMode": "currentUser"
+      }
+    }
   }
 }

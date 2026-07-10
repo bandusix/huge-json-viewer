@@ -5,6 +5,13 @@
     <link rel="stylesheet" href="/src/styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BigJSON</title>
+    <script>
+      // Tag the host OS before first paint so the title-bar CSS is correct with
+      // no flash (Windows uses the native title bar; macOS its own transparent one).
+      document.documentElement.dataset.platform = /windows/i.test(navigator.userAgent)
+        ? "windows"
+        : "mac";
+    </script>
   </head>
   <body>
     <div id="app">
@@ -99,7 +106,7 @@
             <span class="ico" data-ico="open"></span>
             <span data-i18n="empty.choose">Choose File…</span>
           </button>
-          <p class="empty-hint"><kbd>⌘</kbd><kbd>O</kbd>&nbsp;<span data-i18n="empty.hintOpen">to open</span></p>
+          <p class="empty-hint"><kbd id="kbd-mod">⌘</kbd><kbd>O</kbd>&nbsp;<span data-i18n="empty.hintOpen">to open</span></p>
           <p class="empty-note" data-i18n="empty.free">Free · open source · commercial use OK (MIT) — nothing to license</p>
         </div>
 

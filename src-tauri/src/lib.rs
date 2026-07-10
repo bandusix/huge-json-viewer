@@ -359,16 +359,41 @@ async fn open_union(
             let ctr = UNION_CTR.fetch_add(1, Ordering::Relaxed);
             let scratch_path = std::env::temp_dir()
                 .join(format!("hjv_union_{}_{}.bin", std::process::id(), ctr));
-            let mut scratch = std::fs::File::options()
-                .read(true)
-                .write(true)
-                .create(true)
-                .truncate(true)
-                .open(&scratch_path)
-                .map_err(|e| format!("Cannot create scratch file: {e}"))?;
-            // Unlink immediately: the open fd (and the later mmap) keep the inode
-            // alive on macOS/Linux, so every error path auto-cleans — no leak.
-            let _ = std::fs::remove_file(&scratch_path);
+            // Create a self-cleaning scratch file, per platform. On Unix we unlink
+            // it immediately — the open fd (and the later mmap) keep the inode
+            // alive, so every error path auto-cleans with no leak. Windows cannot
+            // delete an open file, so we open it with FILE_FLAG_DELETE_ON_CLOSE +
+            // share-delete: the OS removes it once the handle and the memory-mapped
+            // view are both closed (deletion is deferred while the view is live).
+            #[cfg(windows)]
+            let mut scratch = {
+                use std::os::windows::fs::OpenOptionsExt;
+                const FILE_SHARE_READ: u32 = 0x0000_0001;
+                const FILE_SHARE_WRITE: u32 = 0x0000_0002;
+                const FILE_SHARE_DELETE: u32 = 0x0000_0004;
+                const FILE_FLAG_DELETE_ON_CLOSE: u32 = 0x0400_0000;
+                std::fs::File::options()
+                    .read(true)
+                    .write(true)
+                    .create(true)
+                    .truncate(true)
+                    .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
+                    .custom_flags(FILE_FLAG_DELETE_ON_CLOSE)
+                    .open(&scratch_path)
+                    .map_err(|e| format!("Cannot create scratch file: {e}"))?
+            };
+            #[cfg(not(windows))]
+            let mut scratch = {
+                let f = std::fs::File::options()
+                    .read(true)
+                    .write(true)
+                    .create(true)
+                    .truncate(true)
+                    .open(&scratch_path)
+                    .map_err(|e| format!("Cannot create scratch file: {e}"))?;
+                let _ = std::fs::remove_file(&scratch_path);
+                f
+            };
             let ub = index::build_union(&paths_job, &mut scratch, &progress_job)?;
             scratch.flush().map_err(|e| e.to_string())?;
             let index::UnionBuild { nodes, byte_len, files, skipped } = ub;

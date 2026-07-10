@@ -2,16 +2,17 @@
 
 **Huge-size JSON Viewer GUI** · _formerly Huge JSON Viewer_
 
-> Open and search **very large JSON files (2–3 GB and up)** on **macOS** in seconds — a **free, open‑source alternative to Dadroit**. When your text editor or browser crashes on a big JSON file, this opens it instantly.
+> Open and search **very large JSON files (2–3 GB and up)** on **macOS and Windows** in seconds — a **free, open‑source alternative to Dadroit**. When your text editor or browser crashes on a big JSON file, this opens it instantly.
 
 **English** · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Español](README.es.md) · [Português](README.pt-BR.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [Русский](README.ru.md) · [हिन्दी](README.hi.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md) · [Bahasa Indonesia](README.id.md)
 
 [![Release](https://img.shields.io/github/v/release/bandusix/huge-json-viewer?color=0a6cff)](https://github.com/bandusix/huge-json-viewer/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/bandusix/huge-json-viewer/total?color=28c840)](https://github.com/bandusix/huge-json-viewer/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![Platform](https://img.shields.io/badge/macOS-Apple%20Silicon%20%2B%20Intel-black?logo=apple)
+![macOS](https://img.shields.io/badge/macOS-Apple%20Silicon%20%2B%20Intel-black?logo=apple)
+![Windows](https://img.shields.io/badge/Windows-10%20%2F%2011-0a6cff?logo=windows)
 
-### [⬇️ Download the latest DMG](https://github.com/bandusix/huge-json-viewer/releases/latest) · [Changelog](CHANGELOG.md)
+### [⬇️ Download for macOS or Windows](https://github.com/bandusix/huge-json-viewer/releases/latest) · [Changelog](CHANGELOG.md)
 
 ![BigJSON](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
 
@@ -25,7 +26,7 @@
 
 Most text editors and online JSON viewers **crash or freeze when you open a large JSON file**, because they parse the whole thing into memory — a 2–3 GB file balloons to 15–30 GB of RAM. **BigJSON** never does that. It memory‑maps the file, builds a compact index in one streaming pass, and renders only the rows on screen. So it **opens multi‑gigabyte JSON in seconds** and searches the whole file instantly, staying under ~1.5–2× the file size in RAM.
 
-If you've searched for *"how to open a large JSON file"*, *"JSON file too big to open"*, or a **free Dadroit alternative for Mac**, this is built for exactly that.
+If you've searched for *"how to open a large JSON file"*, *"JSON file too big to open"*, or a **free Dadroit alternative for Mac or Windows**, this is built for exactly that.
 
 ## Features
 
@@ -35,19 +36,30 @@ If you've searched for *"how to open a large JSON file"*, *"JSON file too big to
 - 🔗 **Union multiple files** — open several JSON files at once as one combined, searchable tree
 - 🌳 **Syntax‑highlighted collapsible tree** with line numbers, indent guides, type colors and child counts (Dadroit / jsonviewer.app style)
 - 📄 Opens `.json`, `.ndjson` / `.jsonl` (auto‑detected), `.geojson`, `.txt`
-- 🖱️ Drag‑and‑drop, ⌘O to open, ⌘F to search, full keyboard navigation
+- 🖱️ Drag‑and‑drop, **⌘O / Ctrl+O** to open, **⌘F / Ctrl+F** to search, full keyboard navigation
 - 🌍 **20‑language UI**, right‑to‑left aware (Arabic, Urdu, Punjabi)
-- 🖥️ **Universal** — Apple Silicon (M1–M4) *and* Intel
-- 🔒 **100% offline** — no upload, no server, no telemetry · 2 MB app
+- 🖥️ **macOS & Windows** — universal Mac (Apple Silicon M1–M4 + Intel) and Windows 10/11 (x64)
+- 🔒 **100% offline** — no upload, no server, no telemetry · tiny (~2 MB) app
 - 🆓 **Free and open source** (MIT)
 
 ## Install
+
+### macOS
 
 1. **[Download the latest `.dmg`](https://github.com/bandusix/huge-json-viewer/releases/latest)** and open it.
 2. Drag **BigJSON** into Applications.
 3. First launch: the app is unsigned, so **right‑click the app → Open**, then confirm (only needed once).
 
-Requirements: macOS 11 (Big Sur) or newer. Handles JSON files up to 4 GB.
+Requirements: macOS 11 (Big Sur) or newer, Apple Silicon or Intel.
+
+### Windows
+
+1. **[Download the latest `.exe`](https://github.com/bandusix/huge-json-viewer/releases/latest)** (the `BigJSON_x.y.z_x64-setup.exe` NSIS installer) and run it — it installs per‑user, no admin needed.
+2. The build is unsigned, so if **SmartScreen** appears, click **More info → Run anyway** (only needed once).
+
+Requirements: Windows 10 or 11 (64‑bit). WebView2 is preinstalled on Windows 11 and current Windows 10; the installer fetches it automatically if missing.
+
+Both builds handle JSON files up to 4 GB.
 
 ## How it works
 
@@ -58,7 +70,7 @@ A 2–3 GB JSON file cannot be parsed into in‑memory objects. The Rust core in
 3. **Renders only visible rows.** The tree is fully virtualized; expand/collapse mutate a visible‑row list instead of materializing the whole document. A **scaled scrollbar** keeps millions of rows scrollable past the browser's element‑height limit.
 4. **Searches raw bytes** with SIMD substring / regex over the mmap and maps every hit back to its node.
 
-Built with **Tauri v2** (Rust backend + web frontend), packaged as a ~2 MB `.dmg`.
+Built with **Tauri v2** (Rust backend + web frontend), packaged as a ~2 MB `.dmg` (macOS) or NSIS `.exe` installer (Windows).
 
 ## BigJSON vs. other large‑JSON tools
 
@@ -71,7 +83,7 @@ Built with **Tauri v2** (Rust backend + web frontend), packaged as a ~2 MB `.dmg
 | Convert JSON → CSV / XML | ✅ streaming | ✅ | ❌ |
 | Union multiple files | ✅ | ✅ (Advanced tier) | ❌ |
 | Commercial use | ✅ **free** | 💲 paid license | ✅ |
-| Native macOS (Apple Silicon + Intel) | ✅ universal | ✅ | ✅ |
+| Native macOS & Windows | ✅ (universal Mac + Win x64) | ✅ | ✅ |
 | UI languages | **20 (RTL aware)** | few | many |
 | Offline / no telemetry | ✅ | ✅ | ✅ |
 
@@ -83,21 +95,24 @@ The UI ships in **20 locales**, switchable from the 🌐 button (persisted, auto
 
 ## Build from source
 
+Prerequisites: [Node.js](https://nodejs.org) 20+, the [Rust toolchain](https://rustup.rs), and the [Tauri v2 system prerequisites](https://v2.tauri.app/start/prerequisites/) for your OS (Xcode Command Line Tools on macOS; Microsoft C++ Build Tools + WebView2 on Windows).
+
 ```bash
 npm install
-npm run tauri dev                      # hot-reloading dev app
-npm run tauri build -- --bundles dmg   # build the DMG
-cd src-tauri && cargo test             # engine tests (serde_json oracle, escapes, NDJSON, search)
+npm run tauri dev                                       # hot-reloading dev app
+npm run tauri build -- --target universal-apple-darwin --bundles dmg   # macOS universal DMG
+npm run tauri build -- --bundles nsis                   # Windows installer (run on Windows)
+cd src-tauri && cargo test                              # engine tests (serde_json oracle, escapes, NDJSON, search)
 ```
 
 ## Limits (v1)
 
 - **File size:** up to 4 GB (compact `u32` offsets). Larger files are rejected with a clear message.
-- **RAM:** the index is ~23 bytes/node, so a 2–3 GB file needs roughly **1.5–2× the file size** in RAM (the memory‑mapped file itself is evictable OS page cache). A 16 GB Mac handles 2–3 GB files comfortably.
+- **RAM:** the index is ~23 bytes/node, so a 2–3 GB file needs roughly **1.5–2× the file size** in RAM (the memory‑mapped file itself is evictable OS page cache). A 16 GB machine handles 2–3 GB files comfortably.
 - **Search** matches raw file bytes (an escaped character matches in its escaped form); case‑insensitive matching is ASCII‑only.
 
 ## License
 
 [MIT](LICENSE) © bandusix
 
-<sub>Keywords: large JSON viewer, open big JSON file, view 2GB / 3GB JSON, JSON file too big to open, macOS JSON viewer, native Mac JSON viewer, free Dadroit alternative, open source JSON viewer, search large JSON keys and values, gigabyte JSON, streaming JSON viewer.</sub>
+<sub>Keywords: large JSON viewer, open big JSON file, view 2GB / 3GB JSON, JSON file too big to open, macOS JSON viewer, Windows JSON viewer, native Mac JSON viewer, open large JSON on Windows, free Dadroit alternative, open source JSON viewer, search large JSON keys and values, gigabyte JSON, streaming JSON viewer.</sub>

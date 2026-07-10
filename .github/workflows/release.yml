@@ -1,7 +1,8 @@
 name: Release
 
-# Build a universal (Intel + Apple Silicon) macOS DMG and attach it to a
-# GitHub Release whenever a version tag is pushed, e.g.:
+# Build the native installers for macOS (universal DMG) and Windows (NSIS
+# .exe) and attach them to a SINGLE GitHub Release whenever a version tag is
+# pushed, e.g.:
 #   git tag v0.1.0 && git push origin v0.1.0
 on:
   push:
@@ -9,10 +10,58 @@ on:
   workflow_dispatch:
 
 jobs:
-  release:
-    runs-on: macos-14 # Apple Silicon runner
+  # Create the draft release once, up front, so both build legs upload to the
+  # same release instead of racing to create two separate drafts.
+  create-release:
+    if: startsWith(github.ref, 'refs/tags/v')
     permissions:
       contents: write
+    runs-on: ubuntu-latest
+    outputs:
+      release_id: ${{ steps.create.outputs.result }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create draft release
+        id: create
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            const tag = context.ref.replace('refs/tags/', '');
+            const { data } = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: tag,
+              name: `BigJSON ${tag}`,
+              body: [
+                'Native builds for **macOS** (universal — Intel + Apple Silicon) and **Windows** (10/11, x64).',
+                '',
+                'Both builds are **unsigned**:',
+                '- **macOS** — on first launch, right-click the app → **Open**, then confirm.',
+                '- **Windows** — if SmartScreen appears, click **More info → Run anyway**.',
+                '',
+                'See the README for details.',
+              ].join('\n'),
+              draft: true,
+              prerelease: false,
+            });
+            return data.id;
+
+  build:
+    needs: create-release
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos-14 # Apple Silicon runner → universal build
+            rust_targets: aarch64-apple-darwin,x86_64-apple-darwin
+            args: --target universal-apple-darwin --bundles dmg
+          - platform: windows-latest
+            rust_targets: ""
+            args: --bundles nsis
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
 
@@ -22,7 +71,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
         with:
-          targets: aarch64-apple-darwin,x86_64-apple-darwin
+          targets: ${{ matrix.rust_targets }}
 
       - name: Cache cargo
         uses: swatinem/rust-cache@v2
@@ -32,11 +81,11 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
-      - name: Build, bundle, and release
+      - name: Build, bundle, and upload to the release
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # --- Optional: set these repo secrets to ship a SIGNED + NOTARIZED build ---
+          # --- Optional: set these repo secrets to ship a SIGNED + NOTARIZED macOS build ---
           # Requires an Apple Developer Program membership ($99/yr). Without them the
           # DMG is unsigned (users open it once via right-click → Open).
           # APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
@@ -46,13 +95,5 @@ jobs:
           # APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
-          args: --target universal-apple-darwin --bundles dmg
-          tagName: ${{ github.ref_name }}
-          releaseName: "BigJSON ${{ github.ref_name }}"
-          releaseBody: |
-            Universal macOS build (Intel + Apple Silicon).
-
-            The DMG is **unsigned**: on first launch, right-click the app → **Open**,
-            then confirm. See the README for details.
-          releaseDraft: true
-          prerelease: false
+          releaseId: ${{ needs.create-release.outputs.release_id }}
+          args: ${{ matrix.args }}

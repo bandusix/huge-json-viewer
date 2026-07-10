@@ -2,18 +2,19 @@
 
 **Huge-size JSON Viewer GUI** · _formerly Huge JSON Viewer_
 
-> **बहुत बड़ी JSON फ़ाइलें (2–3 GB और उससे ज़्यादा)** को **macOS** पर कुछ ही सेकंड में खोलें और उनमें खोजें — **Dadroit का एक मुफ़्त, ओपन सोर्स विकल्प**। जब आपका टेक्स्ट एडिटर या ब्राउज़र किसी बड़ी JSON फ़ाइल पर क्रैश हो जाए, तो यह उसे तुरंत खोल देता है।
+> **बहुत बड़ी JSON फ़ाइलें (2–3 GB और उससे ज़्यादा)** को **macOS और Windows** पर कुछ ही सेकंड में खोलें और उनमें खोजें — **Dadroit का एक मुफ़्त, ओपन सोर्स विकल्प**। जब आपका टेक्स्ट एडिटर या ब्राउज़र किसी बड़ी JSON फ़ाइल पर क्रैश हो जाए, तो यह उसे तुरंत खोल देता है।
 
 [English](README.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Español](README.es.md) · [Português](README.pt-BR.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [Русский](README.ru.md) · **हिन्दी** · [العربية](README.ar.md) · [Türkçe](README.tr.md) · [Bahasa Indonesia](README.id.md)
 
 [![Release](https://img.shields.io/github/v/release/bandusix/huge-json-viewer?color=0a6cff)](https://github.com/bandusix/huge-json-viewer/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/bandusix/huge-json-viewer/total?color=28c840)](https://github.com/bandusix/huge-json-viewer/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![Platform](https://img.shields.io/badge/macOS-Apple%20Silicon%20%2B%20Intel-black?logo=apple)
+![macOS](https://img.shields.io/badge/macOS-Apple%20Silicon%20%2B%20Intel-black?logo=apple)
+![Windows](https://img.shields.io/badge/Windows-10%20%2F%2011-0a6cff?logo=windows)
 
-### [⬇️ नया DMG डाउनलोड करें](https://github.com/bandusix/huge-json-viewer/releases/latest)
+### [⬇️ macOS या Windows के लिए डाउनलोड करें](https://github.com/bandusix/huge-json-viewer/releases/latest) · [Changelog](CHANGELOG.md)
 
-![BigJSON — बड़ा JSON व्यूअर, Mac पर गीगाबाइट JSON खोलें](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
+![BigJSON — बड़ा JSON व्यूअर, Mac और Windows पर गीगाबाइट JSON खोलें](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
 
 <details><summary>लाइट थीम</summary>
 
@@ -25,27 +26,40 @@
 
 ज़्यादातर टेक्स्ट एडिटर और ऑनलाइन JSON व्यूअर **किसी बड़ी JSON फ़ाइल को खोलते ही क्रैश या फ़्रीज़ हो जाते हैं**, क्योंकि वे पूरी फ़ाइल को मेमोरी में पार्स कर देते हैं — एक 2–3 GB की फ़ाइल फूलकर 15–30 GB RAM ले लेती है। **BigJSON** ऐसा कभी नहीं करता। यह फ़ाइल को मेमोरी‑मैप करता है, एक ही स्ट्रीमिंग पास में एक कॉम्पैक्ट इंडेक्स बनाता है, और स्क्रीन पर दिख रही सिर्फ़ उन्हीं पंक्तियों को रेंडर करता है। इसीलिए यह **गीगाबाइट JSON को कुछ सेकंड में खोल देता है** और पूरी फ़ाइल में तुरंत खोज लेता है, जबकि RAM में सिर्फ़ फ़ाइल के आकार का ~1.5–2× ही इस्तेमाल करता है।
 
-अगर आपने कभी *"बड़ी JSON फ़ाइल कैसे खोलें"*, *"JSON फ़ाइल बहुत बड़ी है, खुल नहीं रही"*, या **Mac के लिए मुफ़्त Dadroit विकल्प** जैसा कुछ सर्च किया है, तो यह ठीक उसी के लिए बना है।
+अगर आपने कभी *"बड़ी JSON फ़ाइल कैसे खोलें"*, *"JSON फ़ाइल बहुत बड़ी है, खुल नहीं रही"*, या **Mac या Windows के लिए मुफ़्त Dadroit विकल्प** जैसा कुछ सर्च किया है, तो यह ठीक उसी के लिए बना है।
 
 ## विशेषताएँ
 
 - ⚡ **2–3 GB JSON को ~3 सेकंड में खोलता है** — मेमोरी‑मैप्ड, स्ट्रीमिंग इंडेक्स, वर्चुअलाइज़्ड ट्री
 - 🔍 **कीज़ और वैल्यूज़ में खोजें** — केस‑सेंसिटिव या नहीं, सादा या **regex**, लाइव मैच काउंट, next/prev के साथ jump‑to‑match जो पथ को अपने‑आप खोल देता है
+- 📤 **JSON → CSV या XML में बदलें** — स्ट्रीमिंग एक्सपोर्ट जो मल्टी‑GB फ़ाइलों पर भी काम करता है (ऑब्जेक्ट्स की एक विशाल ऐरे एक स्प्रेडशीट बन जाती है)
+- 🔗 **कई फ़ाइलों को यूनियन करें** — कई JSON फ़ाइलें एक साथ खोलें, एक संयुक्त, खोजने‑योग्य ट्री के रूप में
 - 🌳 **सिंटैक्स‑हाइलाइटेड, कोलैप्सिबल ट्री** — लाइन नंबर, इंडेंट गाइड, टाइप कलर और चाइल्ड काउंट के साथ (Dadroit / jsonviewer.app शैली)
 - 📄 `.json`, `.ndjson` / `.jsonl` (अपने‑आप पहचान), `.geojson`, `.txt` खोलता है
-- 🖱️ ड्रैग‑एंड‑ड्रॉप, खोलने के लिए ⌘O, खोजने के लिए ⌘F, पूरा कीबोर्ड नेविगेशन
+- 🖱️ ड्रैग‑एंड‑ड्रॉप, खोलने के लिए **⌘O / Ctrl+O**, खोजने के लिए **⌘F / Ctrl+F**, पूरा कीबोर्ड नेविगेशन
 - 🌍 **20‑भाषाओं वाला UI**, दाएँ‑से‑बाएँ (RTL) के अनुरूप (अरबी, उर्दू, पंजाबी)
-- 🖥️ **यूनिवर्सल** — Apple Silicon (M1–M4) *और* Intel
+- 🖥️ **macOS और Windows** — यूनिवर्सल Mac (Apple Silicon M1–M4 + Intel) और Windows 10/11 (x64)
 - 🔒 **100% ऑफ़लाइन** — कोई अपलोड नहीं, कोई सर्वर नहीं, कोई टेलीमेट्री नहीं · 2 MB ऐप
 - 🆓 **मुफ़्त और ओपन सोर्स** (MIT)
 
 ## इंस्टॉल करें
 
+### macOS
+
 1. **[नया `.dmg` डाउनलोड करें](https://github.com/bandusix/huge-json-viewer/releases/latest)** और उसे खोलें।
 2. **BigJSON** को Applications में ड्रैग करें।
 3. पहली बार खोलते समय: ऐप अनसाइन्ड है, इसलिए **ऐप पर राइट‑क्लिक करें → Open**, फिर पुष्टि करें (सिर्फ़ एक बार करना पड़ता है)।
 
-आवश्यकताएँ: macOS 11 (Big Sur) या नया। 4 GB तक की JSON फ़ाइलें संभालता है।
+आवश्यकताएँ: macOS 11 (Big Sur) या नया, Apple Silicon या Intel।
+
+### Windows
+
+1. **[नया `.exe` डाउनलोड करें](https://github.com/bandusix/huge-json-viewer/releases/latest)** (`BigJSON_x.y.z_x64-setup.exe` NSIS इंस्टॉलर) और उसे चलाएँ — यह प्रति‑यूज़र इंस्टॉल होता है, एडमिन की ज़रूरत नहीं।
+2. यह बिल्ड अनसाइन्ड है, इसलिए अगर **SmartScreen** दिखे, तो **More info → Run anyway** पर क्लिक करें (सिर्फ़ एक बार करना पड़ता है)।
+
+आवश्यकताएँ: Windows 10 या 11 (64‑बिट)। WebView2 Windows 11 और मौजूदा Windows 10 पर पहले से इंस्टॉल होता है; अगर नहीं है तो इंस्टॉलर उसे अपने‑आप ला लेता है।
+
+दोनों बिल्ड 4 GB तक की JSON फ़ाइलें संभालते हैं।
 
 ## यह कैसे काम करता है
 
@@ -56,17 +70,20 @@
 3. **सिर्फ़ दिखने वाली पंक्तियाँ रेंडर करता है।** ट्री पूरी तरह वर्चुअलाइज़्ड है; expand/collapse पूरे दस्तावेज़ को मटीरियलाइज़ करने के बजाय एक विज़िबल‑रो सूची को बदलते हैं। एक **स्केल्ड स्क्रॉलबार** लाखों पंक्तियों को ब्राउज़र की एलिमेंट‑ऊँचाई सीमा से आगे भी स्क्रॉल करने योग्य रखता है।
 4. mmap पर SIMD सबस्ट्रिंग / regex के साथ **रॉ बाइट्स में खोज करता है** और हर मैच को उसके नोड से वापस जोड़ता है।
 
-**Tauri v2** (Rust बैकएंड + वेब फ़्रंटएंड) से बना, ~2 MB के `.dmg` के रूप में पैकेज किया गया।
+**Tauri v2** (Rust बैकएंड + वेब फ़्रंटएंड) से बना, ~2 MB के `.dmg` (macOS) या NSIS `.exe` इंस्टॉलर (Windows) के रूप में पैकेज किया गया।
 
 ## BigJSON बनाम बड़ी‑JSON के अन्य टूल
 
 | | BigJSON | Dadroit | टेक्स्ट एडिटर (VS Code, आदि) |
 | --- | --- | --- | --- |
-| कीमत | **मुफ़्त और ओपन सोर्स (MIT)** | मुफ़्त + पेड Pro | मुफ़्त |
-| 2–3 GB JSON खोलता है | ✅ ~3 सेकंड | ✅ | ❌ क्रैश / फ़्रीज़ हो जाता है |
+| कीमत | **मुफ़्त और ओपन सोर्स (MIT)** | मुफ़्त + $98–198/वर्ष Pro | मुफ़्त |
+| 2–3 GB JSON खोलता है | ✅ ~3 सेकंड | ✅ (2 GB Standard) | ❌ क्रैश / फ़्रीज़ हो जाता है |
 | 3 GB फ़ाइल के लिए RAM | **~1.5–2×** | कम | अक्सर आउट‑ऑफ़‑मेमोरी |
 | कीज़ **और** वैल्यूज़ में खोज | ✅ regex | ✅ | सीमित |
-| नेटिव macOS (Apple Silicon + Intel) | ✅ यूनिवर्सल | ✅ | ✅ |
+| JSON → CSV / XML में बदलें | ✅ स्ट्रीमिंग | ✅ | ❌ |
+| कई फ़ाइलों को यूनियन करें | ✅ | ✅ (Advanced tier) | ❌ |
+| व्यावसायिक उपयोग | ✅ **मुफ़्त** | 💲 पेड लाइसेंस | ✅ |
+| नेटिव macOS और Windows | ✅ (यूनिवर्सल Mac + Win x64) | ✅ | ✅ |
 | UI भाषाएँ | **20 (RTL अनुरूप)** | कुछ ही | कई |
 | ऑफ़लाइन / कोई टेलीमेट्री नहीं | ✅ | ✅ | ✅ |
 
@@ -78,21 +95,24 @@ UI **20 लोकेल** में उपलब्ध है, जिसे 🌐
 
 ## सोर्स से बिल्ड करें
 
+आवश्यकताएँ: [Node.js](https://nodejs.org) 20+, [Rust टूलचेन](https://rustup.rs), और आपके OS के लिए [Tauri v2 सिस्टम आवश्यकताएँ](https://v2.tauri.app/start/prerequisites/) (macOS पर Xcode Command Line Tools; Windows पर Microsoft C++ Build Tools + WebView2)।
+
 ```bash
 npm install
-npm run tauri dev                      # hot-reloading dev app
-npm run tauri build -- --bundles dmg   # build the DMG
-cd src-tauri && cargo test             # engine tests (serde_json oracle, escapes, NDJSON, search)
+npm run tauri dev                                       # hot-reloading dev app
+npm run tauri build -- --target universal-apple-darwin --bundles dmg   # macOS universal DMG
+npm run tauri build -- --bundles nsis                   # Windows installer (run on Windows)
+cd src-tauri && cargo test                              # engine tests (serde_json oracle, escapes, NDJSON, search)
 ```
 
 ## सीमाएँ (v1)
 
 - **फ़ाइल का आकार:** 4 GB तक (कॉम्पैक्ट `u32` ऑफ़सेट)। इससे बड़ी फ़ाइलें एक स्पष्ट संदेश के साथ अस्वीकार कर दी जाती हैं।
-- **RAM:** इंडेक्स ~23 बाइट/नोड का होता है, इसलिए एक 2–3 GB की फ़ाइल को RAM में लगभग **फ़ाइल के आकार का 1.5–2×** चाहिए (मेमोरी‑मैप्ड फ़ाइल खुद हटाने‑योग्य OS पेज कैश है)। एक 16 GB वाला Mac 2–3 GB की फ़ाइलें आराम से संभाल लेता है।
+- **RAM:** इंडेक्स ~23 बाइट/नोड का होता है, इसलिए एक 2–3 GB की फ़ाइल को RAM में लगभग **फ़ाइल के आकार का 1.5–2×** चाहिए (मेमोरी‑मैप्ड फ़ाइल खुद हटाने‑योग्य OS पेज कैश है)। एक 16 GB वाली मशीन 2–3 GB की फ़ाइलें आराम से संभाल लेती है।
 - **खोज** रॉ फ़ाइल बाइट्स से मैच करती है (एक एस्केप्ड कैरेक्टर अपने एस्केप्ड रूप में मैच होता है); केस‑इनसेंसिटिव मैचिंग सिर्फ़ ASCII के लिए है।
 
 ## लाइसेंस
 
 [MIT](LICENSE) © bandusix
 
-<sub>कीवर्ड: बड़ी JSON फ़ाइल खोलें, बड़ा JSON व्यूअर, 2GB/3GB JSON खोलें, JSON फ़ाइल बहुत बड़ी, Mac के लिए JSON व्यूअर, मुफ़्त Dadroit विकल्प, ओपन सोर्स JSON व्यूअर, बड़ी JSON में खोजें, गीगाबाइट JSON, स्ट्रीमिंग JSON व्यूअर।</sub>
+<sub>कीवर्ड: बड़ी JSON फ़ाइल खोलें, बड़ा JSON व्यूअर, 2GB/3GB JSON खोलें, JSON फ़ाइल बहुत बड़ी, Mac के लिए JSON व्यूअर, Windows के लिए JSON व्यूअर, Windows पर बड़ी JSON खोलें, मुफ़्त Dadroit विकल्प, ओपन सोर्स JSON व्यूअर, बड़ी JSON में खोजें, गीगाबाइट JSON, स्ट्रीमिंग JSON व्यूअर।</sub>

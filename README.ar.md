@@ -2,16 +2,17 @@
 
 **Huge-size JSON Viewer GUI** · _formerly Huge JSON Viewer_
 
-> افتح وابحث داخل **ملفات JSON الضخمة (2–3 جيجابايت فما فوق)** على **macOS** في ثوانٍ — **بديل مجاني ومفتوح المصدر لـ Dadroit**. حين ينهار محرر النصوص أو المتصفح عند فتح ملف JSON كبير، يفتحه هذا التطبيق فورًا.
+> افتح وابحث داخل **ملفات JSON الضخمة (2–3 جيجابايت فما فوق)** على **macOS و Windows** في ثوانٍ — **بديل مجاني ومفتوح المصدر لـ Dadroit**. حين ينهار محرر النصوص أو المتصفح عند فتح ملف JSON كبير، يفتحه هذا التطبيق فورًا.
 
 [English](README.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Español](README.es.md) · [Português](README.pt-BR.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [Русский](README.ru.md) · [हिन्दी](README.hi.md) · **العربية** · [Türkçe](README.tr.md) · [Bahasa Indonesia](README.id.md)
 
 [![Release](https://img.shields.io/github/v/release/bandusix/huge-json-viewer?color=0a6cff)](https://github.com/bandusix/huge-json-viewer/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/bandusix/huge-json-viewer/total?color=28c840)](https://github.com/bandusix/huge-json-viewer/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![Platform](https://img.shields.io/badge/macOS-Apple%20Silicon%20%2B%20Intel-black?logo=apple)
+![macOS](https://img.shields.io/badge/macOS-Apple%20Silicon%20%2B%20Intel-black?logo=apple)
+![Windows](https://img.shields.io/badge/Windows-10%20%2F%2011-0a6cff?logo=windows)
 
-### [⬇️ نزّل أحدث ملف DMG](https://github.com/bandusix/huge-json-viewer/releases/latest)
+### [⬇️ نزّل لـ macOS أو Windows](https://github.com/bandusix/huge-json-viewer/releases/latest) · [سجل التغييرات](CHANGELOG.md)
 
 ![عارض JSON للملفات الكبيرة — BigJSON](https://cdn.jsdelivr.net/gh/bandusix/huge-json-viewer@main/docs/screenshot-dark.png)
 
@@ -25,27 +26,40 @@
 
 معظم محررات النصوص وعارضات JSON على الإنترنت **تنهار أو تتجمد عند فتح ملف JSON كبير**، لأنها تحلّل الملف بأكمله داخل الذاكرة — فملف بحجم 2–3 جيجابايت يتضخم إلى 15–30 جيجابايت من ذاكرة RAM. أما **BigJSON** فلا يفعل ذلك أبدًا. إنه يربط الملف بالذاكرة (memory-map)، ويبني فهرسًا مضغوطًا في تمريرة تدفّق واحدة، ولا يعرض سوى الصفوف الظاهرة على الشاشة. لذلك فهو **يفتح JSON بحجم عدة جيجابايت في ثوانٍ**، ويبحث في الملف كاملًا فورًا، مع بقاء استهلاك الذاكرة تحت نحو 1.5–2 ضعف حجم الملف.
 
-إن كنت قد بحثت من قبل عن *«كيفية فتح ملف JSON كبير»* أو *«ملف JSON كبير جدًا لا يمكن فتحه»* أو عن **بديل مجاني لـ Dadroit على Mac**، فهذا التطبيق مصنوع لهذا الغرض تحديدًا.
+إن كنت قد بحثت من قبل عن *«كيفية فتح ملف JSON كبير»* أو *«ملف JSON كبير جدًا لا يمكن فتحه»* أو عن **بديل مجاني لـ Dadroit على Mac أو Windows**، فهذا التطبيق مصنوع لهذا الغرض تحديدًا.
 
 ## المزايا
 
 - ⚡ **يفتح JSON بحجم 2–3 جيجابايت في نحو 3 ثوانٍ** — ربط بالذاكرة، فهرس تدفّقي، شجرة مُحاكاة افتراضيًا
 - 🔍 **البحث في المفاتيح والقيم** — مع مراعاة حالة الأحرف أو من دونها، بحث عادي أو **regex**، عدّ مباشر للمطابقات، تنقّل للتالي/السابق مع القفز إلى المطابقة وتوسيع المسار تلقائيًا
+- 📤 **تحويل JSON → CSV أو XML** — تصدير تدفّقي يعمل على ملفات بحجم عدة جيجابايت (مصفوفة ضخمة من الكائنات تتحوّل إلى جدول بيانات)
+- 🔗 **دمج عدة ملفات** — افتح عدة ملفات JSON دفعة واحدة كشجرة واحدة مدمجة قابلة للبحث
 - 🌳 **شجرة قابلة للطي مع تلوين للصياغة** وأرقام أسطر وأدلة مسافات بادئة وألوان للأنواع وعدد العناصر الفرعية (على نمط Dadroit / jsonviewer.app)
 - 📄 يفتح ملفات `.json` و`.ndjson` / `.jsonl` (يُكتشف نوعها تلقائيًا) و`.geojson` و`.txt`
-- 🖱️ السحب والإفلات، ⌘O للفتح، ⌘F للبحث، تنقّل كامل بلوحة المفاتيح
+- 🖱️ السحب والإفلات، **⌘O / Ctrl+O** للفتح، **⌘F / Ctrl+F** للبحث، تنقّل كامل بلوحة المفاتيح
 - 🌍 **واجهة بـ 20 لغة**، تدعم الكتابة من اليمين إلى اليسار (العربية، الأردية، البنجابية)
-- 🖥️ **شامل** — يعمل على Apple Silicon (M1–M4) *و* Intel
+- 🖥️ **macOS و Windows** — نسخة Mac شاملة (Apple Silicon M1–M4 + Intel) وWindows 10/11 (x64)
 - 🔒 **بلا اتصال 100%** — لا رفع، ولا خادم، ولا تتبّع · حجم التطبيق 2 ميجابايت
 - 🆓 **مجاني ومفتوح المصدر** (MIT)
 
 ## التثبيت
 
+### macOS
+
 1. **[نزّل أحدث ملف `.dmg`](https://github.com/bandusix/huge-json-viewer/releases/latest)** ثم افتحه.
 2. اسحب **BigJSON** إلى مجلد Applications.
 3. عند التشغيل الأول: التطبيق غير موقّع، لذا **انقر عليه بزر الفأرة الأيمن ← Open**، ثم أكّد (مطلوب مرة واحدة فقط).
 
-المتطلبات: macOS 11 (Big Sur) أو أحدث. يتعامل مع ملفات JSON حتى 4 جيجابايت.
+المتطلبات: macOS 11 (Big Sur) أو أحدث، Apple Silicon أو Intel.
+
+### Windows
+
+1. **[نزّل أحدث ملف `.exe`](https://github.com/bandusix/huge-json-viewer/releases/latest)** (مُثبِّت NSIS باسم `BigJSON_x.y.z_x64-setup.exe`) ثم شغّله — يُثبَّت لكل مستخدم على حدة، دون الحاجة إلى صلاحيات المسؤول.
+2. النسخة غير موقّعة، لذا إن ظهر **SmartScreen** فانقر **More info ← Run anyway** (مطلوب مرة واحدة فقط).
+
+المتطلبات: Windows 10 أو 11 (بنسخة 64 بت). WebView2 مُثبَّت مسبقًا على Windows 11 وإصدارات Windows 10 الحديثة؛ ويجلبه المُثبِّت تلقائيًا إن لم يكن موجودًا.
+
+كلا الإصدارين يتعامل مع ملفات JSON حتى 4 جيجابايت.
 
 ## كيف يعمل
 
@@ -56,17 +70,20 @@
 3. **يعرض الصفوف الظاهرة فقط.** الشجرة مُحاكاة افتراضيًا بالكامل؛ يؤدي التوسيع/الطي إلى تعديل قائمة الصفوف الظاهرة بدلًا من تجسيد المستند بأكمله. ويحافظ **شريط تمرير متدرّج** على إمكانية تمرير ملايين الصفوف متجاوزًا حدّ ارتفاع العنصر في المتصفح.
 4. **يبحث في البايتات الخام** بتقنية SIMD للبحث عن السلاسل الفرعية / regex فوق الملف المربوط بالذاكرة، ويربط كل نتيجة بعقدتها.
 
-مبنيّ باستخدام **Tauri v2** (خلفية Rust + واجهة ويب)، ومُحزّم كملف `.dmg` بحجم ~2 ميجابايت.
+مبنيّ باستخدام **Tauri v2** (خلفية Rust + واجهة ويب)، ومُحزّم كملف `.dmg` بحجم ~2 ميجابايت (macOS) أو مُثبِّت `.exe` بصيغة NSIS (Windows).
 
 ## مقارنة BigJSON بأدوات JSON الكبيرة الأخرى
 
 | | BigJSON | Dadroit | محررات النصوص (VS Code وغيرها) |
 | --- | --- | --- | --- |
-| السعر | **مجاني ومفتوح المصدر (MIT)** | مجاني + نسخة Pro مدفوعة | مجاني |
-| فتح JSON بحجم 2–3 جيجابايت | ✅ ~3 ثوانٍ | ✅ | ❌ ينهار / يتجمد |
+| السعر | **مجاني ومفتوح المصدر (MIT)** | مجاني + نسخة Pro بسعر 98–198 دولارًا سنويًا | مجاني |
+| فتح JSON بحجم 2–3 جيجابايت | ✅ ~3 ثوانٍ | ✅ (2 جيجابايت في النسخة القياسية) | ❌ ينهار / يتجمد |
 | ذاكرة RAM لملف 3 جيجابايت | **~1.5–2×** | منخفضة | غالبًا نفاد الذاكرة |
 | البحث في المفاتيح **والقيم** | ✅ regex | ✅ | محدود |
-| أصلي على macOS (Apple Silicon + Intel) | ✅ شامل | ✅ | ✅ |
+| تحويل JSON → CSV / XML | ✅ تدفّقي | ✅ | ❌ |
+| دمج عدة ملفات | ✅ | ✅ (في الفئة المتقدمة) | ❌ |
+| الاستخدام التجاري | ✅ **مجاني** | 💲 ترخيص مدفوع | ✅ |
+| أصلي على macOS و Windows | ✅ (Mac شامل + Win x64) | ✅ | ✅ |
 | لغات الواجهة | **20 (تدعم RTL)** | قليلة | كثيرة |
 | بلا اتصال / بلا تتبّع | ✅ | ✅ | ✅ |
 
@@ -78,21 +95,24 @@
 
 ## البناء من المصدر
 
+المتطلبات المسبقة: [Node.js](https://nodejs.org) الإصدار 20 أو أحدث، و[سلسلة أدوات Rust](https://rustup.rs)، و[متطلبات نظام Tauri v2](https://v2.tauri.app/start/prerequisites/) الخاصة بنظام التشغيل لديك (أدوات سطر أوامر Xcode على macOS؛ وMicrosoft C++ Build Tools + WebView2 على Windows).
+
 ```bash
 npm install
-npm run tauri dev                      # hot-reloading dev app
-npm run tauri build -- --bundles dmg   # build the DMG
-cd src-tauri && cargo test             # engine tests (serde_json oracle, escapes, NDJSON, search)
+npm run tauri dev                                       # hot-reloading dev app
+npm run tauri build -- --target universal-apple-darwin --bundles dmg   # macOS universal DMG
+npm run tauri build -- --bundles nsis                   # Windows installer (run on Windows)
+cd src-tauri && cargo test                              # engine tests (serde_json oracle, escapes, NDJSON, search)
 ```
 
 ## القيود (الإصدار v1)
 
 - **حجم الملف:** حتى 4 جيجابايت (إزاحات `u32` مضغوطة). تُرفض الملفات الأكبر مع رسالة واضحة.
-- **ذاكرة RAM:** الفهرس بحجم ~23 بايت لكل عقدة، لذا يحتاج ملف بحجم 2–3 جيجابايت إلى نحو **1.5–2 ضعف حجم الملف** من ذاكرة RAM (والملف المربوط بالذاكرة نفسه هو ذاكرة تخزين مؤقت للصفحات قابلة للإزالة من قِبل نظام التشغيل). يتعامل جهاز Mac بذاكرة 16 جيجابايت مع ملفات 2–3 جيجابايت بأريحية.
+- **ذاكرة RAM:** الفهرس بحجم ~23 بايت لكل عقدة، لذا يحتاج ملف بحجم 2–3 جيجابايت إلى نحو **1.5–2 ضعف حجم الملف** من ذاكرة RAM (والملف المربوط بالذاكرة نفسه هو ذاكرة تخزين مؤقت للصفحات قابلة للإزالة من قِبل نظام التشغيل). يتعامل جهاز بذاكرة 16 جيجابايت مع ملفات 2–3 جيجابايت بأريحية.
 - **البحث** يطابق البايتات الخام للملف (فالحرف المهروب يُطابَق في صورته المهروبة)؛ والمطابقة غير الحساسة لحالة الأحرف تقتصر على ASCII.
 
 ## الترخيص
 
 [MIT](LICENSE) © bandusix
 
-<sub>الكلمات المفتاحية: فتح ملف JSON كبير، عارض JSON للملفات الكبيرة، فتح JSON بحجم 2 جيجابايت/3 جيجابايت، ملف JSON كبير جدًا، عارض JSON لنظام Mac، بديل مجاني لـ Dadroit، عارض JSON مفتوح المصدر، البحث في JSON كبير، JSON بحجم جيجابايت.</sub>
+<sub>الكلمات المفتاحية: فتح ملف JSON كبير، عارض JSON للملفات الكبيرة، فتح JSON بحجم 2 جيجابايت/3 جيجابايت، ملف JSON كبير جدًا، عارض JSON لنظام Mac، عارض JSON لنظام Windows، فتح JSON كبير على Windows، بديل مجاني لـ Dadroit، عارض JSON مفتوح المصدر، البحث في JSON كبير، JSON بحجم جيجابايت.</sub>
