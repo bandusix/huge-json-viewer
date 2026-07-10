@@ -75,8 +75,12 @@ async fn open_file(
             std::fs::File::open(&path_for_job).map_err(|e| format!("Cannot open file: {e}"))?;
         let mmap =
             unsafe { memmap2::Mmap::map(&file) }.map_err(|e| format!("Cannot memory-map file: {e}"))?;
+        // madvise hints are a Unix-only optimization (no-op elsewhere); memmap2
+        // only exposes `advise`/`Advice` on Unix, so gate them to keep Windows building.
+        #[cfg(unix)]
         let _ = mmap.advise(memmap2::Advice::Sequential);
         let (nodes, ndjson) = build_index(&mmap, &progress_job).map_err(|pe| fmt_perr(&mmap, pe))?;
+        #[cfg(unix)]
         let _ = mmap.advise(memmap2::Advice::Random);
         let file_len = mmap.len() as u64;
         let idx = Index { mmap, nodes, file_len, ndjson };
