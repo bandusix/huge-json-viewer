@@ -1,6 +1,6 @@
 {
   "meta.title": "BigJSON — Penampil File JSON Besar Gratis untuk macOS & Windows · Alternatif Dadroit",
-  "meta.desc": "Buka dan cari file JSON berukuran multi-gigabyte (2–3 GB) di macOS dan Windows dalam hitungan detik. Alternatif Dadroit yang gratis dan open-source: penampil pohon, pencarian RegEx kunci & nilai, ekspor JSON ke CSV/XML, dan gabungan multi-file. Tanpa biaya, tanpa batasan, penggunaan komersial gratis.",
+  "meta.desc": "Buka dan cari file JSON berukuran multi-gigabyte (2–3 GB) di macOS dan Windows dalam hitungan detik. Alternatif Dadroit yang gratis dan open-source: penampil pohon, pencarian RegEx kunci & nilai, salin & ekstrak nilai atau subpohon apa pun, ekspor JSON ke CSV/XML, dan gabungan multi-file. Tanpa biaya, tanpa batasan, penggunaan komersial gratis.",
   "nav.features": "Fitur",
   "nav.compare": "vs Dadroit",
   "nav.faq": "FAQ",
@@ -27,8 +27,8 @@
   "f2.d": "Cari <strong>kunci dan nilai</strong>, teks biasa atau ekspresi reguler, dengan jumlah kecocokan langsung dan lompat-ke-kecocokan yang membentangkan jalur secara otomatis.",
   "f3.t": "Penampil pohon yang mudah dibaca",
   "f3.d": "Pohon yang dapat diciutkan dengan penyorotan sintaks, nomor baris, panduan indentasi, warna tipe, dan jumlah anak — jelajahi dari akar hingga daun.",
-  "f4.t": "Konversi JSON → CSV atau XML",
-  "f4.d": "Streaming node apa pun ke CSV yang siap untuk spreadsheet atau ke XML — berfungsi pada file multi-gigabyte dengan penggunaan memori yang terbatas.",
+  "f4.t": "Konversi, ekstrak & salin",
+  "f4.d": "Streaming node apa pun ke CSV yang siap untuk spreadsheet atau ke XML, tarik keluar subpohon sebagai JSON, atau salin kunci, nilai, atau jalur apa pun — pada file multi-gigabyte dengan penggunaan memori yang terbatas.",
   "f5.t": "Gabungkan beberapa file",
   "f5.d": "Buka beberapa file JSON sekaligus sebagai satu pohon gabungan — masing-masing diberi label nama file — dan cari di seluruhnya.",
   "f6.t": "Jejak memori yang sangat kecil",

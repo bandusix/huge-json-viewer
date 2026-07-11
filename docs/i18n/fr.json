@@ -1,6 +1,6 @@
 {
   "meta.title": "BigJSON — Visionneuse gratuite de gros fichiers JSON pour macOS et Windows · Alternative à Dadroit",
-  "meta.desc": "Ouvrez et recherchez des fichiers JSON de plusieurs gigaoctets (2–3 GB) sur macOS et Windows en quelques secondes. Une alternative gratuite et open source à Dadroit : visionneuse en arbre, recherche RegEx sur les clés et les valeurs, export JSON vers CSV/XML et union multi-fichiers. Sans coût, sans limites, usage commercial gratuit.",
+  "meta.desc": "Ouvrez et recherchez des fichiers JSON de plusieurs gigaoctets (2–3 GB) sur macOS et Windows en quelques secondes. Une alternative gratuite et open source à Dadroit : visionneuse en arbre, recherche RegEx sur les clés et les valeurs, copie et extraction de n’importe quelle valeur ou sous-arbre, export JSON vers CSV/XML et union multi-fichiers. Sans coût, sans limites, usage commercial gratuit.",
   "nav.features": "Fonctionnalités",
   "nav.compare": "vs Dadroit",
   "nav.faq": "FAQ",
@@ -27,8 +27,8 @@
   "f2.d": "Recherchez les <strong>clés et les valeurs</strong>, en texte simple ou en expression régulière, avec un compteur de correspondances en direct et un saut vers la correspondance qui déploie automatiquement le chemin.",
   "f3.t": "Visionneuse en arbre lisible",
   "f3.d": "Arbre repliable avec coloration syntaxique, numéros de ligne, guides d’indentation, couleurs de type et nombre d’enfants — parcourez de la racine jusqu’aux feuilles.",
-  "f4.t": "Convertir JSON → CSV ou XML",
-  "f4.d": "Exportez en flux n’importe quel nœud vers un CSV prêt pour tableur ou vers du XML — fonctionne sur des fichiers de plusieurs gigaoctets avec une mémoire limitée.",
+  "f4.t": "Convertir, extraire et copier",
+  "f4.d": "Exportez en flux n’importe quel nœud vers un CSV prêt pour tableur ou vers du XML, extrayez un sous-arbre au format JSON, ou copiez n’importe quelle clé, valeur ou chemin — sur des fichiers de plusieurs gigaoctets avec une mémoire limitée.",
   "f5.t": "Unir plusieurs fichiers",
   "f5.d": "Ouvrez plusieurs fichiers JSON à la fois sous forme d’un seul arbre combiné — chacun identifié par son nom de fichier — et recherchez dans l’ensemble.",
   "f6.t": "Empreinte mémoire minime",

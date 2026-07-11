@@ -1,6 +1,6 @@
 {
   "meta.title": "BigJSON — Visor gratuito de archivos JSON grandes para macOS y Windows · Alternativa a Dadroit",
-  "meta.desc": "Abre y busca en archivos JSON de varios gigabytes (2–3 GB) en macOS y Windows en segundos. Una alternativa gratuita y de código abierto a Dadroit: visor de árbol, búsqueda RegEx de claves y valores, exportación de JSON a CSV/XML y unión de varios archivos. Sin coste, sin límites, uso comercial gratis.",
+  "meta.desc": "Abre y busca en archivos JSON de varios gigabytes (2–3 GB) en macOS y Windows en segundos. Una alternativa gratuita y de código abierto a Dadroit: visor de árbol, búsqueda RegEx de claves y valores, copia y extracción de cualquier valor o subárbol, exportación de JSON a CSV/XML y unión de varios archivos. Sin coste, sin límites, uso comercial gratis.",
   "nav.features": "Funciones",
   "nav.compare": "vs Dadroit",
   "nav.faq": "Preguntas frecuentes",
@@ -27,8 +27,8 @@
   "f2.d": "Busca en <strong>claves y valores</strong>, en texto plano o expresión regular, con recuento de coincidencias en vivo y salto a la coincidencia que expande la ruta automáticamente.",
   "f3.t": "Visor de árbol legible para humanos",
   "f3.d": "Árbol plegable y con resaltado de sintaxis con números de línea, guías de sangría, colores por tipo y recuento de hijos — explora desde la raíz hasta la hoja.",
-  "f4.t": "Convierte JSON → CSV o XML",
-  "f4.d": "Envía cualquier nodo en streaming a un CSV listo para hoja de cálculo o a XML — funciona con archivos de varios gigabytes con memoria acotada.",
+  "f4.t": "Convierte, extrae y copia",
+  "f4.d": "Envía en streaming cualquier nodo a un CSV listo para hoja de cálculo o a XML, extrae un subárbol como JSON, o copia cualquier clave, valor o ruta — en archivos de varios gigabytes con memoria acotada.",
   "f5.t": "Une varios archivos",
   "f5.d": "Abre varios archivos JSON a la vez como un único árbol combinado — cada uno etiquetado por nombre de archivo — y busca en todos ellos.",
   "f6.t": "Huella de memoria mínima",

@@ -1,6 +1,6 @@
 {
   "meta.title": "BigJSON — Visualizador Gratuito de Arquivos JSON Grandes para macOS e Windows · Alternativa ao Dadroit",
-  "meta.desc": "Abra e pesquise arquivos JSON de vários gigabytes (2–3 GB) no macOS e no Windows em segundos. Uma alternativa gratuita e de código aberto ao Dadroit: visualizador em árvore, busca por chave e valor com RegEx, exportação de JSON para CSV/XML e união de múltiplos arquivos. Sem custo, sem limites, uso comercial gratuito.",
+  "meta.desc": "Abra e pesquise arquivos JSON de vários gigabytes (2–3 GB) no macOS e no Windows em segundos. Uma alternativa gratuita e de código aberto ao Dadroit: visualizador em árvore, busca por chave e valor com RegEx, copie e extraia qualquer valor ou subárvore, exportação de JSON para CSV/XML e união de múltiplos arquivos. Sem custo, sem limites, uso comercial gratuito.",
   "nav.features": "Recursos",
   "nav.compare": "vs Dadroit",
   "nav.faq": "Perguntas frequentes",
@@ -27,8 +27,8 @@
   "f2.d": "Pesquise <strong>chaves e valores</strong>, em texto simples ou expressão regular, com contagem de resultados em tempo real e salto para o resultado que expande o caminho automaticamente.",
   "f3.t": "Visualizador em árvore legível",
   "f3.d": "Árvore recolhível com destaque de sintaxe, números de linha, guias de indentação, cores por tipo e contagem de filhos — navegue da raiz até a folha.",
-  "f4.t": "Converta JSON → CSV ou XML",
-  "f4.d": "Exporte qualquer nó em streaming para um CSV pronto para planilhas ou para XML — funciona em arquivos de vários gigabytes com memória limitada.",
+  "f4.t": "Converta, extraia e copie",
+  "f4.d": "Exporte qualquer nó em streaming para um CSV pronto para planilhas ou para XML, extraia uma subárvore como JSON, ou copie qualquer chave, valor ou caminho — em arquivos de vários gigabytes com memória limitada.",
   "f5.t": "Una múltiplos arquivos",
   "f5.d": "Abra vários arquivos JSON de uma vez como uma única árvore combinada — cada um identificado pelo nome do arquivo — e pesquise em todos eles.",
   "f6.t": "Uso mínimo de memória",

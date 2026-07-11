@@ -1,6 +1,6 @@
 {
   "meta.title": "BigJSON — Free Large JSON File Viewer for macOS & Windows · Dadroit Alternative",
-  "meta.desc": "Open and search multi-gigabyte (2–3 GB) JSON files on macOS and Windows in seconds. A free, open-source alternative to Dadroit: tree viewer, key & value RegEx search, JSON to CSV/XML export, and multi-file union. No cost, no limits, commercial use free.",
+  "meta.desc": "Open and search multi-gigabyte (2–3 GB) JSON files on macOS and Windows in seconds. A free, open-source alternative to Dadroit: tree viewer, key & value RegEx search, copy & extract any value or subtree, JSON to CSV/XML export, and multi-file union. No cost, no limits, commercial use free.",
   "nav.features": "Features",
   "nav.compare": "vs Dadroit",
   "nav.faq": "FAQ",
@@ -27,8 +27,8 @@
   "f2.d": "Search <strong>keys and values</strong>, plain or regular expression, with a live match count and jump-to-match that auto-expands the path.",
   "f3.t": "Human-readable tree viewer",
   "f3.d": "Collapsible, syntax-highlighted tree with line numbers, indent guides, type colors and child counts — browse from root to leaf.",
-  "f4.t": "Convert JSON → CSV or XML",
-  "f4.d": "Stream any node to a spreadsheet-ready CSV or to XML — works on multi-gigabyte files with bounded memory.",
+  "f4.t": "Convert, extract & copy",
+  "f4.d": "Stream any node to a spreadsheet-ready CSV or to XML, pull out a subtree as JSON, or copy any key, value or path — on multi-gigabyte files with bounded memory.",
   "f5.t": "Union multiple files",
   "f5.d": "Open several JSON files at once as one combined tree — each labeled by filename — and search across all of them.",
   "f6.t": "Tiny memory footprint",

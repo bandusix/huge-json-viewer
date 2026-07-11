@@ -1,6 +1,6 @@
 {
   "meta.title": "BigJSON — macOS ve Windows için Ücretsiz Büyük JSON Dosyası Görüntüleyici · Dadroit Alternatifi",
-  "meta.desc": "Çok gigabaytlık (2–3 GB) JSON dosyalarını macOS ve Windows'ta saniyeler içinde açın ve arayın. Dadroit'e ücretsiz, açık kaynaklı bir alternatif: ağaç görüntüleyici, anahtar ve değer RegEx araması, JSON'dan CSV/XML dışa aktarma ve çoklu dosya birleştirme. Ücretsiz, sınırsız, ticari kullanım serbest.",
+  "meta.desc": "Çok gigabaytlık (2–3 GB) JSON dosyalarını macOS ve Windows'ta saniyeler içinde açın ve arayın. Dadroit'e ücretsiz, açık kaynaklı bir alternatif: ağaç görüntüleyici, anahtar ve değer RegEx araması, herhangi bir değeri veya alt ağacı kopyalama ve çıkarma, JSON'dan CSV/XML dışa aktarma ve çoklu dosya birleştirme. Ücretsiz, sınırsız, ticari kullanım serbest.",
   "nav.features": "Özellikler",
   "nav.compare": "Dadroit ile karşılaştırma",
   "nav.faq": "SSS",
@@ -27,8 +27,8 @@
   "f2.d": "<strong>Anahtarlarda ve değerlerde</strong>, düz metin veya düzenli ifade ile arama yapın; canlı eşleşme sayısı ve yolu otomatik genişleten eşleşmeye atlama özelliğiyle.",
   "f3.t": "İnsan tarafından okunabilir ağaç görüntüleyici",
   "f3.d": "Katlanabilir, söz dizimi vurgulu ağaç; satır numaraları, girinti kılavuzları, tip renkleri ve alt öğe sayılarıyla — kökten yaprağa göz atın.",
-  "f4.t": "JSON → CSV veya XML'e dönüştür",
-  "f4.d": "Herhangi bir düğümü elektronik tabloya hazır bir CSV'ye veya XML'e akıtın — çok gigabaytlık dosyalarda sınırlı bellek kullanarak çalışır.",
+  "f4.t": "Dönüştür, çıkar ve kopyala",
+  "f4.d": "Herhangi bir düğümü elektronik tabloya hazır bir CSV'ye veya XML'e akıtın, bir alt ağacı JSON olarak çıkarın ya da herhangi bir anahtarı, değeri veya yolu kopyalayın — çok gigabaytlık dosyalarda sınırlı bellek kullanarak.",
   "f5.t": "Birden çok dosyayı birleştirin",
   "f5.d": "Birden fazla JSON dosyasını tek bir birleşik ağaç olarak aynı anda açın — her biri dosya adıyla etiketlenir — ve hepsinde birden arama yapın.",
   "f6.t": "Çok küçük bellek ayak izi",
