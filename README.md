@@ -74,21 +74,40 @@ A 2–3 GB JSON file cannot be parsed into in‑memory objects. The Rust core in
 
 Built with **Tauri v2** (Rust backend + web frontend), packaged as a ~2 MB `.dmg` (macOS) or NSIS `.exe` installer (Windows).
 
-## BigJSON vs. other large‑JSON tools
+## BigJSON vs. Dadroit vs. text editors
 
-| | BigJSON | Dadroit | Text editors (VS Code, etc.) |
+A factual, feature‑by‑feature comparison. **BigJSON is the free, open‑source [Dadroit](https://dadroit.com) alternative:** everything below — large files, search, CSV/XML export, multi‑file union, commercial use — is included at **no cost**, where Dadroit gates it behind **$98–$198/yr** paid tiers.
+
+| | **BigJSON** | **Dadroit** | Text editors (VS Code, etc.) |
 | --- | --- | --- | --- |
-| Price | **Free & open source (MIT)** | Free + $98–198/yr Pro | Free |
-| Opens 2–3 GB JSON | ✅ ~3 s | ✅ (2 GB Standard) | ❌ crashes / freezes |
-| RAM for a 3 GB file | **~1.5–2×** | low | often out‑of‑memory |
-| Search keys **and** values | ✅ regex | ✅ | limited |
-| Convert JSON → CSV / XML | ✅ streaming | ✅ | ❌ |
-| Copy / extract value, path, subtree | ✅ | ✅ | manual |
-| Union multiple files | ✅ | ✅ (Advanced tier) | ❌ |
-| Commercial use | ✅ **free** | 💲 paid license | ✅ |
-| Native macOS & Windows | ✅ (universal Mac + Win x64) | ✅ | ✅ |
-| UI languages | **20 (RTL aware)** | few | many |
-| Offline / no telemetry | ✅ | ✅ | ✅ |
+| **Price** | **Free & open source (MIT)** | Free *non‑commercial, ≤ 50 MB* · **$98/yr** (≤ 2 GB) · **$198/yr** (≤ 1 TB) | free / paid |
+| **Commercial use** | ✅ **free** | 💲 paid ($98/yr+) — free tier is non‑commercial | ✅ |
+| **Open source** | ✅ MIT, auditable | ❌ closed source | mixed |
+| **Free up to** | **4 GB** | 50 MB, then paid | — |
+| **Max file size** | 4 GB / file | **1 TB** (paid tier) | ~a few hundred MB before it chokes |
+| **Opens 2–3 GB JSON** | ✅ ~3 s | ✅ (paid tier) | ❌ crashes / freezes |
+| **Raw open throughput** | fast (~1 GB/s, CPU‑bound) | very fast (vendor claim ~2 GB/s) | slow |
+| **RAM for a 3 GB file** | ~1.5–2× (index; the mapped file stays reclaimable page cache) | ~1× (vendor claim) | often out‑of‑memory |
+| **Collapsible tree viewer** | ✅ | ✅ | ❌ (raw text) |
+| **Search keys & values** | ✅ | ✅ | limited |
+| **RegEx search** | ✅ | ✅ | ✅ |
+| **Convert → CSV / XML** | ✅ **free** | ✅ | ❌ |
+| **Export / copy subtree as JSON** | ✅ | node‑level export | manual |
+| **Copy key / value / path (jq‑style)** | ✅ | value + export | manual copy‑paste |
+| **Union multiple files** | ✅ **free** | 💲 paid tier | ❌ |
+| **NDJSON / JSON Lines** | ✅ auto‑detected | ✅ | ❌ |
+| **Auto‑refresh on file change** | ❌ | ✅ | some |
+| **Edit JSON** | ❌ view‑only | ❌ view‑only | ✅ |
+| **Platforms** | macOS (universal) · Windows | Windows · macOS · **Linux** | all |
+| **UI languages** | **20 (RTL‑aware)** | few | many |
+| **Offline · no telemetry** | ✅ | ✅ | ✅ |
+| **Install size** | ~2–5 MB | tens of MB | — |
+
+**The short version:** for JSON up to a few GB, BigJSON does everything Dadroit's paid tiers do — open, regex‑search, convert to CSV/XML, union multiple files, extract subtrees — **for free, open source, with no commercial‑use or feature paywall**. Dadroit's free tier stops at **50 MB** and forbids commercial use; unlocking 2 GB / commercial costs **$98/yr**, and 1 TB + the full feature set costs **$198/yr**.
+
+**Where Dadroit still leads (honestly):** files beyond 4 GB (up to **1 TB**), native **Linux** builds, **auto‑refresh** when a file changes on disk, and higher raw throughput on its own benchmarks. If you routinely open 100 GB–1 TB files or need Linux, Dadroit earns its license. For everything up to a few gigabytes, BigJSON is the **free, unlimited** choice.
+
+<sub>Dadroit tiers and pricing per [dadroit.com](https://dadroit.com/buy-licence/) (subject to change). Speed/RAM figures are each project's own claims — benchmark your own files to compare.</sub>
 
 ## Languages
 

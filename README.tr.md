@@ -74,21 +74,40 @@ Her iki derleme de 4 GB'a kadar JSON dosyalarını işler.
 
 **Tauri v2** (Rust arka uç + web ön uç) ile geliştirildi, ~2 MB'lık bir `.dmg` (macOS) veya NSIS `.exe` yükleyicisi (Windows) olarak paketlendi.
 
-## BigJSON ile diğer büyük JSON araçlarının karşılaştırması
+## BigJSON vs. Dadroit vs. metin düzenleyiciler
 
-| | BigJSON | Dadroit | Metin düzenleyiciler (VS Code vb.) |
+Gerçeklere dayalı, özellik‑özellik bir karşılaştırma. **BigJSON, ücretsiz, açık kaynak [Dadroit](https://dadroit.com) alternatifidir:** aşağıdaki her şey — büyük dosyalar, arama, CSV/XML dışa aktarma, çoklu dosya birleştirme, ticari kullanım — **hiçbir ücret ödemeden** dahildir; Dadroit bunları **$98–$198/yr** ücretli katmanların arkasına kilitler.
+
+| | **BigJSON** | **Dadroit** | Metin düzenleyiciler (VS Code vb.) |
 | --- | --- | --- | --- |
-| Fiyat | **Ücretsiz ve açık kaynak (MIT)** | Ücretsiz + $98–198/yıl Pro | Ücretsiz |
-| 2–3 GB JSON açar | ✅ ~3 sn | ✅ (2 GB Standard) | ❌ çöker / donar |
-| 3 GB dosya için RAM | **~1.5–2×** | düşük | çoğu zaman bellek yetersiz |
-| Anahtarlarda **ve** değerlerde arama | ✅ regex | ✅ | sınırlı |
-| JSON → CSV / XML dönüştürme | ✅ akışlı | ✅ | ❌ |
-| Değer, yol, alt ağaç kopyalama / ayıklama | ✅ | ✅ | elle |
-| Birden çok dosyayı birleştirme | ✅ | ✅ (Advanced katman) | ❌ |
-| Ticari kullanım | ✅ **ücretsiz** | 💲 ücretli lisans | ✅ |
-| Yerel macOS & Windows | ✅ (universal Mac + Win x64) | ✅ | ✅ |
-| Arayüz dilleri | **20 (RTL uyumlu)** | az | çok |
-| Çevrimdışı / telemetri yok | ✅ | ✅ | ✅ |
+| **Fiyat** | **Ücretsiz ve açık kaynak (MIT)** | Ücretsiz *ticari olmayan, ≤ 50 MB* · **$98/yr** (≤ 2 GB) · **$198/yr** (≤ 1 TB) | ücretsiz / ücretli |
+| **Ticari kullanım** | ✅ **ücretsiz** | 💲 ücretli ($98/yr+) — ücretsiz katman ticari değildir | ✅ |
+| **Açık kaynak** | ✅ MIT, denetlenebilir | ❌ kapalı kaynak | karışık |
+| **Ücretsiz sınır** | **4 GB** | 50 MB, sonrası ücretli | — |
+| **Maksimum dosya boyutu** | 4 GB / dosya | **1 TB** (ücretli katman) | tıkanmadan önce ~birkaç yüz MB |
+| **2–3 GB JSON açar** | ✅ ~3 sn | ✅ (ücretli katman) | ❌ çöker / donar |
+| **Ham açma verimi** | hızlı (~1 GB/s, CPU‑sınırlı) | çok hızlı (üretici iddiası ~2 GB/s) | yavaş |
+| **3 GB dosya için RAM** | ~1.5–2× (dizin; eşlenen dosya boşaltılabilir sayfa önbelleği olarak kalır) | ~1× (üretici iddiası) | çoğu zaman bellek yetersiz |
+| **Katlanabilir ağaç görüntüleyici** | ✅ | ✅ | ❌ (ham metin) |
+| **Anahtar ve değer arama** | ✅ | ✅ | sınırlı |
+| **RegEx arama** | ✅ | ✅ | ✅ |
+| **Dönüştürme → CSV / XML** | ✅ **ücretsiz** | ✅ | ❌ |
+| **Alt ağacı JSON olarak dışa aktarma / kopyalama** | ✅ | düğüm düzeyinde dışa aktarma | elle |
+| **Anahtar / değer / yol kopyalama (jq tarzı)** | ✅ | değer + dışa aktarma | elle kopyala‑yapıştır |
+| **Birden çok dosyayı birleştirme** | ✅ **ücretsiz** | 💲 ücretli katman | ❌ |
+| **NDJSON / JSON Lines** | ✅ otomatik algılanır | ✅ | ❌ |
+| **Dosya değişiminde otomatik yenileme** | ❌ | ✅ | bazıları |
+| **JSON düzenleme** | ❌ yalnızca görüntüleme | ❌ yalnızca görüntüleme | ✅ |
+| **Platformlar** | macOS (universal) · Windows | Windows · macOS · **Linux** | tümü |
+| **Arayüz dilleri** | **20 (RTL uyumlu)** | az | çok |
+| **Çevrimdışı · telemetri yok** | ✅ | ✅ | ✅ |
+| **Kurulum boyutu** | ~2–5 MB | onlarca MB | — |
+
+**Kısa özet:** birkaç GB'a kadar JSON için, BigJSON Dadroit'in ücretli katmanlarının yaptığı her şeyi yapar — açma, regex‑arama, CSV/XML'e dönüştürme, birden çok dosyayı birleştirme, alt ağaçları ayıklama — **ücretsiz, açık kaynak, ticari kullanım veya özellik ödeme duvarı olmadan**. Dadroit'in ücretsiz katmanı **50 MB**'da durur ve ticari kullanımı yasaklar; 2 GB / ticari kullanımın kilidini açmak **$98/yr**, 1 TB + tüm özellik seti ise **$198/yr** tutar.
+
+**Dadroit'in hâlâ önde olduğu yerler (dürüstçe):** 4 GB'ın ötesindeki dosyalar (**1 TB**'a kadar), yerel **Linux** derlemeleri, bir dosya diskte değiştiğinde **otomatik yenileme** ve kendi karşılaştırma testlerinde daha yüksek ham verim. Rutin olarak 100 GB–1 TB dosyalar açıyorsanız veya Linux'a ihtiyacınız varsa, Dadroit lisansını hak ediyor. Birkaç gigabayta kadar olan her şey için BigJSON **ücretsiz, sınırsız** seçenektir.
+
+<sub>Dadroit katmanları ve fiyatlandırması [dadroit.com](https://dadroit.com/buy-licence/) kaynağına göredir (değişebilir). Hız/RAM rakamları her projenin kendi iddialarıdır — karşılaştırmak için kendi dosyalarınızı test edin.</sub>
 
 ## Diller
 

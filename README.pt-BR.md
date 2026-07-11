@@ -74,21 +74,40 @@ Um arquivo JSON de 2–3 GB não pode ter seu parsing feito em objetos na memór
 
 Construído com **Tauri v2** (backend em Rust + frontend web), empacotado como um `.dmg` de ~2 MB (macOS) ou um instalador NSIS `.exe` (Windows).
 
-## BigJSON vs. outras ferramentas para JSON grande
+## BigJSON vs. Dadroit vs. editores de texto
 
-| | BigJSON | Dadroit | Editores de texto (VS Code etc.) |
+Uma comparação factual, recurso por recurso. **O BigJSON é a alternativa gratuita e open source ao [Dadroit](https://dadroit.com):** tudo abaixo — arquivos grandes, pesquisa, exportação CSV/XML, união de múltiplos arquivos, uso comercial — está incluído **sem custo**, enquanto o Dadroit o bloqueia atrás de níveis pagos de **$98–$198/yr**.
+
+| | **BigJSON** | **Dadroit** | Editores de texto (VS Code etc.) |
 | --- | --- | --- | --- |
-| Preço | **Gratuito e open source (MIT)** | Grátis + Pro US$ 98–198/ano | Grátis |
-| Abre JSON de 2–3 GB | ✅ ~3 s | ✅ (2 GB no Standard) | ❌ trava / congela |
-| RAM para um arquivo de 3 GB | **~1,5–2×** | baixo | frequentemente fica sem memória |
-| Pesquisa chaves **e** valores | ✅ regex | ✅ | limitado |
-| Converte JSON → CSV / XML | ✅ streaming | ✅ | ❌ |
-| Copiar / extrair valor, caminho, subárvore | ✅ | ✅ | manual |
-| Une vários arquivos | ✅ | ✅ (nível Advanced) | ❌ |
-| Uso comercial | ✅ **gratuito** | 💲 licença paga | ✅ |
-| macOS e Windows nativos | ✅ (Mac universal + Win x64) | ✅ | ✅ |
-| Idiomas da interface | **20 (com suporte a RTL)** | poucos | muitos |
-| Offline / sem telemetria | ✅ | ✅ | ✅ |
+| **Preço** | **Gratuito e open source (MIT)** | Grátis *não comercial, ≤ 50 MB* · **$98/yr** (≤ 2 GB) · **$198/yr** (≤ 1 TB) | grátis / pago |
+| **Uso comercial** | ✅ **gratuito** | 💲 pago ($98/yr+) — o nível gratuito é não comercial | ✅ |
+| **Open source** | ✅ MIT, auditável | ❌ código fechado | misto |
+| **Gratuito até** | **4 GB** | 50 MB, depois pago | — |
+| **Tamanho máximo de arquivo** | 4 GB / arquivo | **1 TB** (nível pago) | ~algumas centenas de MB antes de engasgar |
+| **Abre JSON de 2–3 GB** | ✅ ~3 s | ✅ (nível pago) | ❌ trava / congela |
+| **Throughput bruto de abertura** | rápido (~1 GB/s, limitado pela CPU) | muito rápido (alegação do fornecedor ~2 GB/s) | lento |
+| **RAM para um arquivo de 3 GB** | ~1,5–2× (índice; o arquivo mapeado permanece como page cache recuperável) | ~1× (alegação do fornecedor) | frequentemente fica sem memória |
+| **Visualizador de árvore recolhível** | ✅ | ✅ | ❌ (texto bruto) |
+| **Pesquisa chaves e valores** | ✅ | ✅ | limitado |
+| **Pesquisa RegEx** | ✅ | ✅ | ✅ |
+| **Converte → CSV / XML** | ✅ **gratuito** | ✅ | ❌ |
+| **Exportar / copiar subárvore como JSON** | ✅ | exportação em nível de nó | manual |
+| **Copiar chave / valor / caminho (estilo jq)** | ✅ | valor + exportação | copiar e colar manual |
+| **Une vários arquivos** | ✅ **gratuito** | 💲 nível pago | ❌ |
+| **NDJSON / JSON Lines** | ✅ detecção automática | ✅ | ❌ |
+| **Atualização automática ao mudar o arquivo** | ❌ | ✅ | alguns |
+| **Editar JSON** | ❌ somente leitura | ❌ somente leitura | ✅ |
+| **Plataformas** | macOS (universal) · Windows | Windows · macOS · **Linux** | todas |
+| **Idiomas da interface** | **20 (com suporte a RTL)** | poucos | muitos |
+| **Offline · sem telemetria** | ✅ | ✅ | ✅ |
+| **Tamanho de instalação** | ~2–5 MB | dezenas de MB | — |
+
+**Resumindo:** para JSON de até alguns GB, o BigJSON faz tudo o que os níveis pagos do Dadroit fazem — abrir, pesquisar com regex, converter para CSV/XML, unir múltiplos arquivos, extrair subárvores — **de graça, open source, sem paywall de uso comercial ou de recursos**. O nível gratuito do Dadroit para em **50 MB** e proíbe uso comercial; desbloquear 2 GB / uso comercial custa **$98/yr**, e 1 TB + o conjunto completo de recursos custa **$198/yr**.
+
+**Onde o Dadroit ainda leva vantagem (honestamente):** arquivos acima de 4 GB (até **1 TB**), builds nativos para **Linux**, **atualização automática** quando um arquivo muda no disco e throughput bruto maior em seus próprios benchmarks. Se você abre rotineiramente arquivos de 100 GB–1 TB ou precisa de Linux, o Dadroit vale a licença. Para tudo até alguns gigabytes, o BigJSON é a opção **gratuita e ilimitada**.
+
+<sub>Níveis e preços do Dadroit conforme [dadroit.com](https://dadroit.com/buy-licence/) (sujeitos a alteração). Os números de velocidade/RAM são alegações de cada projeto — faça benchmark com seus próprios arquivos para comparar.</sub>
 
 ## Idiomas
 

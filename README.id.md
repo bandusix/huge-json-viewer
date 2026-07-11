@@ -74,21 +74,40 @@ File JSON 2–3 GB tidak bisa diurai menjadi objek di dalam memori. Sebagai gant
 
 Dibangun dengan **Tauri v2** (backend Rust + frontend web), dikemas sebagai `.dmg` berukuran ~2 MB (macOS) atau installer NSIS `.exe` (Windows).
 
-## BigJSON vs. alat JSON besar lainnya
+## BigJSON vs. Dadroit vs. editor teks
 
-| | BigJSON | Dadroit | Editor teks (VS Code, dll.) |
+Perbandingan yang faktual, fitur demi fitur. **BigJSON adalah alternatif [Dadroit](https://dadroit.com) yang gratis dan open source:** semua yang ada di bawah ini — file besar, pencarian, ekspor CSV/XML, penggabungan banyak file, penggunaan komersial — tersedia **tanpa biaya**, sedangkan Dadroit mengunci fitur‑fitur ini di balik tingkatan berbayar **$98–$198/yr**.
+
+| | **BigJSON** | **Dadroit** | Editor teks (VS Code, dll.) |
 | --- | --- | --- | --- |
-| Harga | **Gratis & open source (MIT)** | Gratis + Pro berbayar | Gratis |
-| Membuka JSON 2–3 GB | ✅ ~3 dtk | ✅ | ❌ crash / membeku |
-| RAM untuk file 3 GB | **~1,5–2×** | rendah | sering kehabisan memori |
-| Cari kunci **dan** nilai | ✅ regex | ✅ | terbatas |
-| Konversi JSON → CSV / XML | ✅ streaming | ✅ | ❌ |
-| Salin / ekstrak nilai, jalur, subtree | ✅ | ✅ | manual |
-| Gabungkan beberapa file | ✅ | ✅ (tingkat Advanced) | ❌ |
-| Penggunaan komersial | ✅ **gratis** | 💲 lisensi berbayar | ✅ |
-| macOS & Windows native | ✅ (Mac universal + Win x64) | ✅ | ✅ |
-| Bahasa antarmuka | **20 (mendukung RTL)** | sedikit | banyak |
-| Offline / tanpa telemetri | ✅ | ✅ | ✅ |
+| **Harga** | **Gratis & open source (MIT)** | Gratis *non‑komersial, ≤ 50 MB* · **$98/yr** (≤ 2 GB) · **$198/yr** (≤ 1 TB) | gratis / berbayar |
+| **Penggunaan komersial** | ✅ **gratis** | 💲 berbayar ($98/yr+) — tingkat gratis bersifat non‑komersial | ✅ |
+| **Open source** | ✅ MIT, dapat diaudit | ❌ closed source | campuran |
+| **Gratis hingga** | **4 GB** | 50 MB, lalu berbayar | — |
+| **Ukuran file maksimum** | 4 GB / file | **1 TB** (tingkat berbayar) | ~beberapa ratus MB sebelum tersendat |
+| **Membuka JSON 2–3 GB** | ✅ ~3 dtk | ✅ (tingkat berbayar) | ❌ crash / membeku |
+| **Throughput buka mentah** | cepat (~1 GB/s, terbatas CPU) | sangat cepat (klaim vendor ~2 GB/s) | lambat |
+| **RAM untuk file 3 GB** | ~1,5–2× (indeks; file yang dipetakan tetap berupa page cache yang bisa dibuang) | ~1× (klaim vendor) | sering kehabisan memori |
+| **Penampil pohon lipat** | ✅ | ✅ | ❌ (teks mentah) |
+| **Cari kunci & nilai** | ✅ | ✅ | terbatas |
+| **Pencarian RegEx** | ✅ | ✅ | ✅ |
+| **Konversi → CSV / XML** | ✅ **gratis** | ✅ | ❌ |
+| **Ekspor / salin subtree sebagai JSON** | ✅ | ekspor tingkat node | manual |
+| **Salin kunci / nilai / jalur (gaya jq)** | ✅ | nilai + ekspor | salin‑tempel manual |
+| **Gabungkan beberapa file** | ✅ **gratis** | 💲 tingkat berbayar | ❌ |
+| **NDJSON / JSON Lines** | ✅ terdeteksi otomatis | ✅ | ❌ |
+| **Segarkan otomatis saat file berubah** | ❌ | ✅ | sebagian |
+| **Edit JSON** | ❌ hanya baca | ❌ hanya baca | ✅ |
+| **Platform** | macOS (universal) · Windows | Windows · macOS · **Linux** | semua |
+| **Bahasa antarmuka** | **20 (mendukung RTL)** | sedikit | banyak |
+| **Offline · tanpa telemetri** | ✅ | ✅ | ✅ |
+| **Ukuran instalasi** | ~2–5 MB | puluhan MB | — |
+
+**Ringkasnya:** untuk JSON hingga beberapa GB, BigJSON melakukan semua yang dilakukan tingkatan berbayar Dadroit — membuka, mencari dengan regex, mengonversi ke CSV/XML, menggabungkan banyak file, mengekstrak subtree — **secara gratis, open source, tanpa paywall penggunaan komersial atau fitur**. Tingkat gratis Dadroit berhenti di **50 MB** dan melarang penggunaan komersial; membuka kunci 2 GB / komersial biayanya **$98/yr**, dan 1 TB + set fitur lengkap biayanya **$198/yr**.
+
+**Di mana Dadroit masih unggul (secara jujur):** file di atas 4 GB (hingga **1 TB**), build **Linux** native, **penyegaran otomatis** saat file berubah di disk, dan throughput mentah yang lebih tinggi pada benchmark mereka sendiri. Jika Anda rutin membuka file 100 GB–1 TB atau butuh Linux, Dadroit sepadan dengan lisensinya. Untuk semua kebutuhan hingga beberapa gigabyte, BigJSON adalah pilihan yang **gratis dan tanpa batas**.
+
+<sub>Tingkatan dan harga Dadroit menurut [dadroit.com](https://dadroit.com/buy-licence/) (dapat berubah). Angka kecepatan/RAM adalah klaim masing‑masing proyek — lakukan benchmark pada file Anda sendiri untuk membandingkan.</sub>
 
 ## Bahasa
 
