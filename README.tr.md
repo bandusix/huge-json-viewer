@@ -33,10 +33,12 @@
 - ⚡ **2–3 GB'lık JSON'u ~3 saniyede açar** — belleğe eşlemeli (memory‑mapped), akışlı dizin, sanallaştırılmış ağaç
 - 🔍 **Anahtarlarda ve değerlerde arama** — büyük/küçük harf duyarlı veya değil, düz metin veya **regex**, canlı eşleşme sayısı, yolu otomatik açan eşleşmeye‑atla özelliğiyle ileri/geri
 - 📤 **JSON → CSV veya XML dönüştürme** — çok GB'lık dosyalarda çalışan akışlı dışa aktarma (nesnelerden oluşan devasa bir dizi bir elektronik tabloya dönüşür)
+- 📋 **Kopyala ve ayıkla** — herhangi bir düğüme sağ tıklayarak **anahtarını, değerini, yolunu kopyalayın** (jq tarzı, ör. `.users[3].name`) veya **bir alt ağacı JSON olarak kopyalayın / dışa aktarın**
 - 🔗 **Birden çok dosyayı birleştirme** — birkaç JSON dosyasını aynı anda tek, birleşik ve aranabilir bir ağaç olarak açın
 - 🌳 Satır numaraları, girinti kılavuzları, tür renkleri ve alt öğe sayılarıyla **sözdizimi vurgulu, katlanabilir ağaç** (Dadroit / jsonviewer.app tarzı)
-- 📄 `.json`, `.ndjson` / `.jsonl` (otomatik algılanır), `.geojson`, `.txt` dosyalarını açar
-- 🖱️ Sürükle‑bırak, açmak için **⌘O / Ctrl+O**, aramak için **⌘F / Ctrl+F**, tam klavye navigasyonu
+- 📄 `.json`, `.ndjson` / `.jsonl` (otomatik algılanır), `.geojson`, `.txt` dosyalarını açar — veya panodan doğrudan **JSON yapıştırın**
+- 🖱️ Sürükle‑bırak, açmak için **⌘O / Ctrl+O**, yapıştırmak için **⌘V / Ctrl+V**, aramak için **⌘F / Ctrl+F**, tam klavye navigasyonu
+- 🔔 **Güncelleme bildirimi** — yeni bir sürüm çıktığında durum çubuğunda ince bir bağlantı (günde en fazla bir kez kontrol edilir; tamamen çevrimdışı güvenli)
 - 🌍 **20 dilli arayüz**, sağdan‑sola (RTL) uyumlu (Arapça, Urduca, Pencapça)
 - 🖥️ **macOS & Windows** — universal Mac (Apple Silicon M1–M4 + Intel) ve Windows 10/11 (x64)
 - 🔒 **%100 çevrimdışı** — yükleme yok, sunucu yok, telemetri yok · 2 MB'lık uygulama
@@ -81,6 +83,7 @@ Her iki derleme de 4 GB'a kadar JSON dosyalarını işler.
 | 3 GB dosya için RAM | **~1.5–2×** | düşük | çoğu zaman bellek yetersiz |
 | Anahtarlarda **ve** değerlerde arama | ✅ regex | ✅ | sınırlı |
 | JSON → CSV / XML dönüştürme | ✅ akışlı | ✅ | ❌ |
+| Değer, yol, alt ağaç kopyalama / ayıklama | ✅ | ✅ | elle |
 | Birden çok dosyayı birleştirme | ✅ | ✅ (Advanced katman) | ❌ |
 | Ticari kullanım | ✅ **ücretsiz** | 💲 ücretli lisans | ✅ |
 | Yerel macOS & Windows | ✅ (universal Mac + Win x64) | ✅ | ✅ |
@@ -115,4 +118,4 @@ cd src-tauri && cargo test                              # engine tests (serde_js
 
 [MIT](LICENSE) © bandusix
 
-<sub>Anahtar kelimeler: büyük JSON dosyası açma, büyük JSON görüntüleyici, 2GB / 3GB JSON açma, JSON dosyası çok büyük, Mac için JSON görüntüleyici, Windows için JSON görüntüleyici, yerel Mac JSON görüntüleyici, Windows'ta büyük JSON açma, ücretsiz Dadroit alternatifi, açık kaynak JSON görüntüleyici, büyük JSON içinde anahtar ve değer arama, gigabaytlık JSON, akışlı JSON görüntüleyici.</sub>
+<sub>Anahtar kelimeler: büyük JSON dosyası açma, büyük JSON görüntüleyici, 2GB / 3GB JSON açma, JSON dosyası çok büyük, Mac için JSON görüntüleyici, Windows için JSON görüntüleyici, yerel Mac JSON görüntüleyici, Windows'ta büyük JSON açma, ücretsiz Dadroit alternatifi, açık kaynak JSON görüntüleyici, büyük JSON içinde anahtar ve değer arama, JSON alt ağacı ayıklama, JSON değeri / yolu kopyalama, JSON'dan CSV / XML'e, NDJSON görüntüleyici, gigabaytlık JSON, akışlı JSON görüntüleyici.</sub>

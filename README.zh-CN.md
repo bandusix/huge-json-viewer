@@ -33,10 +33,12 @@
 - ⚡ **约 3 秒打开 2–3 GB JSON**——内存映射、流式索引、虚拟化树
 - 🔍 **搜索键和值**——区分或不区分大小写、纯文本或**正则表达式**、实时匹配计数、上一处/下一处跳转并自动展开路径
 - 📤 **JSON → CSV 或 XML 转换**——流式导出，可处理数 GB 级文件（把庞大的对象数组变成一张表格）
+- 📋 **复制与提取**——右键点击任意节点即可**复制它的键、值、路径**（jq 风格，例如 `.users[3].name`），或**将子树复制 / 导出为 JSON**
 - 🔗 **合并多个文件**——一次打开多个 JSON 文件，合成一棵可搜索的组合树
 - 🌳 **语法高亮、可折叠的树**，带行号、缩进参考线、类型配色和子节点计数（Dadroit / jsonviewer.app 风格）
-- 📄 支持打开 `.json`、`.ndjson` / `.jsonl`（自动识别）、`.geojson`、`.txt`
-- 🖱️ 拖放打开、**⌘O / Ctrl+O** 打开、**⌘F / Ctrl+F** 搜索，全键盘导航
+- 📄 支持打开 `.json`、`.ndjson` / `.jsonl`（自动识别）、`.geojson`、`.txt`——或直接**从剪贴板粘贴 JSON**
+- 🖱️ 拖放打开、**⌘O / Ctrl+O** 打开、**⌘V / Ctrl+V** 粘贴、**⌘F / Ctrl+F** 搜索，全键盘导航
+- 🔔 **更新提示**——有新版本发布时，状态栏会出现一个不打扰的链接（每天最多检查一次；完全离线安全）
 - 🌍 **20 种语言界面**，支持从右到左布局（阿拉伯语、乌尔都语、旁遮普语）
 - 🖥️ **macOS 与 Windows**——通用 Mac（Apple Silicon M1–M4 + Intel）以及 Windows 10/11（x64）
 - 🔒 **100% 离线**——不上传、无服务器、无遥测 · 应用仅 2 MB
@@ -81,6 +83,7 @@
 | 打开 3 GB 文件的内存占用 | **~1.5–2 倍** | 低 | 常常内存溢出 |
 | 同时搜索键**和**值 | ✅ 支持正则 | ✅ | 有限 |
 | JSON → CSV / XML 转换 | ✅ 流式 | ✅ | ❌ |
+| 复制 / 提取值、路径、子树 | ✅ | ✅ | 手动 |
 | 合并多个文件 | ✅ | ✅（高级版） | ❌ |
 | 商业使用 | ✅ **免费** | 💲 付费授权 | ✅ |
 | 原生 macOS 与 Windows | ✅（通用 Mac + Win x64） | ✅ | ✅ |
@@ -115,4 +118,4 @@ cd src-tauri && cargo test                              # engine tests (serde_js
 
 [MIT](LICENSE) © bandusix
 
-<sub>关键词：大JSON文件查看器, 打开大JSON文件, 打开2GB/3GB JSON, JSON文件太大打不开, Mac JSON查看器, Windows JSON查看器, 原生 Mac JSON查看器, 在 Windows 上打开大JSON, 免费 Dadroit 替代, 开源JSON查看器, 搜索大JSON键和值, 千兆JSON, 流式JSON查看器。</sub>
+<sub>关键词：大JSON文件查看器, 打开大JSON文件, 打开2GB/3GB JSON, JSON文件太大打不开, Mac JSON查看器, Windows JSON查看器, 原生 Mac JSON查看器, 在 Windows 上打开大JSON, 免费 Dadroit 替代, 开源JSON查看器, 搜索大JSON键和值, 提取JSON子树, 复制JSON值 / 路径, JSON转CSV / XML, NDJSON查看器, 千兆JSON, 流式JSON查看器。</sub>

@@ -33,10 +33,12 @@ If you've searched for *"how to open a large JSON file"*, *"JSON file too big to
 - ⚡ **Opens 2–3 GB JSON in ~3 seconds** — memory‑mapped, streaming index, virtualized tree
 - 🔍 **Search keys and values** — case‑sensitive or not, plain or **regex**, live match count, next/prev with jump‑to‑match that auto‑expands the path
 - 📤 **Convert JSON → CSV or XML** — streaming export that works on multi‑GB files (a huge array of objects becomes a spreadsheet)
+- 📋 **Copy & extract** — right‑click any node to **copy its key, value, path** (jq‑style, e.g. `.users[3].name`), or **copy / export a subtree as JSON**
 - 🔗 **Union multiple files** — open several JSON files at once as one combined, searchable tree
 - 🌳 **Syntax‑highlighted collapsible tree** with line numbers, indent guides, type colors and child counts (Dadroit / jsonviewer.app style)
-- 📄 Opens `.json`, `.ndjson` / `.jsonl` (auto‑detected), `.geojson`, `.txt`
-- 🖱️ Drag‑and‑drop, **⌘O / Ctrl+O** to open, **⌘F / Ctrl+F** to search, full keyboard navigation
+- 📄 Opens `.json`, `.ndjson` / `.jsonl` (auto‑detected), `.geojson`, `.txt` — or **paste JSON** straight from the clipboard
+- 🖱️ Drag‑and‑drop, **⌘O / Ctrl+O** to open, **⌘V / Ctrl+V** to paste, **⌘F / Ctrl+F** to search, full keyboard navigation
+- 🔔 **Update notice** — a subtle status‑bar link when a new version ships (checked at most once a day; fully offline‑safe)
 - 🌍 **20‑language UI**, right‑to‑left aware (Arabic, Urdu, Punjabi)
 - 🖥️ **macOS & Windows** — universal Mac (Apple Silicon M1–M4 + Intel) and Windows 10/11 (x64)
 - 🔒 **100% offline** — no upload, no server, no telemetry · tiny (~2 MB) app
@@ -81,6 +83,7 @@ Built with **Tauri v2** (Rust backend + web frontend), packaged as a ~2 MB `.dmg
 | RAM for a 3 GB file | **~1.5–2×** | low | often out‑of‑memory |
 | Search keys **and** values | ✅ regex | ✅ | limited |
 | Convert JSON → CSV / XML | ✅ streaming | ✅ | ❌ |
+| Copy / extract value, path, subtree | ✅ | ✅ | manual |
 | Union multiple files | ✅ | ✅ (Advanced tier) | ❌ |
 | Commercial use | ✅ **free** | 💲 paid license | ✅ |
 | Native macOS & Windows | ✅ (universal Mac + Win x64) | ✅ | ✅ |
@@ -115,4 +118,4 @@ cd src-tauri && cargo test                              # engine tests (serde_js
 
 [MIT](LICENSE) © bandusix
 
-<sub>Keywords: large JSON viewer, open big JSON file, view 2GB / 3GB JSON, JSON file too big to open, macOS JSON viewer, Windows JSON viewer, native Mac JSON viewer, open large JSON on Windows, free Dadroit alternative, open source JSON viewer, search large JSON keys and values, gigabyte JSON, streaming JSON viewer.</sub>
+<sub>Keywords: large JSON viewer, open big JSON file, view 2GB / 3GB JSON, JSON file too big to open, macOS JSON viewer, Windows JSON viewer, native Mac JSON viewer, open large JSON on Windows, free Dadroit alternative, open source JSON viewer, search large JSON keys and values, extract JSON subtree, copy JSON value / path, JSON to CSV / XML, NDJSON viewer, gigabyte JSON, streaming JSON viewer.</sub>

@@ -33,10 +33,12 @@ Jika Anda pernah mencari *"cara membuka file JSON besar"*, *"file JSON terlalu b
 - ⚡ **Membuka JSON 2–3 GB dalam ~3 detik** — memory‑map, indeks streaming, pohon tervirtualisasi
 - 🔍 **Cari kunci dan nilai** — peka atau tidak peka huruf besar/kecil, teks biasa atau **regex**, jumlah kecocokan langsung, berikutnya/sebelumnya dengan lompat‑ke‑kecocokan yang otomatis membuka jalurnya
 - 📤 **Konversi JSON → CSV atau XML** — ekspor streaming yang bekerja pada file berukuran multi‑GB (array objek yang sangat besar menjadi lembar kerja)
+- 📋 **Salin & ekstrak** — klik kanan node mana pun untuk **menyalin kunci, nilai, jalurnya** (gaya jq, mis. `.users[3].name`), atau **menyalin / mengekspor subtree sebagai JSON**
 - 🔗 **Gabungkan beberapa file** — buka beberapa file JSON sekaligus sebagai satu pohon gabungan yang dapat dicari
 - 🌳 **Pohon lipat dengan penyorotan sintaks** lengkap dengan nomor baris, panduan indentasi, warna tipe, dan jumlah anak (gaya Dadroit / jsonviewer.app)
-- 📄 Membuka `.json`, `.ndjson` / `.jsonl` (terdeteksi otomatis), `.geojson`, `.txt`
-- 🖱️ Seret‑dan‑lepas, **⌘O / Ctrl+O** untuk membuka, **⌘F / Ctrl+F** untuk mencari, navigasi keyboard penuh
+- 📄 Membuka `.json`, `.ndjson` / `.jsonl` (terdeteksi otomatis), `.geojson`, `.txt` — atau **tempel JSON** langsung dari clipboard
+- 🖱️ Seret‑dan‑lepas, **⌘O / Ctrl+O** untuk membuka, **⌘V / Ctrl+V** untuk menempel, **⌘F / Ctrl+F** untuk mencari, navigasi keyboard penuh
+- 🔔 **Pemberitahuan pembaruan** — tautan halus di bilah status saat versi baru dirilis (diperiksa paling banyak sekali sehari; sepenuhnya aman offline)
 - 🌍 **Antarmuka 20 bahasa**, mendukung kanan‑ke‑kiri (Arab, Urdu, Punjabi)
 - 🖥️ **macOS & Windows** — Mac universal (Apple Silicon M1–M4 + Intel) dan Windows 10/11 (x64)
 - 🔒 **100% offline** — tanpa unggahan, tanpa server, tanpa telemetri · aplikasi 2 MB
@@ -81,6 +83,7 @@ Dibangun dengan **Tauri v2** (backend Rust + frontend web), dikemas sebagai `.dm
 | RAM untuk file 3 GB | **~1,5–2×** | rendah | sering kehabisan memori |
 | Cari kunci **dan** nilai | ✅ regex | ✅ | terbatas |
 | Konversi JSON → CSV / XML | ✅ streaming | ✅ | ❌ |
+| Salin / ekstrak nilai, jalur, subtree | ✅ | ✅ | manual |
 | Gabungkan beberapa file | ✅ | ✅ (tingkat Advanced) | ❌ |
 | Penggunaan komersial | ✅ **gratis** | 💲 lisensi berbayar | ✅ |
 | macOS & Windows native | ✅ (Mac universal + Win x64) | ✅ | ✅ |
@@ -115,4 +118,4 @@ cd src-tauri && cargo test                              # engine tests (serde_js
 
 [MIT](LICENSE) © bandusix
 
-<sub>Kata kunci: penampil JSON besar, buka file JSON besar, buka JSON 2GB/3GB, file JSON terlalu besar untuk dibuka, penampil JSON untuk Mac, penampil JSON untuk Windows, penampil JSON native Mac, buka JSON besar di Windows, alternatif Dadroit gratis, penampil JSON open source, cari kunci dan nilai di JSON besar, JSON gigabyte, penampil JSON streaming.</sub>
+<sub>Kata kunci: penampil JSON besar, buka file JSON besar, buka JSON 2GB/3GB, file JSON terlalu besar untuk dibuka, penampil JSON untuk Mac, penampil JSON untuk Windows, penampil JSON native Mac, buka JSON besar di Windows, alternatif Dadroit gratis, penampil JSON open source, cari kunci dan nilai di JSON besar, ekstrak subtree JSON, salin nilai / jalur JSON, JSON ke CSV / XML, penampil NDJSON, JSON gigabyte, penampil JSON streaming.</sub>

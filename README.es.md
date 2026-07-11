@@ -33,10 +33,12 @@ Si alguna vez has buscado *«cómo abrir un archivo JSON grande»*, *«archivo J
 - ⚡ **Abre JSON de 2–3 GB en ~3 segundos**: mapeo en memoria, índice en streaming y árbol virtualizado
 - 🔍 **Busca claves y valores**: con o sin distinción de mayúsculas y minúsculas, texto plano o **regex**, recuento de coincidencias en vivo, anterior/siguiente con salto a la coincidencia que expande la ruta automáticamente
 - 📤 **Convierte JSON → CSV o XML**: exportación en streaming que funciona con archivos de varios GB (un array enorme de objetos se convierte en una hoja de cálculo)
+- 📋 **Copiar y extraer**: haz clic derecho en cualquier nodo para **copiar su clave, valor o ruta** (al estilo jq, p. ej. `.users[3].name`), o **copiar / exportar un subárbol como JSON**
 - 🔗 **Une varios archivos**: abre varios archivos JSON a la vez como un único árbol combinado y buscable
 - 🌳 **Árbol plegable con resaltado de sintaxis**, con números de línea, guías de indentación, colores por tipo y recuento de hijos (al estilo de Dadroit / jsonviewer.app)
-- 📄 Abre `.json`, `.ndjson` / `.jsonl` (detectados automáticamente), `.geojson`, `.txt`
-- 🖱️ Arrastrar y soltar, **⌘O / Ctrl+O** para abrir, **⌘F / Ctrl+F** para buscar, navegación completa con el teclado
+- 📄 Abre `.json`, `.ndjson` / `.jsonl` (detectados automáticamente), `.geojson`, `.txt`, o **pega JSON** directamente desde el portapapeles
+- 🖱️ Arrastrar y soltar, **⌘O / Ctrl+O** para abrir, **⌘V / Ctrl+V** para pegar, **⌘F / Ctrl+F** para buscar, navegación completa con el teclado
+- 🔔 **Aviso de actualización**: un enlace discreto en la barra de estado cuando se publica una nueva versión (se comprueba como mucho una vez al día; totalmente seguro sin conexión)
 - 🌍 **Interfaz en 20 idiomas**, compatible con la escritura de derecha a izquierda (árabe, urdu, panyabí)
 - 🖥️ **macOS y Windows**: Mac universal (Apple Silicon M1–M4 + Intel) y Windows 10/11 (x64)
 - 🔒 **100 % sin conexión**: sin subidas, sin servidor, sin telemetría · app diminuta (~2 MB)
@@ -81,6 +83,7 @@ Construido con **Tauri v2** (backend en Rust + frontend web), empaquetado como u
 | RAM para un archivo de 3 GB | **~1,5–2×** | baja | a menudo se queda sin memoria |
 | Busca claves **y** valores | ✅ regex | ✅ | limitado |
 | Convierte JSON → CSV / XML | ✅ streaming | ✅ | ❌ |
+| Copiar / extraer valor, ruta, subárbol | ✅ | ✅ | manual |
 | Une varios archivos | ✅ | ✅ (nivel Advanced) | ❌ |
 | Uso comercial | ✅ **gratis** | 💲 licencia de pago | ✅ |
 | macOS y Windows nativos | ✅ (Mac universal + Win x64) | ✅ | ✅ |
@@ -115,4 +118,4 @@ cd src-tauri && cargo test                              # engine tests (serde_js
 
 [MIT](LICENSE) © bandusix
 
-<sub>Palabras clave: abrir archivo JSON grande, visor JSON para archivos grandes, abrir JSON de 2GB/3GB, archivo JSON demasiado grande, visor JSON para Mac, visor JSON para Windows, abrir JSON grande en Windows, alternativa gratis a Dadroit, visor JSON de código abierto, buscar en JSON grande, JSON de gigabytes, visor JSON en streaming.</sub>
+<sub>Palabras clave: abrir archivo JSON grande, visor JSON para archivos grandes, abrir JSON de 2GB/3GB, archivo JSON demasiado grande, visor JSON para Mac, visor JSON para Windows, abrir JSON grande en Windows, alternativa gratis a Dadroit, visor JSON de código abierto, buscar en JSON grande, extraer subárbol JSON, copiar valor / ruta JSON, JSON a CSV / XML, visor NDJSON, JSON de gigabytes, visor JSON en streaming.</sub>
