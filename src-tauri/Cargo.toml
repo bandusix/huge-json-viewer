@@ -1,6 +1,6 @@
 [package]
 name = "huge-json-viewer"
-version = "0.4.0"
+version = "0.5.0"
 description = "BigJSON — open and search multi-gigabyte JSON files"
 authors = ["bandusix"]
 edition = "2021"
@@ -24,6 +24,8 @@ serde_json = "1"
 memmap2 = "0.9"
 memchr = "2"
 regex = "1"
+aho-corasick = "1"
+rustc-hash = "2"
 parking_lot = "0.12"
 
 [profile.release]

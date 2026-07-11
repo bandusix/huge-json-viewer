@@ -11,7 +11,7 @@
 //! `val_start` is strictly increasing in pre-order, so the visible list is
 //! always sorted ascending by id, enabling O(log n) reveal.
 
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
@@ -19,6 +19,7 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
 
 use memmap2::Mmap;
+use rustc_hash::FxHashSet;
 
 // ---- Node kinds -----------------------------------------------------------
 
@@ -104,7 +105,11 @@ pub struct Nodes {
 
 impl Nodes {
     fn with_capacity(byte_len: usize) -> Self {
-        let est = (byte_len / 24).clamp(1024, MAX_NODES);
+        // Record-heavy files (arrays of similar objects — the common big-file
+        // case) run ~13–16 bytes/node, so /24 reserves for ~half the nodes and
+        // forces a multi-GB realloc mid-build. /16 sizes for the target workload
+        // while keeping over-reservation bounded on long-value / pretty files.
+        let est = (byte_len / 16).clamp(1024, MAX_NODES);
         Nodes {
             kind: Vec::with_capacity(est),
             depth: Vec::with_capacity(est),
@@ -158,11 +163,18 @@ fn skip_ws(bytes: &[u8], mut i: usize) -> usize {
 pub(crate) fn scan_string_end(bytes: &[u8], pos: usize) -> Result<usize, ParseError> {
     let n = bytes.len();
     let mut i = pos + 1;
+    // SIMD-jump to the next quote-or-backslash instead of scanning byte by byte
+    // (this is the hottest scanner during indexing — one call per string/key).
     while i < n {
-        match bytes[i] {
-            b'\\' => i += 2, // skip escaped char (also covers \uXXXX)
-            b'"' => return Ok(i + 1),
-            _ => i += 1,
+        match memchr::memchr2(b'"', b'\\', &bytes[i..]) {
+            Some(rel) => {
+                let j = i + rel;
+                if bytes[j] == b'"' {
+                    return Ok(j + 1);
+                }
+                i = j + 2; // backslash: skip it and the escaped char (covers \uXXXX)
+            }
+            None => break,
         }
     }
     Err(perr(pos, "unterminated string"))
@@ -717,13 +729,25 @@ pub struct Match {
     pub is_key: bool,
 }
 
-/// Map a raw byte offset to the (node, is_key) it belongs to, if any.
-fn classify(idx: &Index, o: usize) -> Option<(u32, bool)> {
+/// Map a raw byte offset to the (node, is_key) it belongs to, if any. `cursor`
+/// is a monotonic index into `val_start`: because a scan yields offsets in
+/// increasing order, this advances a running cursor instead of re-running an
+/// O(log N) binary search (a cache-miss storm) for every raw hit.
+fn classify(idx: &Index, o: usize, cursor: &mut usize) -> Option<(u32, bool)> {
     let nodes = &idx.nodes;
     let bytes = idx.bytes();
+    let len = nodes.len();
+
+    // Partition point: first index whose value starts after `o`. `val_start` is
+    // strictly increasing and `o` is non-decreasing across calls, so we only
+    // ever move forward from the previous cursor.
+    let mut jp = *cursor;
+    while jp < len && (nodes.val_start[jp] as usize) <= o {
+        jp += 1;
+    }
+    *cursor = jp;
 
     // Value hit: deepest node whose value starts at/before `o`.
-    let jp = nodes.val_start.partition_point(|&x| (x as usize) <= o);
     if jp > 0 {
         let j = jp - 1;
         let k = nodes.kind[j];
@@ -771,11 +795,13 @@ pub fn run_search(
     let accept = |is_key: bool| (is_key && keys) || (!is_key && values);
 
     if !regex && case_sensitive {
+        // Exact substring → SIMD memmem.
         let finder = memchr::memmem::Finder::new(query.as_bytes());
         let mut base = 0usize;
+        let mut cursor = 0usize;
         while let Some(rel) = finder.find(&bytes[base..]) {
             let o = base + rel;
-            if let Some((node, is_key)) = classify(idx, o) {
+            if let Some((node, is_key)) = classify(idx, o, &mut cursor) {
                 if accept(is_key) {
                     out.push(Match { node, offset: o as u32, is_key });
                     if out.len() >= cap {
@@ -786,21 +812,40 @@ pub fn run_search(
             }
             base = o + 1;
         }
-    } else {
-        let mut pat = if regex { query.to_string() } else { regex::escape(query) };
-        if !case_sensitive {
-            pat = format!("(?i){}", pat);
+    } else if !regex {
+        // Case-insensitive literal (the default) → aho-corasick with a SIMD
+        // prefilter and ASCII case folding, instead of the regex DFA.
+        let ac = aho_corasick::AhoCorasick::builder()
+            .ascii_case_insensitive(true)
+            .build([query])
+            .map_err(|e| format!("Invalid pattern: {}", e))?;
+        let mut cursor = 0usize;
+        for m in ac.find_iter(bytes) {
+            let o = m.start();
+            if let Some((node, is_key)) = classify(idx, o, &mut cursor) {
+                if accept(is_key) {
+                    out.push(Match { node, offset: o as u32, is_key });
+                    if out.len() >= cap {
+                        capped = true;
+                        break;
+                    }
+                }
+            }
         }
-        let re = regex::bytes::RegexBuilder::new(&pat)
+    } else {
+        // User regular expression (Unicode-aware case folding when requested).
+        let re = regex::bytes::RegexBuilder::new(query)
             .size_limit(64 << 20)
+            .case_insensitive(!case_sensitive)
             .build()
             .map_err(|e| format!("Invalid pattern: {}", e))?;
+        let mut cursor = 0usize;
         for m in re.find_iter(bytes) {
             if m.start() == m.end() {
                 continue;
             }
             let o = m.start();
-            if let Some((node, is_key)) = classify(idx, o) {
+            if let Some((node, is_key)) = classify(idx, o, &mut cursor) {
                 if accept(is_key) {
                     out.push(Match { node, offset: o as u32, is_key });
                     if out.len() >= cap {
@@ -843,7 +888,7 @@ pub(crate) fn direct_children(nodes: &Nodes, id: u32) -> Vec<u32> {
 }
 
 /// Append the visible descendants of `id` (pre-order), honoring `expanded`.
-fn collect_expanded(nodes: &Nodes, expanded: &HashSet<u32>, id: u32, out: &mut Vec<u32>) {
+fn collect_expanded(nodes: &Nodes, expanded: &FxHashSet<u32>, id: u32, out: &mut Vec<u32>) {
     // (cursor, end) frames; iterative to avoid recursion on deep trees.
     let mut stack: Vec<(u32, u32)> = vec![(id + 1, nodes.subtree_end[id as usize])];
     while let Some(frame) = stack.last_mut() {
@@ -865,7 +910,7 @@ pub struct Doc {
     pub path: String,
     pub file_name: String,
     pub index: Arc<Index>,
-    pub expanded: HashSet<u32>,
+    pub expanded: FxHashSet<u32>,
     pub visible: Vec<u32>,
     pub matches: Vec<Match>,
     pub load_ms: u64,
@@ -873,7 +918,7 @@ pub struct Doc {
 
 impl Doc {
     pub fn new(path: String, file_name: String, index: Arc<Index>, load_ms: u64) -> Self {
-        let mut expanded = HashSet::new();
+        let mut expanded = FxHashSet::default();
         let mut visible = Vec::new();
         visible.push(0);
         let nodes = &index.nodes;
@@ -979,7 +1024,11 @@ impl Doc {
             }
             p = nodes.parent[p as usize];
         }
-        if changed || id != 0 {
+        // Only rebuild when an ancestor actually opened. If nothing changed,
+        // every ancestor was already expanded, so `id` is already in the sorted
+        // `visible` list and the binary search below finds it directly — no need
+        // to clear and re-collect (up to a ~1.2 GB Vec rebuild) on every jump.
+        if changed {
             self.rebuild_visible();
         }
         // visible is sorted ascending by id → binary search.

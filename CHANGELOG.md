@@ -4,6 +4,36 @@ All notable changes to **BigJSON** (formerly Huge JSON Viewer) are documented
 here. The format follows [Keep a Changelog](https://keepachangelog.com/), and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.0] — 2026-07-11
+
+Clipboard & extract features, plus a round of engine performance work.
+
+### Added
+- **Copy to clipboard** — right-click any tree row to **Copy key**, **Copy
+  value**, **Copy as JSON** (the node's raw subtree), or **Copy path** (jq-style,
+  e.g. `.users[3].name`). Large values are capped at 16 MB with a hint to export.
+- **Export subtree as JSON** — the Export menu and the right-click menu can now
+  save the whole document *or* the selected node as JSON, streamed straight from
+  the source bytes (any size, constant memory).
+- **Paste JSON to open** — a *Paste JSON* button on the start screen and
+  **⌘V / Ctrl+V** open JSON straight from the clipboard.
+- **Update notice** — a subtle "Update available" link appears in the status bar
+  when a newer release exists (checked at most once a day; fully offline-safe).
+
+### Performance
+- **Search** — replaced the per-hit binary search in match classification with a
+  monotonic cursor (removes an O(log N) cache-miss lookup per raw hit), and the
+  default case-insensitive search now uses an aho-corasick SIMD matcher instead
+  of the regex engine. Case-insensitive **literal** search now folds ASCII case
+  (regex search remains Unicode-aware).
+- **Indexing** — the hottest string scanner now uses SIMD (`memchr2`), and the
+  node-array reservation is sized for real record files to avoid a multi-GB
+  reallocation mid-build.
+- **Navigation** — jumping to an already-visible search match no longer rebuilds
+  the whole visible-row list; the expanded-set now uses a faster hasher.
+- **Export** — CSV/XML writers batch runs of bytes instead of writing one byte
+  or space at a time.
+
 ## [0.4.0] — 2026-07-10
 
 **Windows support** — BigJSON now ships for **Windows 10/11 (x64)** alongside

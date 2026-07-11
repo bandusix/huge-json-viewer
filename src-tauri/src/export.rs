@@ -173,12 +173,14 @@ fn write_json_field<W: Write>(
 ) -> Result<(), String> {
     w_all(w, b"\"")?;
     let n = bytes.len();
-    let mut i = val_start as usize;
+    let start = val_start as usize;
+    let mut i = start;
     let mut depth: i64 = 0;
     let mut in_str = false;
     let mut esc = false;
     let mut written = 0usize;
     let mut truncated = false;
+    let mut run = start; // start of the pending verbatim run (flushed at quotes/end)
     while i < n {
         // Only truncate on a UTF-8 char boundary (not mid multi-byte sequence).
         if written >= cell_cap && (bytes[i] & 0xC0) != 0x80 {
@@ -186,13 +188,7 @@ fn write_json_field<W: Write>(
             break;
         }
         let b = bytes[i];
-        if b == b'"' {
-            w_all(w, b"\"\"")?;
-            written += 2;
-        } else {
-            w_all(w, &bytes[i..i + 1])?;
-            written += 1;
-        }
+        let mut done = false;
         if in_str {
             if esc {
                 esc = false;
@@ -208,13 +204,31 @@ fn write_json_field<W: Write>(
                 b'}' | b']' => {
                     depth -= 1;
                     if depth <= 0 {
-                        break;
+                        done = true;
                     }
                 }
                 _ => {}
             }
         }
+        if b == b'"' {
+            // Flush the verbatim run, then emit the CSV-doubled quote.
+            if i > run {
+                w_all(w, &bytes[run..i])?;
+            }
+            w_all(w, b"\"\"")?;
+            run = i + 1;
+            written += 2;
+        } else {
+            written += 1;
+        }
         i += 1;
+        if done {
+            break;
+        }
+    }
+    // Flush the trailing verbatim run (includes the closing bracket).
+    if i > run {
+        w_all(w, &bytes[run..i])?;
     }
     if truncated {
         stats.cells_truncated += 1;
@@ -421,15 +435,28 @@ pub fn sanitize_xml_name(key: &str) -> (String, bool) {
 }
 
 fn xml_escape_text<W: Write>(w: &mut W, s: &str) -> Result<(), String> {
-    let mut buf = [0u8; 4];
-    for ch in s.chars() {
-        match ch {
-            '&' => w_all(w, b"&amp;")?,
-            '<' => w_all(w, b"&lt;")?,
-            '>' => w_all(w, b"&gt;")?,
-            c if !xml_char_ok(c) => w_all(w, "\u{FFFD}".as_bytes())?,
-            c => w_all(w, c.encode_utf8(&mut buf).as_bytes())?,
+    // Emit maximal runs of clean characters as one slice, escaping only the few
+    // that need it (instead of one write per char).
+    let bytes = s.as_bytes();
+    let mut run = 0usize;
+    for (i, ch) in s.char_indices() {
+        let repl: Option<&[u8]> = match ch {
+            '&' => Some(b"&amp;"),
+            '<' => Some(b"&lt;"),
+            '>' => Some(b"&gt;"),
+            c if !xml_char_ok(c) => Some("\u{FFFD}".as_bytes()),
+            _ => None,
+        };
+        if let Some(r) = repl {
+            if i > run {
+                w_all(w, &bytes[run..i])?;
+            }
+            w_all(w, r)?;
+            run = i + ch.len_utf8();
         }
+    }
+    if run < bytes.len() {
+        w_all(w, &bytes[run..])?;
     }
     Ok(())
 }
@@ -441,26 +468,35 @@ fn xml_char_ok(c: char) -> bool {
 }
 
 fn xml_escape_attr<W: Write>(w: &mut W, s: &str) -> Result<(), String> {
-    let mut buf = [0u8; 4];
-    for ch in s.chars() {
-        match ch {
-            '&' => w_all(w, b"&amp;")?,
-            '<' => w_all(w, b"&lt;")?,
-            '>' => w_all(w, b"&gt;")?,
-            '"' => w_all(w, b"&quot;")?,
-            c if !xml_char_ok(c) => w_all(w, "\u{FFFD}".as_bytes())?,
-            c => w_all(w, c.encode_utf8(&mut buf).as_bytes())?,
+    let bytes = s.as_bytes();
+    let mut run = 0usize;
+    for (i, ch) in s.char_indices() {
+        let repl: Option<&[u8]> = match ch {
+            '&' => Some(b"&amp;"),
+            '<' => Some(b"&lt;"),
+            '>' => Some(b"&gt;"),
+            '"' => Some(b"&quot;"),
+            c if !xml_char_ok(c) => Some("\u{FFFD}".as_bytes()),
+            _ => None,
+        };
+        if let Some(r) = repl {
+            if i > run {
+                w_all(w, &bytes[run..i])?;
+            }
+            w_all(w, r)?;
+            run = i + ch.len_utf8();
         }
+    }
+    if run < bytes.len() {
+        w_all(w, &bytes[run..])?;
     }
     Ok(())
 }
 
 fn indent<W: Write>(w: &mut W, depth: usize) -> Result<(), String> {
+    const SPACES: [u8; 200] = [b' '; 200];
     let n = (depth * 2).min(200);
-    for _ in 0..n {
-        w_all(w, b" ")?;
-    }
-    Ok(())
+    w_all(w, &SPACES[..n])
 }
 
 fn write_name_attr<W: Write>(w: &mut W, name: &str, attr: &Option<String>) -> Result<(), String> {
@@ -755,6 +791,14 @@ mod tests {
     fn csv_nested_as_json_cell() {
         let out = csv(r#"[{"o":{"x":1},"a":[1,2]}]"#, no_bom());
         assert_eq!(out, "\"o\",\"a\"\n\"{\"\"x\"\":1}\",\"[1,2]\"\n");
+    }
+
+    #[test]
+    fn csv_nested_cell_with_escaped_quote() {
+        // The nested object contains an escaped quote — the run-batching writer
+        // must still double every literal `"` and keep the backslash verbatim.
+        let out = csv(r#"[{"o":{"x":"a\"b"}}]"#, no_bom());
+        assert_eq!(out, "\"o\"\n\"{\"\"x\"\":\"\"a\\\"\"b\"\"}\"\n");
     }
 
     #[test]
