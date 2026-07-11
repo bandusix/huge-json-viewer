@@ -10,8 +10,11 @@ import {
   LOCALES,
 } from "./i18n";
 import { open as openDialog, save as saveDialog } from "@tauri-apps/plugin-dialog";
-import { revealItemInDir } from "@tauri-apps/plugin-opener";
+import { revealItemInDir, openUrl } from "@tauri-apps/plugin-opener";
+import { writeText as clipboardWrite, readText as clipboardRead } from "@tauri-apps/plugin-clipboard-manager";
+import { getVersion } from "@tauri-apps/api/app";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
+import type { ExportFormat } from "./ipc";
 
 // ---- host platform ----
 // data-platform is set on <html> by an inline <head> script (before first paint)
@@ -39,6 +42,9 @@ const els = {
   titleBar: $("titlebar-title"),
   btnOpen: $("btn-open"),
   btnOpen2: $("btn-open-2"),
+  btnPaste: $("btn-paste"),
+  ctxMenu: $("ctx-menu"),
+  statusUpdate: $<HTMLAnchorElement>("status-update"),
   btnTheme: $("btn-theme"),
   btnCollapse: $("btn-collapse"),
   btnExpand: $("btn-expand"),
@@ -439,6 +445,74 @@ els.viewport.addEventListener("keydown", (e) => {
   }
 });
 
+// ---- copy / context menu ----
+async function copyNode(nodeId: number, what: "key" | "value" | "json" | "path") {
+  try {
+    const r = await api.nodeText(nodeId, what);
+    if (what === "key" && !r.text) return;
+    await clipboardWrite(r.text);
+    showToast(r.truncated ? t("copy.truncated") : t("copy.done"), null, r.truncated);
+  } catch (e) {
+    showToast(`${t("copy.failed")} ${e}`, null, true);
+    console.error("copy", e);
+  }
+}
+
+let ctxNodeId = -1;
+function hideCtxMenu() {
+  els.ctxMenu.hidden = true;
+}
+function showCtxMenu(x: number, y: number, row: RowView) {
+  ctxNodeId = row.id;
+  const mk = (action: string, label: string) =>
+    `<button class="menu-item" data-action="${action}"><span>${escapeHtml(label)}</span></button>`;
+  let html = "";
+  if (row.key !== null) html += mk("copy-key", t("ctx.copyKey"));
+  html += mk("copy-value", t("ctx.copyValue"));
+  html += mk("copy-json", t("ctx.copyJson"));
+  html += mk("copy-path", t("ctx.copyPath"));
+  html += `<div class="menu-sep"></div>`;
+  html += mk("export-json", t("ctx.exportJson"));
+  els.ctxMenu.innerHTML = html;
+  els.ctxMenu.hidden = false;
+  const mw = els.ctxMenu.offsetWidth || 210;
+  const mh = els.ctxMenu.offsetHeight || 220;
+  els.ctxMenu.style.left = `${clamp(x, 6, window.innerWidth - mw - 6)}px`;
+  els.ctxMenu.style.top = `${clamp(y, 6, window.innerHeight - mh - 6)}px`;
+}
+
+els.rows.addEventListener("contextmenu", (e) => {
+  const rowEl = (e.target as HTMLElement).closest<HTMLElement>(".row");
+  if (!rowEl || rowEl.classList.contains("skeleton")) return;
+  e.preventDefault();
+  const vi = Number(rowEl.dataset.vi);
+  const id = Number(rowEl.dataset.id);
+  const row = rowCache.get(vi);
+  if (!row) return;
+  selectRow(vi, id);
+  showCtxMenu(e.clientX, e.clientY, row);
+});
+els.ctxMenu.addEventListener("click", (e) => {
+  const item = (e.target as HTMLElement).closest<HTMLElement>(".menu-item");
+  if (!item) return;
+  const action = item.dataset.action;
+  hideCtxMenu();
+  switch (action) {
+    case "copy-key": copyNode(ctxNodeId, "key"); break;
+    case "copy-value": copyNode(ctxNodeId, "value"); break;
+    case "copy-json": copyNode(ctxNodeId, "json"); break;
+    case "copy-path": copyNode(ctxNodeId, "path"); break;
+    case "export-json": runExport("json", ctxNodeId); break;
+  }
+});
+document.addEventListener("click", (e) => {
+  if (!els.ctxMenu.hidden && !els.ctxMenu.contains(e.target as Node)) hideCtxMenu();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") hideCtxMenu();
+});
+els.tree.addEventListener("scroll", hideCtxMenu, { passive: true });
+
 // ---- search ----
 function setChip(el: HTMLElement, on: boolean) {
   el.dataset.on = String(on);
@@ -604,6 +678,30 @@ async function openUnionPaths(paths: string[]) {
   }
 }
 
+async function pasteOpen() {
+  if (exporting) return;
+  let text = "";
+  try {
+    text = (await clipboardRead()) ?? "";
+  } catch (e) {
+    showToast(t("paste.failed"), null, true);
+    console.error("clipboard read", e);
+    return;
+  }
+  if (!text.trim()) {
+    showToast(t("paste.empty"), null, true);
+    return;
+  }
+  showLoading(t("loading.title"));
+  try {
+    applyOpened(await api.openText(text));
+  } catch (e) {
+    alert(`${t("error.openFailed")}\n\n${e}`);
+  } finally {
+    hideLoading();
+  }
+}
+
 function updateStatus() {
   if (!summary) return;
   const s = summary;
@@ -631,6 +729,7 @@ async function chooseFile() {
 
 els.btnOpen.addEventListener("click", chooseFile);
 els.btnOpen2.addEventListener("click", chooseFile);
+els.btnPaste.addEventListener("click", pasteOpen);
 els.btnCollapse.addEventListener("click", collapseAll);
 els.btnExpand.addEventListener("click", () => {
   if (selectedVi >= 0) {
@@ -649,6 +748,16 @@ window.addEventListener("keydown", (e) => {
     if (summary) {
       els.searchInput.focus();
       els.searchInput.select();
+    }
+  } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "v") {
+    // Paste JSON to open — but only when not typing in a field (so ⌘V still
+    // pastes into the search box normally).
+    const ae = document.activeElement as HTMLElement | null;
+    const inField =
+      !!ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA" || ae.isContentEditable);
+    if (!inField) {
+      e.preventDefault();
+      pasteOpen();
     }
   }
 });
@@ -786,10 +895,12 @@ function buildExportMenu() {
     `<button class="menu-item" data-fmt="${fmt}" data-node="${node}">` +
     `<span class="mi-ico">${ICONS.export}</span><span>${escapeHtml(label)}</span></button>`;
   let html = `<div class="menu-label">${escapeHtml(t("export.whole"))}</div>`;
+  html += mk("json", 0, t("export.asJson"));
   html += mk("csv", 0, t("export.asCsv"));
   html += mk("xml", 0, t("export.asXml"));
   if (selectedId >= 0) {
     html += `<div class="menu-sep"></div><div class="menu-label">${escapeHtml(t("export.selection"))}</div>`;
+    html += mk("json", selectedId, t("export.asJson"));
     html += mk("csv", selectedId, t("export.asCsv"));
     html += mk("xml", selectedId, t("export.asXml"));
   }
@@ -801,7 +912,7 @@ function toggleExportMenu(show?: boolean) {
   els.exportMenu.hidden = !willShow;
 }
 
-async function runExport(format: "csv" | "xml", nodeId: number) {
+async function runExport(format: ExportFormat, nodeId: number) {
   if (!summary || exporting) return;
   const base = summary.fileName.replace(/\.[^.]*$/, "") || "export";
   let dest: string | null;
@@ -823,10 +934,13 @@ async function runExport(format: "csv" | "xml", nodeId: number) {
     if (stats.canceled) {
       showToast(t("export.canceled"), null, false);
     } else {
-      const msg = t("export.done")
-        .replace("{rows}", fmtInt(stats.rows))
-        .replace("{cols}", fmtInt(stats.columns))
-        .replace("{size}", fmtBytes(stats.bytesWritten));
+      const msg =
+        format === "json"
+          ? t("export.doneJson").replace("{size}", fmtBytes(stats.bytesWritten))
+          : t("export.done")
+              .replace("{rows}", fmtInt(stats.rows))
+              .replace("{cols}", fmtInt(stats.columns))
+              .replace("{size}", fmtBytes(stats.bytesWritten));
       const d = dest;
       showToast(msg, { label: t("action.reveal"), fn: () => revealItemInDir(d).catch(() => {}) }, false);
     }
@@ -847,7 +961,7 @@ els.exportMenu.addEventListener("click", (e) => {
   const item = (e.target as HTMLElement).closest<HTMLElement>(".menu-item");
   if (!item) return;
   toggleExportMenu(false);
-  runExport(item.dataset.fmt as "csv" | "xml", Number(item.dataset.node));
+  runExport(item.dataset.fmt as ExportFormat, Number(item.dataset.node));
 });
 document.addEventListener("click", (e) => {
   if (
@@ -862,9 +976,64 @@ els.btnCancelExport.addEventListener("click", () => {
   api.cancelExport().catch(() => {});
 });
 
+// ---- update check ----
+const RELEASES_URL = "https://github.com/bandusix/huge-json-viewer/releases/latest";
+
+// Compare dotted numeric versions; returns true if `a` is newer than `b`.
+function isNewer(a: string, b: string): boolean {
+  const pa = a.split(".").map((n) => parseInt(n, 10) || 0);
+  const pb = b.split(".").map((n) => parseInt(n, 10) || 0);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const x = pa[i] ?? 0;
+    const y = pb[i] ?? 0;
+    if (x !== y) return x > y;
+  }
+  return false;
+}
+
+function showUpdateLink(latest: string) {
+  els.statusUpdate.textContent = t("update.available");
+  els.statusUpdate.title = `v${latest}`;
+  els.statusUpdate.hidden = false;
+  els.statusUpdate.onclick = (e) => {
+    e.preventDefault();
+    openUrl(RELEASES_URL).catch(() => {});
+  };
+}
+
+async function checkForUpdate() {
+  let current: string;
+  try {
+    current = await getVersion();
+  } catch {
+    return; // not running inside the app
+  }
+  // Show immediately from the cached result, then refresh at most once a day.
+  const known = localStorage.getItem("latestVersion");
+  if (known && isNewer(known, current)) showUpdateLink(known);
+  const last = Number(localStorage.getItem("updateCheckAt") ?? 0);
+  if (Date.now() - last < 24 * 60 * 60 * 1000) return;
+  try {
+    const resp = await fetch(
+      "https://api.github.com/repos/bandusix/huge-json-viewer/releases/latest",
+      { headers: { Accept: "application/vnd.github+json" } },
+    );
+    if (!resp.ok) return;
+    const data = (await resp.json()) as { tag_name?: string };
+    const latest = String(data.tag_name ?? "").replace(/^v/, "");
+    if (!latest) return;
+    localStorage.setItem("updateCheckAt", String(Date.now()));
+    localStorage.setItem("latestVersion", latest);
+    if (isNewer(latest, current)) showUpdateLink(latest);
+  } catch {
+    /* offline or blocked — silently ignore */
+  }
+}
+
 // ---- boot ----
 initTheme();
 initLocale();
 mountIcons();
 applyI18n();
 buildLangMenu();
+checkForUpdate();

@@ -664,6 +664,49 @@ pub(crate) fn scalar_end(bytes: &[u8], val_start: usize, kind: u8) -> usize {
     }
 }
 
+/// Byte index just past the JSON value that begins at `start`. For containers
+/// this is a string-aware brace/bracket match to the matching close. The scan
+/// stops early — returning `(limit, false)` — if it reaches `limit` before the
+/// value ends, which bounds work for clipboard copies of huge subtrees. The
+/// second field is `true` when the whole value fit within `limit`.
+pub fn value_end(bytes: &[u8], start: usize, kind: u8, limit: usize) -> (usize, bool) {
+    let cap = limit.min(bytes.len());
+    if !is_container(kind) {
+        let e = scalar_end(bytes, start, kind);
+        return (e.min(cap), e <= cap);
+    }
+    let mut i = start;
+    let mut depth: i32 = 0;
+    let mut in_str = false;
+    let mut esc = false;
+    while i < cap {
+        let b = bytes[i];
+        if in_str {
+            if esc {
+                esc = false;
+            } else if b == b'\\' {
+                esc = true;
+            } else if b == b'"' {
+                in_str = false;
+            }
+        } else {
+            match b {
+                b'"' => in_str = true,
+                b'{' | b'[' => depth += 1,
+                b'}' | b']' => {
+                    depth -= 1;
+                    if depth == 0 {
+                        return (i + 1, true);
+                    }
+                }
+                _ => {}
+            }
+        }
+        i += 1;
+    }
+    (i, false)
+}
+
 // ---- Search ---------------------------------------------------------------
 
 #[derive(Clone, Copy)]
@@ -1077,6 +1120,85 @@ impl Doc {
         }
         out
     }
+
+    /// Extract clipboard text from node `id`. `what` ∈ "key"|"value"|"json"|"path".
+    /// Value/JSON are capped (16 MB) with a `truncated` flag; `None` for a bad id.
+    pub fn node_text(&self, id: u32, what: &str) -> Option<crate::model::NodeText> {
+        use crate::model::NodeText;
+        const CAP: usize = 16 * 1024 * 1024;
+        let nodes = &self.index.nodes;
+        if (id as usize) >= nodes.len() {
+            return None;
+        }
+        let bytes = self.index.bytes();
+        let i = id as usize;
+        let vs = nodes.val_start[i] as usize;
+        let kind = nodes.kind[i];
+        let out = match what {
+            "key" => {
+                let ks = nodes.key_start[i];
+                if ks == NONE {
+                    NodeText { text: String::new(), truncated: false, byte_len: 0 }
+                } else {
+                    let (s, t) = decode_string(bytes, ks, CAP);
+                    NodeText { byte_len: s.len() as u64, text: s, truncated: t }
+                }
+            }
+            "value" if kind == K_STRING => {
+                let (s, t) = decode_string(bytes, (vs + 1) as u32, CAP);
+                NodeText { byte_len: s.len() as u64, text: s, truncated: t }
+            }
+            "value" | "json" => {
+                let (end, complete) = value_end(bytes, vs, kind, vs.saturating_add(CAP));
+                let s = String::from_utf8_lossy(&bytes[vs..end]).into_owned();
+                NodeText { byte_len: (end - vs) as u64, text: s, truncated: !complete }
+            }
+            "path" => {
+                let p = self.jq_path(id);
+                NodeText { byte_len: p.len() as u64, text: p, truncated: false }
+            }
+            _ => return None,
+        };
+        Some(out)
+    }
+
+    /// jq-style path to `id`, e.g. `.users[3].name` (root → `.`).
+    fn jq_path(&self, id: u32) -> String {
+        let mut p = String::new();
+        for seg in &self.path_of(id) {
+            match seg.kind {
+                "root" => {}
+                "index" => {
+                    p.push('[');
+                    p.push_str(&seg.label);
+                    p.push(']');
+                }
+                _ => {
+                    let label = &seg.label;
+                    let simple = !label.is_empty()
+                        && label.bytes().next().map_or(false, |b| b.is_ascii_alphabetic() || b == b'_')
+                        && label.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_');
+                    if simple {
+                        p.push('.');
+                        p.push_str(label);
+                    } else {
+                        p.push_str("[\"");
+                        for c in label.chars() {
+                            if c == '"' || c == '\\' {
+                                p.push('\\');
+                            }
+                            p.push(c);
+                        }
+                        p.push_str("\"]");
+                    }
+                }
+            }
+        }
+        if p.is_empty() {
+            p.push('.');
+        }
+        p
+    }
 }
 
 // ---- tests --------------------------------------------------------------
@@ -1107,6 +1229,50 @@ mod tests {
 
     fn doc_of(s: &str) -> Doc {
         Doc::new("t".into(), "t".into(), index_of(s), 0)
+    }
+
+    #[test]
+    fn node_text_key_value_json_path() {
+        let doc = doc_of(r#"{"a":"x","b":[1,2],"c":{"d":true}}"#);
+        // pre-order ids: 0 root, 1 a→"x", 2 b→[1,2], 3 →1, 4 →2, 5 c→{...}, 6 d→true
+        let nt = |id: u32, what: &str| doc.node_text(id, what).unwrap().text;
+        assert_eq!(nt(0, "json"), r#"{"a":"x","b":[1,2],"c":{"d":true}}"#);
+        assert_eq!(nt(1, "key"), "a");
+        assert_eq!(nt(1, "value"), "x"); // decoded string, no quotes
+        assert_eq!(nt(1, "json"), r#""x""#); // raw token
+        assert_eq!(nt(2, "json"), "[1,2]");
+        assert_eq!(nt(2, "value"), "[1,2]"); // container → raw JSON
+        assert_eq!(nt(3, "value"), "1");
+        assert_eq!(nt(5, "json"), r#"{"d":true}"#);
+        assert_eq!(nt(6, "key"), "d");
+        assert_eq!(nt(6, "value"), "true");
+        assert_eq!(nt(0, "path"), ".");
+        assert_eq!(nt(1, "path"), ".a");
+        assert_eq!(nt(3, "path"), ".b[0]");
+        assert_eq!(nt(4, "path"), ".b[1]");
+        assert_eq!(nt(6, "path"), ".c.d");
+    }
+
+    #[test]
+    fn node_text_escapes_and_special_keys() {
+        let doc = doc_of(r#"{"a b":"x\"y"}"#);
+        let nt = |id: u32, what: &str| doc.node_text(id, what).unwrap().text;
+        assert_eq!(nt(1, "key"), "a b");
+        assert_eq!(nt(1, "value"), "x\"y"); // decoded
+        assert_eq!(nt(1, "json"), r#""x\"y""#); // raw, escape preserved
+        assert_eq!(nt(1, "path"), r#"["a b"]"#); // non-identifier key → bracket form
+    }
+
+    #[test]
+    fn value_end_matches_container_extent() {
+        let doc = doc_of(r#"[{"a":[1,2]},"tail"]"#);
+        let bytes = doc.index.bytes();
+        let nodes = &doc.index.nodes;
+        // node 1 is the object {"a":[1,2]} — brace match must stop before `,"tail"]`.
+        let vs = nodes.val_start[1] as usize;
+        let (end, complete) = value_end(bytes, vs, nodes.kind[1], bytes.len());
+        assert!(complete);
+        assert_eq!(&bytes[vs..end], br#"{"a":[1,2]}"#);
     }
 
     fn count_values(v: &serde_json::Value) -> u64 {

@@ -29,6 +29,42 @@ fn fmt_perr(bytes: &[u8], pe: index::ParseError) -> String {
     format!("{} — line {}, column {} (byte {})", pe.msg, line, col, pe.offset)
 }
 
+/// Create a self-cleaning scratch file (used for the union buffer and pasted
+/// text). On Unix we unlink it immediately — the open fd (and the later mmap)
+/// keep the inode alive, so every error path auto-cleans with no leak. Windows
+/// cannot delete an open file, so we open it with FILE_FLAG_DELETE_ON_CLOSE +
+/// share-delete: the OS removes it once the handle and the memory-mapped view
+/// are both closed (deletion is deferred while the view is live).
+fn create_scratch(path: &Path) -> std::io::Result<std::fs::File> {
+    #[cfg(windows)]
+    {
+        use std::os::windows::fs::OpenOptionsExt;
+        const FILE_SHARE_READ: u32 = 0x0000_0001;
+        const FILE_SHARE_WRITE: u32 = 0x0000_0002;
+        const FILE_SHARE_DELETE: u32 = 0x0000_0004;
+        const FILE_FLAG_DELETE_ON_CLOSE: u32 = 0x0400_0000;
+        std::fs::File::options()
+            .read(true)
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
+            .custom_flags(FILE_FLAG_DELETE_ON_CLOSE)
+            .open(path)
+    }
+    #[cfg(not(windows))]
+    {
+        let f = std::fs::File::options()
+            .read(true)
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .open(path)?;
+        let _ = std::fs::remove_file(path);
+        Ok(f)
+    }
+}
+
 /// Open + memory-map + index a file on a background thread, emitting
 /// `index-progress` events while the streaming tokenizer runs.
 #[tauri::command]
@@ -158,6 +194,14 @@ fn breadcrumb(state: State<'_, AppState>, node_id: u32) -> Result<Vec<PathSeg>, 
     Ok(doc.path_of(node_id))
 }
 
+/// Extract clipboard text from a node: `what` ∈ "key" | "value" | "json" | "path".
+#[tauri::command]
+fn node_text(state: State<'_, AppState>, node_id: u32, what: String) -> Result<NodeText, String> {
+    let g = state.doc.lock();
+    let doc = g.as_ref().ok_or("No file is open.")?;
+    doc.node_text(node_id, &what).ok_or_else(|| "Invalid node or field.".into())
+}
+
 #[tauri::command]
 fn reveal_node(state: State<'_, AppState>, node_id: u32) -> Result<RevealResult, String> {
     let mut g = state.doc.lock();
@@ -277,6 +321,7 @@ async fn export(
             std::fs::File::create(&dest).map_err(|e| format!("Cannot create file: {e}"))?;
         let mut w = BufWriter::with_capacity(1 << 20, file);
         let result = match req.format.as_str() {
+            "json" => export::export_json(&index, node_id, &mut w, &progress_job, &cancel),
             "xml" => export::export_xml(&index, node_id, &mut w, &req.xml, &progress_job, &cancel),
             _ => export::export_csv(&index, node_id, &mut w, &req.csv, &progress_job, &cancel),
         };
@@ -312,6 +357,59 @@ async fn export(
 
     done.store(true, Ordering::Relaxed);
     job.map_err(|e| format!("Export task failed: {e}"))?
+}
+
+/// Index JSON text pasted from the clipboard. The text is written to a
+/// self-cleaning temp file so it can be memory-mapped like any other document.
+#[tauri::command]
+async fn open_text(state: State<'_, AppState>, text: String) -> Result<OpenSummary, String> {
+    if text.trim().is_empty() {
+        return Err("There is no JSON text on the clipboard.".into());
+    }
+    let size = text.len() as u64;
+    if size >= u32::MAX as u64 {
+        return Err("Pasted text up to 4 GB is supported.".into());
+    }
+
+    let job = tauri::async_runtime::spawn_blocking(move || -> Result<(Index, u64), String> {
+        let t0 = Instant::now();
+        let ctr = UNION_CTR.fetch_add(1, Ordering::Relaxed);
+        let scratch_path =
+            std::env::temp_dir().join(format!("hjv_paste_{}_{}.json", std::process::id(), ctr));
+        let mut scratch =
+            create_scratch(&scratch_path).map_err(|e| format!("Cannot create temp file: {e}"))?;
+        scratch
+            .write_all(text.as_bytes())
+            .map_err(|e| format!("Cannot write temp file: {e}"))?;
+        scratch.flush().map_err(|e| e.to_string())?;
+        let mmap = unsafe { memmap2::Mmap::map(&scratch) }
+            .map_err(|e| format!("Cannot memory-map text: {e}"))?;
+        drop(scratch);
+        let progress = AtomicU64::new(0);
+        let (nodes, ndjson) = build_index(&mmap, &progress).map_err(|pe| fmt_perr(&mmap, pe))?;
+        let file_len = mmap.len() as u64;
+        Ok((Index { mmap, nodes, file_len, ndjson }, t0.elapsed().as_millis() as u64))
+    })
+    .await;
+
+    let (index_data, load_ms) = job.map_err(|e| format!("Indexing task failed: {e}"))??;
+    let index = Arc::new(index_data);
+    let root_kind = kind_str(index.nodes.kind[0]).to_string();
+    let ndjson = index.ndjson;
+    let doc = Doc::new("(pasted)".into(), "Pasted JSON".into(), index, load_ms);
+    let summary = OpenSummary {
+        path: "(pasted)".into(),
+        file_name: "Pasted JSON".into(),
+        file_size: size,
+        node_count: doc.node_count(),
+        visible_count: doc.visible_count(),
+        root_kind,
+        load_ms,
+        ndjson,
+        union: None,
+    };
+    *state.doc.lock() = Some(doc);
+    Ok(summary)
 }
 
 /// Open several JSON files unioned into one tree (one file → normal open).
@@ -363,41 +461,8 @@ async fn open_union(
             let ctr = UNION_CTR.fetch_add(1, Ordering::Relaxed);
             let scratch_path = std::env::temp_dir()
                 .join(format!("hjv_union_{}_{}.bin", std::process::id(), ctr));
-            // Create a self-cleaning scratch file, per platform. On Unix we unlink
-            // it immediately — the open fd (and the later mmap) keep the inode
-            // alive, so every error path auto-cleans with no leak. Windows cannot
-            // delete an open file, so we open it with FILE_FLAG_DELETE_ON_CLOSE +
-            // share-delete: the OS removes it once the handle and the memory-mapped
-            // view are both closed (deletion is deferred while the view is live).
-            #[cfg(windows)]
-            let mut scratch = {
-                use std::os::windows::fs::OpenOptionsExt;
-                const FILE_SHARE_READ: u32 = 0x0000_0001;
-                const FILE_SHARE_WRITE: u32 = 0x0000_0002;
-                const FILE_SHARE_DELETE: u32 = 0x0000_0004;
-                const FILE_FLAG_DELETE_ON_CLOSE: u32 = 0x0400_0000;
-                std::fs::File::options()
-                    .read(true)
-                    .write(true)
-                    .create(true)
-                    .truncate(true)
-                    .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
-                    .custom_flags(FILE_FLAG_DELETE_ON_CLOSE)
-                    .open(&scratch_path)
-                    .map_err(|e| format!("Cannot create scratch file: {e}"))?
-            };
-            #[cfg(not(windows))]
-            let mut scratch = {
-                let f = std::fs::File::options()
-                    .read(true)
-                    .write(true)
-                    .create(true)
-                    .truncate(true)
-                    .open(&scratch_path)
-                    .map_err(|e| format!("Cannot create scratch file: {e}"))?;
-                let _ = std::fs::remove_file(&scratch_path);
-                f
-            };
+            let mut scratch =
+                create_scratch(&scratch_path).map_err(|e| format!("Cannot create scratch file: {e}"))?;
             let ub = index::build_union(&paths_job, &mut scratch, &progress_job)?;
             scratch.flush().map_err(|e| e.to_string())?;
             let index::UnionBuild { nodes, byte_len, files, skipped } = ub;
@@ -446,6 +511,7 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_clipboard_manager::init())
         .manage(AppState::default())
         .invoke_handler(tauri::generate_handler![
             open_file,
@@ -454,11 +520,13 @@ pub fn run() {
             toggle,
             collapse_all,
             breadcrumb,
+            node_text,
             reveal_node,
             reveal_match,
             search,
             export,
             cancel_export,
+            open_text,
             open_union
         ])
         .run(tauri::generate_context!())

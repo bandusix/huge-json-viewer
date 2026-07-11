@@ -35,6 +35,9 @@
       <!-- Export menu (populated by JS) -->
       <div class="lang-menu export-menu" id="export-menu" hidden></div>
 
+      <!-- Right-click context menu (populated by JS) -->
+      <div class="ctx-menu" id="ctx-menu" hidden></div>
+
       <!-- Toast -->
       <div class="toast" id="toast" hidden></div>
 
@@ -102,10 +105,13 @@
           <p class="empty-sub" data-i18n="empty.sub">
             Handles multi‑gigabyte files. Drag a JSON file here, or
           </p>
-          <button class="btn btn-primary btn-lg" id="btn-open-2">
-            <span class="ico" data-ico="open"></span>
-            <span data-i18n="empty.choose">Choose File…</span>
-          </button>
+          <div class="empty-actions">
+            <button class="btn btn-primary btn-lg" id="btn-open-2">
+              <span class="ico" data-ico="open"></span>
+              <span data-i18n="empty.choose">Choose File…</span>
+            </button>
+            <button class="btn btn-ghost btn-lg" id="btn-paste" data-i18n="empty.paste">Paste JSON</button>
+          </div>
           <p class="empty-hint"><kbd id="kbd-mod">⌘</kbd><kbd>O</kbd>&nbsp;<span data-i18n="empty.hintOpen">to open</span></p>
           <p class="empty-note" data-i18n="empty.free">Free · open source · commercial use OK (MIT) — nothing to license</p>
         </div>
@@ -141,6 +147,7 @@
       <footer class="statusbar" id="statusbar">
         <div class="status-seg status-path" id="status-path"></div>
         <div class="status-spacer"></div>
+        <a class="status-update" id="status-update" href="#" hidden>Update available</a>
         <div class="status-seg" id="status-nodes"></div>
         <div class="status-seg" id="status-size"></div>
         <div class="status-seg" id="status-time"></div>

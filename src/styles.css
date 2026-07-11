@@ -396,6 +396,15 @@ body {
 .empty .btn-lg {
   margin-top: 12px;
 }
+.empty-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+.empty-actions .btn-lg {
+  margin-top: 12px;
+}
 .empty-hint {
   margin-top: 10px;
   font-size: 12px;
@@ -663,6 +672,19 @@ kbd {
 .status-spacer {
   flex: 1;
 }
+.status-update {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.status-update::before {
+  content: "↑ ";
+}
+.status-update:hover {
+  text-decoration: underline;
+}
 .status-seg {
   white-space: nowrap;
   overflow: hidden;
@@ -790,6 +812,17 @@ kbd {
 .export-menu {
   top: calc(var(--titlebar-h) + var(--toolbar-h) + 2px);
   width: 264px;
+}
+/* Right-click context menu: fixed at the cursor, reuses .menu-item styling. */
+.ctx-menu {
+  position: fixed;
+  z-index: 80;
+  min-width: 190px;
+  padding: 5px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
 }
 .menu-label {
   color: var(--text-faint);

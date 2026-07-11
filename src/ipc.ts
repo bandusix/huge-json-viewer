@@ -43,12 +43,19 @@ export interface XmlOptions {
   cellCap?: number;
   preserveKeysAttr?: boolean;
 }
+export type ExportFormat = "csv" | "xml" | "json";
 export interface ExportRequest {
   nodeId: number;
-  format: "csv" | "xml";
+  format: ExportFormat;
   dest: string;
   csv?: CsvOptions;
   xml?: XmlOptions;
+}
+
+export interface NodeText {
+  text: string;
+  truncated: boolean;
+  byteLen: number;
 }
 export interface ExportStats {
   rows: number;
@@ -139,6 +146,9 @@ export const api = {
       regex: o.regex,
     }),
   openUnion: (paths: string[]) => invoke<OpenSummary>("open_union", { paths }),
+  openText: (text: string) => invoke<OpenSummary>("open_text", { text }),
+  nodeText: (nodeId: number, what: "key" | "value" | "json" | "path") =>
+    invoke<NodeText>("node_text", { nodeId, what }),
   export: (req: ExportRequest) => invoke<ExportStats>("export", { req }),
   cancelExport: () => invoke<void>("cancel_export"),
 };

@@ -4,8 +4,8 @@
 //! O(columns) + one row for CSV and O(depth) for XML — independent of file size.
 
 use crate::index::{
-    decode_string, is_container, scan_number_end, Index, K_BOOL, K_NULL, K_NUMBER, K_OBJECT,
-    K_STRING, NONE,
+    decode_string, is_container, scan_number_end, value_end, Index, K_BOOL, K_NULL, K_NUMBER,
+    K_OBJECT, K_STRING, NONE,
 };
 use crate::model::{CsvOptions, ExportStats, XmlOptions};
 
@@ -24,6 +24,40 @@ fn cap_of(cell_cap: usize) -> usize {
     } else {
         cell_cap
     }
+}
+
+// ============================ JSON ========================================
+
+/// Stream a node's subtree verbatim as JSON. Since the index is built from the
+/// original file, the value's raw bytes already ARE valid JSON, so this just
+/// brace-matches the value's extent and copies those bytes — O(1) heap, any size.
+pub fn export_json<W: Write>(
+    idx: &Index,
+    root: u32,
+    w: &mut W,
+    progress: &AtomicU64,
+    cancel: &AtomicBool,
+) -> Result<ExportStats, String> {
+    let nodes = &idx.nodes;
+    let bytes = idx.bytes();
+    let start = nodes.val_start[root as usize] as usize;
+    let kind = nodes.kind[root as usize];
+    let (end, _) = value_end(bytes, start, kind, bytes.len());
+    let mut stats = ExportStats::default();
+    let mut i = start;
+    let chunk = 1 << 20;
+    while i < end {
+        if cancel.load(Ordering::Relaxed) {
+            stats.canceled = true;
+            return Ok(stats);
+        }
+        let j = (i + chunk).min(end);
+        w_all(w, &bytes[i..j])?;
+        stats.bytes_written += (j - i) as u64;
+        progress.store(stats.bytes_written, Ordering::Relaxed);
+        i = j;
+    }
+    Ok(stats)
 }
 
 // ============================ CSV =========================================

@@ -200,6 +200,17 @@ pub struct SearchResult {
     pub query_ms: u64,
 }
 
+/// Text extracted from a node for the clipboard (key / value / raw JSON / path).
+#[derive(Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct NodeText {
+    pub text: String,
+    /// True when the value was larger than the clipboard cap and got truncated.
+    pub truncated: bool,
+    /// Full byte length of the underlying value (before any cap).
+    pub byte_len: u64,
+}
+
 /// Result of revealing (scrolling to) a match or node.
 #[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]

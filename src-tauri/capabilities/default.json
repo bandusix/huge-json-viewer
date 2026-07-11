@@ -9,8 +9,11 @@
     "core:event:default",
     "opener:default",
     "opener:allow-reveal-item-in-dir",
+    "opener:allow-open-url",
     "dialog:default",
     "dialog:allow-open",
-    "dialog:allow-save"
+    "dialog:allow-save",
+    "clipboard-manager:allow-read-text",
+    "clipboard-manager:allow-write-text"
   ]
 }
