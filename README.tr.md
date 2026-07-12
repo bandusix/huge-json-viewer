@@ -41,7 +41,7 @@
 - 🔔 **Güncelleme bildirimi** — yeni bir sürüm çıktığında durum çubuğunda ince bir bağlantı (günde en fazla bir kez kontrol edilir; tamamen çevrimdışı güvenli)
 - 🌍 **20 dilli arayüz**, sağdan‑sola (RTL) uyumlu (Arapça, Urduca, Pencapça)
 - 🖥️ **macOS & Windows** — universal Mac (Apple Silicon M1–M4 + Intel) ve Windows 10/11 (x64)
-- 🔒 **%100 çevrimdışı** — yükleme yok, sunucu yok, telemetri yok · 2 MB'lık uygulama
+- 🔒 **Dosyalarınız cihazınızdan asla ayrılmaz** — dosya yükleme yok, sunucu yok, asla · yalnızca anonim, isteğe bağlı devre dışı bırakılabilen kullanım istatistikleri · küçük uygulama
 - 🆓 **Ücretsiz ve açık kaynak** (MIT)
 
 ## Kurulum
@@ -100,7 +100,7 @@ Gerçeklere dayalı, özellik‑özellik bir karşılaştırma. **BigJSON, ücre
 | **JSON düzenleme** | ❌ yalnızca görüntüleme | ❌ yalnızca görüntüleme | ✅ |
 | **Platformlar** | macOS (universal) · Windows | Windows · macOS · **Linux** | tümü |
 | **Arayüz dilleri** | **20 (RTL uyumlu)** | az | çok |
-| **Çevrimdışı · telemetri yok** | ✅ | ✅ | ✅ |
+| **Dosyalarınız cihazınızdan asla ayrılmaz** | ✅ | ✅ | ✅ |
 | **Kurulum boyutu** | ~2–5 MB | onlarca MB | — |
 
 **Kısa özet:** birkaç GB'a kadar JSON için, BigJSON Dadroit'in ücretli katmanlarının yaptığı her şeyi yapar — açma, regex‑arama, CSV/XML'e dönüştürme, birden çok dosyayı birleştirme, alt ağaçları ayıklama — **ücretsiz, açık kaynak, ticari kullanım veya özellik ödeme duvarı olmadan**. Dadroit'in ücretsiz katmanı **50 MB**'da durur ve ticari kullanımı yasaklar; 2 GB / ticari kullanımın kilidini açmak **$98/yr**, 1 TB + tüm özellik seti ise **$198/yr** tutar.

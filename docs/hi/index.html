@@ -126,7 +126,7 @@
             "name": "क्या मेरा डेटा कहीं अपलोड होता है?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "नहीं। यह 100% ऑफ़लाइन है — कोई सर्वर नहीं, कोई अपलोड नहीं, कोई टेलीमेट्री नहीं। आपका JSON कभी आपके कंप्यूटर से बाहर नहीं जाता।"
+              "text": "आपका JSON कभी नहीं होता। फ़ाइलें — नाम और सामग्री दोनों — 100% आपके कंप्यूटर पर ही रहती हैं: कोई अपलोड नहीं, कोई सर्वर नहीं, कभी नहीं। BigJSON केवल अनाम, ऑप्ट-आउट उपयोग आँकड़े भेजता है (कौन-सी सुविधाएँ इस्तेमाल होती हैं — कभी कोई फ़ाइल डेटा नहीं), और एक क्लिक से इसे बंद किया जा सकता है।"
             }
           },
           {
@@ -420,7 +420,7 @@
             <article class="card">
               <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 5-3 7-7 9-4-2-7-4-7-9V6z"></path></svg></div>
               <h3 data-i18n="f9.t">निजी व ऑफ़लाइन</h3>
-              <p data-i18n="f9.d">कोई सर्वर नहीं, कोई अपलोड नहीं, कोई टेलीमेट्री नहीं। आपका JSON कभी आपके कंप्यूटर से बाहर नहीं जाता।</p>
+              <p data-i18n="f9.d">आपका JSON कभी आपके कंप्यूटर से बाहर नहीं जाता — कोई फ़ाइल अपलोड नहीं, कोई क्लाउड नहीं, कभी नहीं। केवल एक चीज़ भेजी जाती है: अनाम, ऑप्ट-आउट उपयोग आँकड़े।</p>
             </article>
           </div>
         </div>
@@ -455,7 +455,7 @@
                 <tr><td data-i18n="cmp.r.commercial">व्यावसायिक उपयोग</td><td class="us yes">✓</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
                 <tr><td data-i18n="cmp.r.langs">20-भाषा UI (RTL)</td><td class="us yes">✓</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td></tr>
                 <tr><td data-i18n="cmp.r.arch">macOS + Windows</td><td class="us yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-                <tr><td data-i18n="cmp.r.offline">ऑफ़लाइन · कोई टेलीमेट्री नहीं</td><td class="us yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+                <tr><td data-i18n="cmp.r.offline">आपकी फ़ाइलें कभी आपके डिवाइस से बाहर नहीं जातीं</td><td class="us yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
               </tbody>
             </table>
           </div>
@@ -503,7 +503,7 @@
             <details><summary data-i18n="faq.q3">यह कितनी बड़ी JSON फ़ाइल खोल सकता है?</summary><p data-i18n="faq.a3">प्रति फ़ाइल 4 GB तक (और मल्टी-फ़ाइल यूनियन के लिए संयुक्त रूप से 4 GB)। इंडेक्स RAM में फ़ाइल आकार का लगभग 1.5–2× उपयोग करता है; एक 16 GB मशीन 2–3 GB फ़ाइलों को आराम से संभालती है।</p></details>
             <details><summary data-i18n="faq.q4">क्या यह Dadroit का एक अच्छा मुफ़्त विकल्प है?</summary><p data-i18n="faq.a4">हाँ। यह वही ज़रूरी सुविधाएँ प्रदान करता है — एक कोलैप्सेबल ट्री व्यूअर, key व value RegEx खोज, JSON → CSV / XML एक्सपोर्ट, और कई फ़ाइलों का यूनियन — मुफ़्त और ओपन सोर्स, macOS और Windows पर।</p></details>
             <details><summary data-i18n="faq.q5">क्या यह JSON को CSV या XML में कन्वर्ट कर सकता है?</summary><p data-i18n="faq.a5">हाँ। यह JSON को CSV (ऑब्जेक्ट का एक ऐरे एक स्प्रेडशीट बन जाता है) या XML में स्ट्रीम करता है, और सीमित मेमोरी के साथ मल्टी-गीगाबाइट फ़ाइलों पर काम करता है।</p></details>
-            <details><summary data-i18n="faq.q6">क्या मेरा डेटा कहीं अपलोड होता है?</summary><p data-i18n="faq.a6">नहीं। यह 100% ऑफ़लाइन है — कोई सर्वर नहीं, कोई अपलोड नहीं, कोई टेलीमेट्री नहीं। आपका JSON कभी आपके कंप्यूटर से बाहर नहीं जाता।</p></details>
+            <details><summary data-i18n="faq.q6">क्या मेरा डेटा कहीं अपलोड होता है?</summary><p data-i18n="faq.a6">आपका JSON कभी नहीं होता। फ़ाइलें — नाम और सामग्री दोनों — 100% आपके कंप्यूटर पर ही रहती हैं: कोई अपलोड नहीं, कोई सर्वर नहीं, कभी नहीं। BigJSON केवल अनाम, ऑप्ट-आउट उपयोग आँकड़े भेजता है (कौन-सी सुविधाएँ इस्तेमाल होती हैं — कभी कोई फ़ाइल डेटा नहीं), और एक क्लिक से इसे बंद किया जा सकता है।</p></details>
             <details><summary data-i18n="faq.q7">क्या यह Windows पर काम करता है?</summary><p data-i18n="faq.a7">हाँ। BigJSON, Windows 10 और 11 (64-बिट) पर नेटिव रूप से चलता है, जिसमें Mac बिल्ड जैसा ही ट्री व्यूअर, key व value खोज, और JSON → CSV / XML एक्सपोर्ट है। रिलीज़ पेज से Windows इंस्टॉलर डाउनलोड करें और यदि SmartScreen दिखे, तो More info → Run anyway चुनें।</p></details>
           </div>
         </div>

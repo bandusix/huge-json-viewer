@@ -89,6 +89,11 @@ const en: Dict = {
   "paste.empty": "No JSON text on the clipboard",
   "paste.failed": "Could not read the clipboard",
   "update.available": "Update available",
+  "privacy.notice": "BigJSON sends anonymous usage stats — never your files or their contents.",
+  "privacy.turnOff": "Turn off",
+  "privacy.ok": "OK",
+  "privacy.statsOn": "Anonymous usage stats: on — click to turn off",
+  "privacy.statsOff": "Anonymous usage stats: off — click to turn on",
 };
 
 const dicts: Record<string, Dict> = {

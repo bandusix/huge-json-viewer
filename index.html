@@ -41,6 +41,17 @@
       <!-- Toast -->
       <div class="toast" id="toast" hidden></div>
 
+      <!-- First-run anonymous-analytics disclosure (only shown when analytics is built in) -->
+      <div class="privacy-notice" id="privacy-notice" hidden>
+        <span class="privacy-text" data-i18n="privacy.notice"
+          >BigJSON sends anonymous usage stats — never your files or their contents.</span
+        >
+        <span class="privacy-actions">
+          <button class="privacy-btn" id="privacy-off" data-i18n="privacy.turnOff">Turn off</button>
+          <button class="privacy-btn privacy-ok" id="privacy-ok" data-i18n="privacy.ok">OK</button>
+        </span>
+      </div>
+
       <!-- Toolbar: open + search + filters + match nav -->
       <div class="toolbar" id="toolbar">
         <button class="btn btn-primary" id="btn-open">
@@ -114,6 +125,7 @@
           </div>
           <p class="empty-hint"><kbd id="kbd-mod">⌘</kbd><kbd>O</kbd>&nbsp;<span data-i18n="empty.hintOpen">to open</span></p>
           <p class="empty-note" data-i18n="empty.free">Free · open source · commercial use OK (MIT) — nothing to license</p>
+          <button class="analytics-toggle" id="analytics-toggle" hidden></button>
         </div>
 
         <!-- Virtual tree (populated by JS) -->

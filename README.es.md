@@ -41,7 +41,7 @@ Si alguna vez has buscado *«cómo abrir un archivo JSON grande»*, *«archivo J
 - 🔔 **Aviso de actualización**: un enlace discreto en la barra de estado cuando se publica una nueva versión (se comprueba como mucho una vez al día; totalmente seguro sin conexión)
 - 🌍 **Interfaz en 20 idiomas**, compatible con la escritura de derecha a izquierda (árabe, urdu, panyabí)
 - 🖥️ **macOS y Windows**: Mac universal (Apple Silicon M1–M4 + Intel) y Windows 10/11 (x64)
-- 🔒 **100 % sin conexión**: sin subidas, sin servidor, sin telemetría · app diminuta (~2 MB)
+- 🔒 **Tus archivos nunca salen de tu dispositivo**: sin subir archivos, sin servidor, nunca · solo estadísticas de uso anónimas y opcionales que puedes desactivar · app diminuta
 - 🆓 **Gratis y de código abierto** (MIT)
 
 ## Instalación
@@ -100,7 +100,7 @@ Una comparación objetiva, característica por característica. **BigJSON es la 
 | **Editar JSON** | ❌ solo lectura | ❌ solo lectura | ✅ |
 | **Plataformas** | macOS (universal) · Windows | Windows · macOS · **Linux** | todas |
 | **Idiomas de la interfaz** | **20 (compatible con RTL)** | pocos | muchos |
-| **Sin conexión · sin telemetría** | ✅ | ✅ | ✅ |
+| **Tus archivos nunca salen de tu dispositivo** | ✅ | ✅ | ✅ |
 | **Tamaño de instalación** | ~2–5 MB | decenas de MB | — |
 
 **La versión corta:** para JSON de hasta unos pocos GB, BigJSON hace todo lo que hacen los niveles de pago de Dadroit —abrir, buscar con regex, convertir a CSV/XML, unir varios archivos, extraer subárboles— **gratis, de código abierto y sin muro de pago por uso comercial ni por funciones**. El nivel gratuito de Dadroit se detiene en **50 MB** y prohíbe el uso comercial; desbloquear 2 GB / uso comercial cuesta **$98/yr**, y 1 TB + el conjunto completo de funciones cuesta **$198/yr**.

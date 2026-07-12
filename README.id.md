@@ -41,7 +41,7 @@ Jika Anda pernah mencari *"cara membuka file JSON besar"*, *"file JSON terlalu b
 - 🔔 **Pemberitahuan pembaruan** — tautan halus di bilah status saat versi baru dirilis (diperiksa paling banyak sekali sehari; sepenuhnya aman offline)
 - 🌍 **Antarmuka 20 bahasa**, mendukung kanan‑ke‑kiri (Arab, Urdu, Punjabi)
 - 🖥️ **macOS & Windows** — Mac universal (Apple Silicon M1–M4 + Intel) dan Windows 10/11 (x64)
-- 🔒 **100% offline** — tanpa unggahan, tanpa server, tanpa telemetri · aplikasi 2 MB
+- 🔒 **File Anda tidak pernah meninggalkan perangkat Anda** — tanpa unggahan file, tanpa server, selamanya · hanya statistik penggunaan anonim yang bisa dinonaktifkan · aplikasi mungil
 - 🆓 **Gratis dan open source** (MIT)
 
 ## Instalasi
@@ -100,7 +100,7 @@ Perbandingan yang faktual, fitur demi fitur. **BigJSON adalah alternatif [Dadroi
 | **Edit JSON** | ❌ hanya baca | ❌ hanya baca | ✅ |
 | **Platform** | macOS (universal) · Windows | Windows · macOS · **Linux** | semua |
 | **Bahasa antarmuka** | **20 (mendukung RTL)** | sedikit | banyak |
-| **Offline · tanpa telemetri** | ✅ | ✅ | ✅ |
+| **File Anda tidak pernah meninggalkan perangkat Anda** | ✅ | ✅ | ✅ |
 | **Ukuran instalasi** | ~2–5 MB | puluhan MB | — |
 
 **Ringkasnya:** untuk JSON hingga beberapa GB, BigJSON melakukan semua yang dilakukan tingkatan berbayar Dadroit — membuka, mencari dengan regex, mengonversi ke CSV/XML, menggabungkan banyak file, mengekstrak subtree — **secara gratis, open source, tanpa paywall penggunaan komersial atau fitur**. Tingkat gratis Dadroit berhenti di **50 MB** dan melarang penggunaan komersial; membuka kunci 2 GB / komersial biayanya **$98/yr**, dan 1 TB + set fitur lengkap biayanya **$198/yr**.

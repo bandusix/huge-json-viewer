@@ -867,6 +867,67 @@ kbd {
 }
 
 /* ---------------- Toast ---------------- */
+/* First-run anonymous-analytics disclosure banner */
+.privacy-notice {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: min(640px, 90vw);
+  padding: 10px 14px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  font-size: 12.5px;
+  color: var(--text);
+}
+.privacy-text {
+  flex: 1;
+}
+.privacy-actions {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+.privacy-btn {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 7px;
+  padding: 4px 12px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.privacy-btn:hover {
+  background: var(--accent-soft);
+}
+.privacy-ok {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: transparent;
+}
+/* Permanent opt-out toggle in the empty state */
+.analytics-toggle {
+  margin-top: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-faint);
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.analytics-toggle:hover {
+  color: var(--text-dim);
+}
+
 .toast {
   position: absolute;
   left: 50%;

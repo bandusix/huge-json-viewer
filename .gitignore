@@ -24,3 +24,8 @@ docs/_mock/
 *.njsproj
 *.sln
 *.sw?
+
+# Local analytics/build secrets (never commit real keys)
+.env
+.env.local
+.env.*.local
