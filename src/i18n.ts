@@ -100,6 +100,11 @@ const dicts: Record<string, Dict> = {
   "en-US": en,
 
   "zh-CN": {
+    "privacy.notice": "BigJSON 仅发送匿名使用统计——绝不会发送你的文件或其内容。",
+    "privacy.turnOff": "关闭",
+    "privacy.ok": "确定",
+    "privacy.statsOn": "匿名使用统计：已开启——点击可关闭",
+    "privacy.statsOff": "匿名使用统计：已关闭——点击可开启",
     "export.asJson": "导出为 JSON",
     "export.doneJson": "已导出 JSON · {size}",
     "empty.paste": "粘贴 JSON",
@@ -159,6 +164,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "hi-IN": {
+    "privacy.notice": "BigJSON केवल गुमनाम उपयोग आँकड़े भेजता है — आपकी फ़ाइलें या उनकी सामग्री कभी नहीं।",
+    "privacy.turnOff": "बंद करें",
+    "privacy.ok": "ठीक है",
+    "privacy.statsOn": "गुमनाम उपयोग आँकड़े: चालू — बंद करने के लिए क्लिक करें",
+    "privacy.statsOff": "गुमनाम उपयोग आँकड़े: बंद — चालू करने के लिए क्लिक करें",
     "export.asJson": "JSON के रूप में",
     "export.doneJson": "JSON एक्सपोर्ट किया गया · {size}",
     "empty.paste": "JSON पेस्ट करें",
@@ -203,6 +213,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "es-ES": {
+    "privacy.notice": "BigJSON envía estadísticas de uso anónimas, nunca tus archivos ni su contenido.",
+    "privacy.turnOff": "Desactivar",
+    "privacy.ok": "Aceptar",
+    "privacy.statsOn": "Estadísticas de uso anónimas: activadas — haz clic para desactivar",
+    "privacy.statsOff": "Estadísticas de uso anónimas: desactivadas — haz clic para activar",
     "export.asJson": "como JSON",
     "export.doneJson": "JSON exportado · {size}",
     "empty.paste": "Pegar JSON",
@@ -247,6 +262,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "fr-FR": {
+    "privacy.notice": "BigJSON envoie des statistiques d'utilisation anonymes, jamais vos fichiers ni leur contenu.",
+    "privacy.turnOff": "Désactiver",
+    "privacy.ok": "OK",
+    "privacy.statsOn": "Statistiques d'utilisation anonymes : activées — cliquez pour désactiver",
+    "privacy.statsOff": "Statistiques d'utilisation anonymes : désactivées — cliquez pour activer",
     "export.asJson": "en JSON",
     "export.doneJson": "JSON exporté · {size}",
     "empty.paste": "Coller du JSON",
@@ -291,6 +311,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "ar-EG": {
+    "privacy.notice": "يرسل BigJSON إحصاءات استخدام مجهولة فقط — ولا يرسل أبدًا ملفاتك أو محتوياتها.",
+    "privacy.turnOff": "إيقاف",
+    "privacy.ok": "موافق",
+    "privacy.statsOn": "إحصاءات استخدام مجهولة: مُفعّلة — انقر للإيقاف",
+    "privacy.statsOff": "إحصاءات استخدام مجهولة: مُعطّلة — انقر للتفعيل",
     "export.asJson": "كـ JSON",
     "export.doneJson": "تم تصدير JSON · {size}",
     "empty.paste": "الصق JSON",
@@ -335,6 +360,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "bn-BD": {
+    "privacy.notice": "BigJSON শুধুমাত্র বেনামী ব্যবহারের পরিসংখ্যান পাঠায় — কখনোই আপনার ফাইল বা তার বিষয়বস্তু নয়।",
+    "privacy.turnOff": "বন্ধ করুন",
+    "privacy.ok": "ঠিক আছে",
+    "privacy.statsOn": "বেনামী ব্যবহারের পরিসংখ্যান: চালু — বন্ধ করতে ক্লিক করুন",
+    "privacy.statsOff": "বেনামী ব্যবহারের পরিসংখ্যান: বন্ধ — চালু করতে ক্লিক করুন",
     "export.asJson": "JSON হিসেবে",
     "export.doneJson": "JSON এক্সপোর্ট হয়েছে · {size}",
     "empty.paste": "JSON পেস্ট করুন",
@@ -379,6 +409,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "ru-RU": {
+    "privacy.notice": "BigJSON отправляет только анонимную статистику использования — никогда ваши файлы или их содержимое.",
+    "privacy.turnOff": "Отключить",
+    "privacy.ok": "ОК",
+    "privacy.statsOn": "Анонимная статистика использования: включена — нажмите, чтобы отключить",
+    "privacy.statsOff": "Анонимная статистика использования: отключена — нажмите, чтобы включить",
     "export.asJson": "как JSON",
     "export.doneJson": "JSON экспортирован · {size}",
     "empty.paste": "Вставить JSON",
@@ -423,6 +458,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "pt-BR": {
+    "privacy.notice": "O BigJSON envia estatísticas de uso anônimas — nunca seus arquivos ou o conteúdo deles.",
+    "privacy.turnOff": "Desativar",
+    "privacy.ok": "OK",
+    "privacy.statsOn": "Estatísticas de uso anônimas: ativadas — clique para desativar",
+    "privacy.statsOff": "Estatísticas de uso anônimas: desativadas — clique para ativar",
     "export.asJson": "como JSON",
     "export.doneJson": "JSON exportado · {size}",
     "empty.paste": "Colar JSON",
@@ -467,6 +507,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "id-ID": {
+    "privacy.notice": "BigJSON mengirim statistik penggunaan anonim — tidak pernah file Anda atau isinya.",
+    "privacy.turnOff": "Nonaktifkan",
+    "privacy.ok": "OK",
+    "privacy.statsOn": "Statistik penggunaan anonim: aktif — klik untuk menonaktifkan",
+    "privacy.statsOff": "Statistik penggunaan anonim: nonaktif — klik untuk mengaktifkan",
     "export.asJson": "sebagai JSON",
     "export.doneJson": "JSON diekspor · {size}",
     "empty.paste": "Tempel JSON",
@@ -511,6 +556,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "ur-PK": {
+    "privacy.notice": "BigJSON صرف گمنام استعمال کے اعداد و شمار بھیجتا ہے — آپ کی فائلیں یا ان کا مواد کبھی نہیں۔",
+    "privacy.turnOff": "بند کریں",
+    "privacy.ok": "ٹھیک ہے",
+    "privacy.statsOn": "گمنام استعمال کے اعداد و شمار: آن — بند کرنے کے لیے کلک کریں",
+    "privacy.statsOff": "گمنام استعمال کے اعداد و شمار: آف — آن کرنے کے لیے کلک کریں",
     "export.asJson": "بطور JSON",
     "export.doneJson": "JSON ایکسپورٹ ہو گیا · {size}",
     "empty.paste": "JSON پیسٹ کریں",
@@ -555,6 +605,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "de-DE": {
+    "privacy.notice": "BigJSON sendet anonyme Nutzungsstatistiken – niemals Ihre Dateien oder deren Inhalte.",
+    "privacy.turnOff": "Deaktivieren",
+    "privacy.ok": "OK",
+    "privacy.statsOn": "Anonyme Nutzungsstatistiken: ein – zum Deaktivieren klicken",
+    "privacy.statsOff": "Anonyme Nutzungsstatistiken: aus – zum Aktivieren klicken",
     "export.asJson": "als JSON",
     "export.doneJson": "JSON exportiert · {size}",
     "empty.paste": "JSON einfügen",
@@ -599,6 +654,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "ja-JP": {
+    "privacy.notice": "BigJSON は匿名の使用統計のみを送信します。ファイルやその内容を送信することはありません。",
+    "privacy.turnOff": "オフにする",
+    "privacy.ok": "OK",
+    "privacy.statsOn": "匿名の使用統計：オン — クリックしてオフにする",
+    "privacy.statsOff": "匿名の使用統計：オフ — クリックしてオンにする",
     "export.asJson": "JSON形式",
     "export.doneJson": "JSONを書き出しました · {size}",
     "empty.paste": "JSONを貼り付け",
@@ -643,6 +703,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "sw-TZ": {
+    "privacy.notice": "BigJSON hutuma takwimu za matumizi zisizojulikana — kamwe si faili zako au maudhui yake.",
+    "privacy.turnOff": "Zima",
+    "privacy.ok": "Sawa",
+    "privacy.statsOn": "Takwimu za matumizi zisizojulikana: zimewashwa — bofya ili kuzima",
+    "privacy.statsOff": "Takwimu za matumizi zisizojulikana: zimezimwa — bofya ili kuwasha",
     "export.asJson": "kama JSON",
     "export.doneJson": "JSON imehamishwa · {size}",
     "empty.paste": "Bandika JSON",
@@ -687,6 +752,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "mr-IN": {
+    "privacy.notice": "BigJSON फक्त निनावी वापर आकडेवारी पाठवते — तुमच्या फायली किंवा त्यांतील मजकूर कधीही नाही.",
+    "privacy.turnOff": "बंद करा",
+    "privacy.ok": "ठीक आहे",
+    "privacy.statsOn": "निनावी वापर आकडेवारी: चालू — बंद करण्यासाठी क्लिक करा",
+    "privacy.statsOff": "निनावी वापर आकडेवारी: बंद — चालू करण्यासाठी क्लिक करा",
     "export.asJson": "JSON म्हणून",
     "export.doneJson": "JSON एक्सपोर्ट केले · {size}",
     "empty.paste": "JSON पेस्ट करा",
@@ -731,6 +801,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "te-IN": {
+    "privacy.notice": "BigJSON కేవలం అనామక వినియోగ గణాంకాలను మాత్రమే పంపుతుంది — మీ ఫైళ్లను లేదా వాటి కంటెంట్‌ను ఎప్పుడూ పంపదు.",
+    "privacy.turnOff": "ఆపివేయి",
+    "privacy.ok": "సరే",
+    "privacy.statsOn": "అనామక వినియోగ గణాంకాలు: ఆన్ — ఆపివేయడానికి క్లిక్ చేయండి",
+    "privacy.statsOff": "అనామక వినియోగ గణాంకాలు: ఆఫ్ — ఆన్ చేయడానికి క్లిక్ చేయండి",
     "export.asJson": "JSON గా",
     "export.doneJson": "JSON ఎగుమతి అయింది · {size}",
     "empty.paste": "JSON అతికించండి",
@@ -775,6 +850,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "pa-PK": {
+    "privacy.notice": "BigJSON صرف گمنام استعمال دے اعداد و شمار بھیجدا اے — تہاڈیاں فائلاں یا اوہناں دا مواد کدے نہیں۔",
+    "privacy.turnOff": "بند کرو",
+    "privacy.ok": "ٹھیک اے",
+    "privacy.statsOn": "گمنام استعمال دے اعداد و شمار: آن — بند کرن لئی کلک کرو",
+    "privacy.statsOff": "گمنام استعمال دے اعداد و شمار: آف — آن کرن لئی کلک کرو",
     "export.asJson": "بطور JSON",
     "export.doneJson": "JSON ایکسپورٹ ہو گئی · {size}",
     "empty.paste": "JSON پیسٹ کرو",
@@ -819,6 +899,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "zh-WUU": {
+    "privacy.notice": "BigJSON 只发匿名使用统计——绝对勿会发侬个文件或者伊拉个内容。",
+    "privacy.turnOff": "关脱",
+    "privacy.ok": "确定",
+    "privacy.statsOn": "匿名使用统计：开着——点一记关脱",
+    "privacy.statsOff": "匿名使用统计：关脱——点一记开",
     "export.asJson": "存为 JSON",
     "export.doneJson": "JSON 导好哉 · {size}",
     "empty.paste": "贴 JSON",
@@ -863,6 +948,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "ta-IN": {
+    "privacy.notice": "BigJSON அநாமதேய பயன்பாட்டுப் புள்ளிவிவரங்களை மட்டுமே அனுப்புகிறது — உங்கள் கோப்புகளையோ அவற்றின் உள்ளடக்கத்தையோ ஒருபோதும் அல்ல.",
+    "privacy.turnOff": "முடக்கு",
+    "privacy.ok": "சரி",
+    "privacy.statsOn": "அநாமதேய பயன்பாட்டுப் புள்ளிவிவரங்கள்: இயக்கத்தில் — முடக்க கிளிக் செய்யவும்",
+    "privacy.statsOff": "அநாமதேய பயன்பாட்டுப் புள்ளிவிவரங்கள்: முடக்கத்தில் — இயக்க கிளிக் செய்யவும்",
     "export.asJson": "JSON ஆக",
     "export.doneJson": "JSON ஏற்றுமதி செய்யப்பட்டது · {size}",
     "empty.paste": "JSON ஒட்டு",
@@ -907,6 +997,11 @@ const dicts: Record<string, Dict> = {
   },
 
   "tr-TR": {
+    "privacy.notice": "BigJSON yalnızca anonim kullanım istatistikleri gönderir — dosyalarınızı veya içeriklerini asla göndermez.",
+    "privacy.turnOff": "Kapat",
+    "privacy.ok": "Tamam",
+    "privacy.statsOn": "Anonim kullanım istatistikleri: açık — kapatmak için tıklayın",
+    "privacy.statsOff": "Anonim kullanım istatistikleri: kapalı — açmak için tıklayın",
     "export.asJson": "JSON olarak",
     "export.doneJson": "JSON dışa aktarıldı · {size}",
     "empty.paste": "JSON yapıştır",

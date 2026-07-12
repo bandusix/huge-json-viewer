@@ -4,6 +4,20 @@ All notable changes to **BigJSON** (formerly Huge JSON Viewer) are documented
 here. The format follows [Keep a Changelog](https://keepachangelog.com/), and the
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.1] — 2026-07-12
+
+### Added
+- **Anonymous, opt-out usage analytics** to help prioritize what to build next.
+  It **never** sends file names, paths, search queries, or any file content —
+  only anonymous events (which features get used, a coarse file-size *bucket*,
+  platform, version) with a random per-install id. A first-run notice and a
+  one-click opt-out are built in, and it is disabled entirely in builds without
+  analytics keys.
+
+### Changed
+- Reworded the privacy claims to be accurate: your files never leave your
+  device; the only thing sent is anonymous, opt-out usage stats.
+
 ## [0.5.0] — 2026-07-11
 
 Clipboard & extract features, plus a round of engine performance work.

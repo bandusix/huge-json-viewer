@@ -1,6 +1,6 @@
 [package]
 name = "huge-json-viewer"
-version = "0.5.0"
+version = "0.5.1"
 description = "BigJSON — open and search multi-gigabyte JSON files"
 authors = ["bandusix"]
 edition = "2021"
